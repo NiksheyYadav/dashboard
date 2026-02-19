@@ -28,7 +28,7 @@ export default function StatCard({
     const isPositive = trend !== undefined && trend >= 0;
 
     return (
-        <div className="flex flex-1 items-center gap-4 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-shadow hover:shadow-md">
+        <div className="flex flex-1 items-center gap-4 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-shadow hover:shadow-md dark:border-gray-800 dark:bg-gray-900 animate-slide-up">
             {/* Icon */}
             <div
                 className={cn(
@@ -42,7 +42,7 @@ export default function StatCard({
             {/* Content */}
             <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                    <p className="text-sm text-gray-500">{label}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
                     {trend !== undefined && (
                         <div
                             className={cn(
@@ -60,7 +60,7 @@ export default function StatCard({
                         </div>
                     )}
                     {subtitle && !trend && (
-                        <span className="text-xs text-gray-400">{subtitle}</span>
+                        <span className="text-xs text-gray-400 dark:text-gray-500">{subtitle}</span>
                     )}
                     {actionLabel && actionHref && (
                         <Link
@@ -71,7 +71,7 @@ export default function StatCard({
                         </Link>
                     )}
                 </div>
-                <p className="mt-1 text-2xl font-bold text-gray-900">{value}</p>
+                <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-gray-100">{value}</p>
             </div>
         </div>
     );

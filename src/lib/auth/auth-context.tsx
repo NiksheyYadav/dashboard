@@ -3,14 +3,14 @@
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
-export type UserRole = "teacher" | "student";
+export type UserRole = "dean" | "hod" | "coordinator" | "faculty";
 
 export interface AuthUser {
     name: string;
     email: string;
     role: UserRole;
     department: string;
-    rollNo?: string;
+    designation: string;
     avatarInitials: string;
 }
 
@@ -23,20 +23,37 @@ interface AuthContextType {
 }
 
 const MOCK_USERS: Record<UserRole, AuthUser> = {
-    teacher: {
+    dean: {
+        name: "Prof. Rajesh Gupta",
+        email: "dean.engineering@sgtuniversity.edu",
+        role: "dean",
+        department: "Faculty of Engineering",
+        designation: "Dean",
+        avatarInitials: "RG",
+    },
+    hod: {
+        name: "Dr. Priya Mehta",
+        email: "hod.cs@sgtuniversity.edu",
+        role: "hod",
+        department: "B.Tech CS",
+        designation: "Head of Department",
+        avatarInitials: "PM",
+    },
+    coordinator: {
+        name: "Dr. Amit Sharma",
+        email: "coordinator.cs@sgtuniversity.edu",
+        role: "coordinator",
+        department: "B.Tech CS",
+        designation: "Program Coordinator",
+        avatarInitials: "AS",
+    },
+    faculty: {
         name: "Dr. Robert Chen",
         email: "dr.chen@sgtuniversity.edu",
-        role: "teacher",
-        department: "Dean of Students",
-        avatarInitials: "RC",
-    },
-    student: {
-        name: "Alex Johnson",
-        email: "alex.j@college.edu",
-        role: "student",
+        role: "faculty",
         department: "B.Tech CS",
-        rollNo: "CS20210042",
-        avatarInitials: "AJ",
+        designation: "Assistant Professor",
+        avatarInitials: "RC",
     },
 };
 

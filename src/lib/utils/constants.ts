@@ -1,35 +1,40 @@
+import { UserRole } from "@/lib/auth/auth-context";
 import {
     BarChart3,
-    BookOpen,
     CalendarCheck,
+    ClipboardList,
     CreditCard,
     FileText,
     LayoutGrid,
+    Megaphone,
     Settings,
-    Upload,
     Users,
 } from "lucide-react";
 
-// Teacher navigation
-export const TEACHER_NAV_ITEMS = [
-    { label: "Dashboard", icon: LayoutGrid, href: "/dashboard" },
-    { label: "Students", icon: Users, href: "/students" },
-    { label: "Attendance", icon: CalendarCheck, href: "/attendance" },
-    { label: "Analytics", icon: BarChart3, href: "/analytics" },
-    { label: "Fees", icon: CreditCard, href: "/fees" },
-    { label: "Reports", icon: FileText, href: "/reports" },
-] as const;
+interface NavItem {
+    label: string;
+    icon: typeof LayoutGrid;
+    href: string;
+}
 
-// Student navigation
-export const STUDENT_NAV_ITEMS = [
-    { label: "Dashboard", icon: LayoutGrid, href: "/dashboard" },
-    { label: "My Attendance", icon: CalendarCheck, href: "/my-attendance" },
-    { label: "My CV", icon: Upload, href: "/my-cv" },
-    { label: "Courses", icon: BookOpen, href: "/courses" },
-    { label: "Fees", icon: CreditCard, href: "/fees" },
-] as const;
+// All possible nav items
+const ALL_NAV_ITEMS: (NavItem & { roles: UserRole[] })[] = [
+    { label: "Dashboard", icon: LayoutGrid, href: "/dashboard", roles: ["dean", "hod", "coordinator", "faculty"] },
+    { label: "Students", icon: Users, href: "/students", roles: ["dean", "hod", "coordinator", "faculty"] },
+    { label: "Attendance", icon: CalendarCheck, href: "/attendance", roles: ["dean", "hod", "coordinator", "faculty"] },
+    { label: "Forms", icon: ClipboardList, href: "/forms", roles: ["dean", "hod", "coordinator", "faculty"] },
+    { label: "Announcements", icon: Megaphone, href: "/announcements", roles: ["dean", "hod"] },
+    { label: "Analytics", icon: BarChart3, href: "/analytics", roles: ["dean", "hod"] },
+    { label: "Fees", icon: CreditCard, href: "/fees", roles: ["dean", "hod"] },
+    { label: "Reports", icon: FileText, href: "/reports", roles: ["dean", "hod", "coordinator"] },
+];
 
-// Legacy alias (used by dashboard widgets that don't need role filtering)
+export function getNavItemsForRole(role: UserRole): NavItem[] {
+    return ALL_NAV_ITEMS.filter((item) => item.roles.includes(role));
+}
+
+// Legacy exports for backward compatibility
+export const TEACHER_NAV_ITEMS = ALL_NAV_ITEMS.map(({ roles, ...item }) => item);
 export const NAV_ITEMS = TEACHER_NAV_ITEMS;
 
 export const SYSTEM_NAV_ITEMS = [

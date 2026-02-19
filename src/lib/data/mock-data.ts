@@ -1,4 +1,6 @@
+import { Announcement } from "@/lib/types/announcement";
 import { DashboardStats, DistributionData, TopPerformerData, WeeklyTrendData } from "@/lib/types/attendance";
+import { FormDefinition, FormResponse } from "@/lib/types/form";
 import { Student } from "@/lib/types/student";
 
 export const MOCK_STUDENTS: Student[] = [
@@ -177,3 +179,116 @@ export const MOCK_DASHBOARD_STATS: DashboardStats = {
     avgAttendanceTrend: -1.2,
     lowAttendance: 24,
 };
+
+// ─── Announcements ──────────────────────────────────
+export const MOCK_ANNOUNCEMENTS: Announcement[] = [
+    {
+        id: "ann-1",
+        title: "Mid-Semester Examination Schedule Released",
+        message: "The mid-semester examination schedule for all B.Tech courses has been finalized. Exams will commence from March 10, 2026. Please check the examination portal for your individual timetable and seating arrangement. All students must carry their ID cards.",
+        author: "Dr. Robert Chen",
+        authorRole: "dean",
+        targetCourse: "all",
+        targetSemester: "all",
+        createdAt: "2026-02-19T10:00:00Z",
+        priority: "urgent",
+    },
+    {
+        id: "ann-2",
+        title: "Placement Drive — TCS Registration Open",
+        message: "TCS is conducting an on-campus placement drive on March 5, 2026. Eligible students from B.Tech CS and IT (7th/8th semester) with 60%+ attendance can register. Submit your updated CV by February 28.",
+        author: "Prof. Sharma",
+        authorRole: "coordinator",
+        targetCourse: "B.Tech CS",
+        targetSemester: 7,
+        createdAt: "2026-02-18T14:30:00Z",
+        priority: "important",
+    },
+    {
+        id: "ann-3",
+        title: "Library Hours Extended During Exam Period",
+        message: "The central library will remain open until 10:00 PM on weekdays and 8:00 PM on weekends during the examination period (March 1-20). Digital resources are available 24/7.",
+        author: "Dr. Robert Chen",
+        authorRole: "dean",
+        targetCourse: "all",
+        targetSemester: "all",
+        createdAt: "2026-02-17T09:00:00Z",
+        priority: "normal",
+    },
+    {
+        id: "ann-4",
+        title: "Guest Lecture — AI in Healthcare",
+        message: "A guest lecture on 'Applications of AI in Healthcare' by Dr. Meenakshi Gupta from AIIMS will be held on February 25 at 3:00 PM in Auditorium-1. All CS and IT students are encouraged to attend.",
+        author: "Prof. Singh",
+        authorRole: "hod",
+        targetCourse: "B.Tech CS",
+        targetSemester: 5,
+        createdAt: "2026-02-16T11:00:00Z",
+        priority: "normal",
+    },
+];
+
+// ─── Forms ──────────────────────────────────────────
+export const MOCK_FORMS: FormDefinition[] = [
+    {
+        id: "form-1",
+        title: "Course Feedback — Data Structures",
+        description: "Please share your feedback on the Data Structures & Algorithms course. Your responses help us improve the teaching quality.",
+        fields: [
+            { id: "f1", type: "scale", label: "How would you rate the course content?", required: true, scaleMin: 1, scaleMax: 5 },
+            { id: "f2", type: "radio", label: "Was the pace of the course appropriate?", required: true, options: [{ id: "o1", label: "Too fast" }, { id: "o2", label: "Just right" }, { id: "o3", label: "Too slow" }] },
+            { id: "f3", type: "textarea", label: "What topics would you like to see covered in more depth?", required: false },
+            { id: "f4", type: "checkbox", label: "Which teaching methods did you find helpful?", required: false, options: [{ id: "o1", label: "Lectures" }, { id: "o2", label: "Lab sessions" }, { id: "o3", label: "Assignments" }, { id: "o4", label: "Group projects" }] },
+            { id: "f5", type: "text", label: "Any additional comments or suggestions?", required: false },
+        ],
+        targetCourse: "B.Tech CS",
+        targetSemester: 5,
+        createdBy: "Dr. Robert Chen",
+        createdAt: "2026-02-15T10:00:00Z",
+        deadline: "2026-03-01T23:59:59Z",
+        isActive: true,
+    },
+    {
+        id: "form-2",
+        title: "Lab Equipment Survey",
+        description: "Help us understand your needs by filling out this survey about the lab equipment and resources.",
+        fields: [
+            { id: "f1", type: "dropdown", label: "Which lab do you primarily use?", required: true, options: [{ id: "o1", label: "Computer Lab 1" }, { id: "o2", label: "Computer Lab 2" }, { id: "o3", label: "Electronics Lab" }, { id: "o4", label: "Physics Lab" }] },
+            { id: "f2", type: "scale", label: "Rate the condition of equipment (1-5)", required: true, scaleMin: 1, scaleMax: 5 },
+            { id: "f3", type: "textarea", label: "Describe any equipment issues you have faced", required: false },
+        ],
+        targetCourse: "all",
+        targetSemester: "all",
+        createdBy: "Prof. Sharma",
+        createdAt: "2026-02-10T14:00:00Z",
+        deadline: "2026-02-28T23:59:59Z",
+        isActive: true,
+    },
+];
+
+export const MOCK_FORM_RESPONSES: FormResponse[] = [
+    {
+        id: "resp-1",
+        formId: "form-1",
+        studentId: "1",
+        studentName: "Alex Johnson",
+        answers: { f1: "4", f2: "o2", f3: "More graph algorithms", f4: ["o2", "o3"], f5: "" },
+        submittedAt: "2026-02-18T15:30:00Z",
+    },
+    {
+        id: "resp-2",
+        formId: "form-1",
+        studentId: "4",
+        studentName: "Emma Davis",
+        answers: { f1: "5", f2: "o1", f3: "Dynamic programming", f4: ["o1", "o2", "o3"], f5: "Great course!" },
+        submittedAt: "2026-02-18T16:00:00Z",
+    },
+    {
+        id: "resp-3",
+        formId: "form-2",
+        studentId: "1",
+        studentName: "Alex Johnson",
+        answers: { f1: "o1", f2: "3", f3: "Monitor at desk 5 flickers" },
+        submittedAt: "2026-02-17T10:00:00Z",
+    },
+];

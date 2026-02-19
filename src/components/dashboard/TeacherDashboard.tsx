@@ -50,33 +50,33 @@ export default function TeacherDashboard() {
     }
 
     return (
-        <div className="space-y-6">
+        <div className="animate-slide-up space-y-6">
             {/* Stat Cards */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 <StatCard
                     icon={<Users className="h-5 w-5 text-[#1a6fdb]" />}
-                    iconBg="bg-blue-50"
+                    iconBg="bg-blue-50 dark:bg-blue-950/30"
                     label="Total Students"
                     value={stats.totalStudents.toLocaleString()}
                     trend={stats.totalStudentsTrend}
                 />
                 <StatCard
                     icon={<CloudUpload className="h-5 w-5 text-[#7c3aed]" />}
-                    iconBg="bg-purple-50"
+                    iconBg="bg-purple-50 dark:bg-purple-950/30"
                     label="CVs Uploaded"
                     value={stats.cvsUploaded.toLocaleString()}
                     subtitle={stats.cvsUploadedLabel}
                 />
                 <StatCard
                     icon={<CalendarCheck className="h-5 w-5 text-[#059669]" />}
-                    iconBg="bg-emerald-50"
+                    iconBg="bg-emerald-50 dark:bg-emerald-950/30"
                     label="Avg Attendance"
                     value={`${stats.avgAttendance}%`}
                     trend={stats.avgAttendanceTrend}
                 />
                 <StatCard
                     icon={<AlertTriangle className="h-5 w-5 text-[#dc2626]" />}
-                    iconBg="bg-red-50"
+                    iconBg="bg-red-50 dark:bg-red-950/30"
                     label="Low Attendance"
                     value={stats.lowAttendance}
                     actionLabel="View List"
