@@ -1,6 +1,7 @@
 import { UserRole } from "@/lib/auth/auth-context";
 import {
     BarChart3,
+    Briefcase,
     CalendarCheck,
     ClipboardList,
     CreditCard,
@@ -8,7 +9,7 @@ import {
     LayoutGrid,
     Megaphone,
     Settings,
-    Users,
+    Users
 } from "lucide-react";
 
 interface NavItem {
@@ -25,6 +26,7 @@ const ALL_NAV_ITEMS: (NavItem & { roles: UserRole[] })[] = [
     { label: "Forms", icon: ClipboardList, href: "/forms", roles: ["dean", "hod", "coordinator", "faculty"] },
     { label: "Announcements", icon: Megaphone, href: "/announcements", roles: ["dean", "hod"] },
     { label: "Analytics", icon: BarChart3, href: "/analytics", roles: ["dean", "hod"] },
+    { label: "Placement", icon: Briefcase, href: "/placement", roles: ["dean", "hod", "coordinator", "faculty"] },
     { label: "Fees", icon: CreditCard, href: "/fees", roles: ["dean", "hod"] },
     { label: "Reports", icon: FileText, href: "/reports", roles: ["dean", "hod", "coordinator"] },
 ];
