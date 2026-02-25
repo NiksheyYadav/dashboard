@@ -1,5 +1,6 @@
 "use client";
 
+import { getBackendHealth } from "@/lib/api/auth";
 import { useAuth, UserRole } from "@/lib/auth/auth-context";
 import { cn } from "@/lib/utils";
 import {
@@ -13,7 +14,7 @@ import {
     Shield,
     UserCog
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const FEATURES = [
     { icon: CalendarCheck, label: "Attendance Tracking", desc: "Real-time attendance analytics" },
@@ -48,10 +49,41 @@ export default function LoginPage() {
     const [selectedRole, setSelectedRole] = useState<UserRole>("faculty");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [backendStatus, setBackendStatus] = useState<"checking" | "connected" | "disconnected">("checking");
 
-    const handleSubmit = (e: React.FormEvent) => {
+    useEffect(() => {
+        const checkBackend = async () => {
+            try {
+                const health = await getBackendHealth();
+                setBackendStatus(health.status === "ok" ? "connected" : "disconnected");
+            } catch {
+                setBackendStatus("disconnected");
+            }
+        };
+
+        void checkBackend();
+    }, []);
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        login(selectedRole);
+        setError(null);
+        setIsSubmitting(true);
+
+        const result = await login(email.trim(), password, selectedRole);
+        if (!result.ok) {
+            setError(result.error ?? "Invalid email or password");
+        }
+
+        setIsSubmitting(false);
+    };
+
+    const roleEmail: Record<UserRole, string> = {
+        dean: "dean@example.com",
+        hod: "hod@example.com",
+        coordinator: "coordinator@example.com",
+        faculty: "faculty@example.com",
     };
 
     return (
@@ -138,6 +170,23 @@ export default function LoginPage() {
                 </div>
 
                 <div className="w-full max-w-[420px] animate-scale-in">
+                    <div
+                        className={cn(
+                            "mb-4 rounded-xl border px-3 py-2 text-xs font-medium",
+                            backendStatus === "connected"
+                                ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                                : backendStatus === "disconnected"
+                                    ? "border-red-200 bg-red-50 text-red-700"
+                                    : "border-gray-200 bg-gray-50 text-gray-600"
+                        )}
+                    >
+                        {backendStatus === "connected"
+                            ? "Backend: Connected"
+                            : backendStatus === "disconnected"
+                                ? "Backend: Disconnected"
+                                : "Backend: Checking connection..."}
+                    </div>
+
                     {/* Heading */}
                     <div className="mb-6 hidden lg:block">
                         <h2 className="text-2xl font-bold text-gray-900">Welcome back</h2>
@@ -206,10 +255,16 @@ export default function LoginPage() {
 
                         <button
                             type="submit"
+                            disabled={isSubmitting}
                             className="h-11 w-full rounded-xl bg-[#1a6fdb] text-sm font-semibold text-white shadow-md transition-all hover:bg-[#1560c2] hover:shadow-lg active:scale-[0.98]"
                         >
-                            Sign In as {ROLE_OPTIONS.find((r) => r.key === selectedRole)?.label}
+                            {isSubmitting
+                                ? "Signing in..."
+                                : `Sign In as ${ROLE_OPTIONS.find((r) => r.key === selectedRole)?.label}`}
                         </button>
+                        {error && (
+                            <p className="text-sm text-red-600">{error}</p>
+                        )}
                     </form>
 
                     {/* Divider */}
@@ -225,7 +280,11 @@ export default function LoginPage() {
                             <button
                                 key={account.role}
                                 type="button"
-                                onClick={() => { setSelectedRole(account.role); login(account.role); }}
+                                onClick={() => {
+                                    setSelectedRole(account.role);
+                                    setEmail(roleEmail[account.role]);
+                                    setError(null);
+                                }}
                                 className="flex w-full items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 text-left transition-all hover:border-[#1a6fdb]/30 hover:bg-blue-50/30 active:scale-[0.98]"
                             >
                                 <div className={cn("flex h-9 w-9 items-center justify-center rounded-lg", account.iconBg)}>

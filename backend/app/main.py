@@ -1,64 +1,45 @@
-from __future__ import annotations
-
-import uuid
+import logging
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
-from app.config import settings
-from app.routers import analytics, announcements, attendance, auth, courses, cv, dashboard, enrollments, fees, forms, reports, students
-from app.services import audit_service  # noqa: F401
-from app.utils.request_context import set_request_context
-from app.utils.security import decode_token
+from app.core.config import get_settings
+from app.core.logging import configure_logging
+from app.middleware.request_id import RequestIdMiddleware
+from app.modules.auth.router import auth_router, protected_router
+from app.modules.insights.router import insights_router
+from app.utils.exceptions import AppException
 
-app = FastAPI(title=settings.app_name)
+settings = get_settings()
+configure_logging(settings.log_level)
+logger = logging.getLogger(__name__)
 
+app = FastAPI(title=settings.app_name, debug=settings.debug)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[origin.strip() for origin in settings.cors_origins.split(",")],
+    allow_origins=settings.cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(RequestIdMiddleware, header_name=settings.request_id_header)
+app.include_router(auth_router, prefix=settings.api_v1_prefix)
+app.include_router(protected_router, prefix=settings.api_v1_prefix)
+app.include_router(insights_router, prefix=settings.api_v1_prefix)
 
 
-@app.middleware("http")
-async def inject_request_context(request: Request, call_next):
-    """Extracts JWT claims and sets user/org context for audit logging."""
-
-    user_id = None
-    org_id = None
-
-    auth_header = request.headers.get("Authorization")
-    if auth_header and auth_header.startswith("Bearer "):
-        payload = decode_token(auth_header.replace("Bearer ", "", 1))
-        if payload:
-            try:
-                user_id = uuid.UUID(payload.get("sub")) if payload.get("sub") else None
-                org_id = uuid.UUID(payload.get("org")) if payload.get("org") else None
-            except ValueError:
-                user_id = None
-                org_id = None
-
-    set_request_context(user_id=user_id, org_id=org_id)
-    response = await call_next(request)
-    return response
+@app.exception_handler(AppException)
+async def app_exception_handler(_: Request, exc: AppException) -> JSONResponse:
+    return JSONResponse(status_code=exc.status_code, content={"detail": exc.message})
 
 
-@app.get("/health")
-def health_check():
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(_: Request, exc: Exception) -> JSONResponse:
+    logger.exception("Unhandled exception", exc_info=exc)
+    return JSONResponse(status_code=500, content={"detail": "Internal Server Error"})
+
+
+@app.get("/health", tags=["system"])
+def health_check() -> dict[str, str]:
     return {"status": "ok"}
-
-
-app.include_router(auth.router, prefix=settings.api_v1_prefix)
-app.include_router(students.router, prefix=settings.api_v1_prefix)
-app.include_router(courses.router, prefix=settings.api_v1_prefix)
-app.include_router(enrollments.router, prefix=settings.api_v1_prefix)
-app.include_router(attendance.router, prefix=settings.api_v1_prefix)
-app.include_router(cv.router, prefix=settings.api_v1_prefix)
-app.include_router(dashboard.router, prefix=settings.api_v1_prefix)
-app.include_router(announcements.router, prefix=settings.api_v1_prefix)
-app.include_router(forms.router, prefix=settings.api_v1_prefix)
-app.include_router(fees.router, prefix=settings.api_v1_prefix)
-app.include_router(analytics.router, prefix=settings.api_v1_prefix)
-app.include_router(reports.router, prefix=settings.api_v1_prefix)

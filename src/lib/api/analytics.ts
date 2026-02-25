@@ -1,4 +1,4 @@
-import { MOCK_DASHBOARD_STATS } from "@/lib/data/mock-data";
+import { apiGet } from "@/lib/api/client";
 import { DashboardStats } from "@/lib/types/attendance";
 
 /**
@@ -6,5 +6,5 @@ import { DashboardStats } from "@/lib/types/attendance";
  * TODO: Replace with axios.get(`${BASE_URL}/analytics/summary`)
  */
 export async function getDashboardStats(): Promise<DashboardStats> {
-    return MOCK_DASHBOARD_STATS;
+    return apiGet<DashboardStats>("/analytics/summary");
 }

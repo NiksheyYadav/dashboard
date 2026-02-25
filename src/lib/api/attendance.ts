@@ -1,8 +1,4 @@
-import {
-    MOCK_DISTRIBUTION,
-    MOCK_TOP_PERFORMERS,
-    MOCK_WEEKLY_TREND,
-} from "@/lib/data/mock-data";
+import { apiGet } from "@/lib/api/client";
 import { DistributionData, TopPerformerData, WeeklyTrendData } from "@/lib/types/attendance";
 
 /**
@@ -12,7 +8,7 @@ import { DistributionData, TopPerformerData, WeeklyTrendData } from "@/lib/types
 export async function getTopPerformers(
     _semester?: string
 ): Promise<TopPerformerData[]> {
-    return MOCK_TOP_PERFORMERS;
+    return apiGet<TopPerformerData[]>("/attendance/top");
 }
 
 /**
@@ -20,7 +16,7 @@ export async function getTopPerformers(
  * TODO: Replace with axios.get(`${BASE_URL}/attendance?type=weekly`)
  */
 export async function getWeeklyTrend(): Promise<WeeklyTrendData[]> {
-    return MOCK_WEEKLY_TREND;
+    return apiGet<WeeklyTrendData[]>("/attendance/weekly");
 }
 
 /**
@@ -28,5 +24,5 @@ export async function getWeeklyTrend(): Promise<WeeklyTrendData[]> {
  * TODO: Replace with axios.get(`${BASE_URL}/attendance/summary`)
  */
 export async function getDistribution(): Promise<DistributionData> {
-    return MOCK_DISTRIBUTION;
+    return apiGet<DistributionData>("/attendance/summary");
 }

@@ -1,0 +1,2 @@
+REQUEST_ID_CTX_KEY = "request_id"
+DEFAULT_REQUEST_ID_HEADER = "X-Request-ID"

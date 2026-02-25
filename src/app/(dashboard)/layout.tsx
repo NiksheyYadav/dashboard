@@ -2,14 +2,29 @@
 
 import Sidebar from "@/components/layout/Sidebar";
 import Topbar from "@/components/layout/Topbar";
+import { useAuth } from "@/lib/auth/auth-context";
 import { useSidebar } from "@/lib/hooks/useSidebar";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function DashboardLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const { user, isLoading } = useAuth();
     const { isOpen, close } = useSidebar();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!isLoading && !user) {
+            router.replace("/login");
+        }
+    }, [isLoading, router, user]);
+
+    if (isLoading || !user) {
+        return <div className="min-h-screen bg-[#f4f6fa] dark:bg-gray-950" />;
+    }
 
     return (
         <div className="min-h-screen bg-[#f4f6fa] dark:bg-gray-950">

@@ -1,9 +1,6 @@
-import { MOCK_STUDENTS } from "@/lib/data/mock-data";
+import { apiGet } from "@/lib/api/client";
 import { PaginatedResponse } from "@/lib/types/api";
 import { ReportFilters, Student, StudentQueryParams } from "@/lib/types/student";
-
-// Base URL — switch to env var for backend integration
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
 /**
  * Get paginated student list.
@@ -13,40 +10,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 export async function getStudents(
     params: StudentQueryParams = {}
 ): Promise<PaginatedResponse<Student>> {
-    const { page = 1, limit = 4, course, semester, search, status } = params;
-
-    let filtered = [...MOCK_STUDENTS];
-
-    if (course && course !== "all") {
-        filtered = filtered.filter((s) =>
-            s.course.toLowerCase().replace(/[\s.]/g, "-").includes(course)
-        );
-    }
-    if (semester) {
-        filtered = filtered.filter((s) => s.semester === semester);
-    }
-    if (status) {
-        filtered = filtered.filter((s) => s.status === status);
-    }
-    if (search) {
-        const q = search.toLowerCase();
-        filtered = filtered.filter(
-            (s) =>
-                s.name.toLowerCase().includes(q) ||
-                s.rollNo.toLowerCase().includes(q) ||
-                s.course.toLowerCase().includes(q)
-        );
-    }
-
-    const start = (page - 1) * limit;
-    const data = filtered.slice(start, start + limit);
-
-    return {
-        data,
-        total: 1248, // Mock total for pagination display
-        page,
-        limit,
-    };
+    const { page = 1, limit = 4 } = params;
+    return apiGet<PaginatedResponse<Student>>(`/students?page=${page}&limit=${limit}`);
 }
 
 /**
@@ -54,7 +19,8 @@ export async function getStudents(
  * TODO: Replace with axios.get<Student>(`${BASE_URL}/students/${id}`)
  */
 export async function getStudentById(id: string): Promise<Student | undefined> {
-    return MOCK_STUDENTS.find((s) => s.id === id);
+    const all = await getStudents({ page: 1, limit: 100 });
+    return all.data.find((student) => student.id === id);
 }
 
 /**
@@ -100,6 +66,3 @@ export async function exportStudentReport(
     console.log("[MOCK] Exporting report with filters", _filters);
     return new Blob(["mock csv data"], { type: "text/csv" });
 }
-
-// Re-export BASE_URL for other API modules
-export { BASE_URL };

@@ -1,6 +1,7 @@
 import { BulkUploadResponse } from "@/lib/types/attendance-upload";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
+const BASE_URL =
+    process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
 /**
  * Upload attendance CSV file for bulk processing.

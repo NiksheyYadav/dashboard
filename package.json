@@ -9,7 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "'": "file:vercel/analytics/next'",
     "@vercel/analytics": "^1.6.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
