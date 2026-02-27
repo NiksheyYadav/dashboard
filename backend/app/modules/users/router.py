@@ -14,13 +14,9 @@ users_router = APIRouter(prefix="/users", tags=["users"])
 def list_users(
     auth: AuthContext = Depends(RequireRole(["admin"])),
     db: Session = Depends(get_db),
-) -> list[UserResponse]:
+) -> list[User]:
     """Retrieve all users. Restricted to Admin."""
-    users = db.scalars(select(User).order_by(User.created_at.desc())).all()
-    
-    # Manually map to UserResponse instead of relying on pure model dumping
-    # mapping is easy if we use Pydantic's from_attributes=True or model_validate
-    return [UserResponse.model_validate(u) for u in users]
+    return list(db.scalars(select(User).order_by(User.created_at.desc())).all())
 
 
 @users_router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)

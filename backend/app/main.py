@@ -68,6 +68,17 @@ async def create_tables() -> None:
     try:
         # This will create all tables defined in models that don't exist yet
         Base.metadata.create_all(bind=engine)
+        
+        # Ensure 'department' column exists in 'users' table (for existing tables)
+        from sqlalchemy import text
+        with engine.connect() as conn:
+            # Check if department column exists
+            result = conn.execute(text("SELECT column_name FROM information_schema.columns WHERE table_name='users' AND column_name='department'"))
+            if not result.fetchone():
+                logger.info("Adding 'department' column to 'users' table")
+                conn.execute(text("ALTER TABLE users ADD COLUMN department VARCHAR(100)"))
+                conn.commit()
+                
         logger.info("Database tables initialized successfully")
     except Exception:
         logger.exception("Could not initialize database tables")
