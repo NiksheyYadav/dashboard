@@ -112,37 +112,46 @@ def upgrade() -> None:
 
     op.execute(
         """
-        UPDATE sessions
-        SET ip = COALESCE(ip, ip_address)
-        WHERE EXISTS (
-            SELECT 1
-            FROM information_schema.columns
-            WHERE table_schema = 'public' AND table_name = 'sessions' AND column_name = 'ip_address'
-        );
+        DO $$
+        BEGIN
+            IF EXISTS (
+                SELECT 1
+                FROM information_schema.columns
+                WHERE table_schema = 'public' AND table_name = 'sessions' AND column_name = 'ip_address'
+            ) THEN
+                UPDATE sessions SET ip = COALESCE(ip, ip_address);
+            END IF;
+        END $$;
         """
     )
 
     op.execute(
         """
-        UPDATE sessions
-        SET started_at = COALESCE(started_at, created_at)
-        WHERE EXISTS (
-            SELECT 1
-            FROM information_schema.columns
-            WHERE table_schema = 'public' AND table_name = 'sessions' AND column_name = 'created_at'
-        );
+        DO $$
+        BEGIN
+            IF EXISTS (
+                SELECT 1
+                FROM information_schema.columns
+                WHERE table_schema = 'public' AND table_name = 'sessions' AND column_name = 'created_at'
+            ) THEN
+                UPDATE sessions SET started_at = COALESCE(started_at, created_at);
+            END IF;
+        END $$;
         """
     )
 
     op.execute(
         """
-        UPDATE sessions
-        SET last_seen_at = COALESCE(last_seen_at, last_activity_at, started_at, NOW())
-        WHERE EXISTS (
-            SELECT 1
-            FROM information_schema.columns
-            WHERE table_schema = 'public' AND table_name = 'sessions' AND column_name = 'last_activity_at'
-        );
+        DO $$
+        BEGIN
+            IF EXISTS (
+                SELECT 1
+                FROM information_schema.columns
+                WHERE table_schema = 'public' AND table_name = 'sessions' AND column_name = 'last_activity_at'
+            ) THEN
+                UPDATE sessions SET last_seen_at = COALESCE(last_seen_at, last_activity_at, started_at, NOW());
+            END IF;
+        END $$;
         """
     )
 
@@ -212,30 +221,37 @@ def upgrade() -> None:
 
     op.execute(
         """
-        UPDATE refresh_tokens
-        SET created_at = COALESCE(created_at, issued_at, NOW())
-        WHERE EXISTS (
-            SELECT 1
-            FROM information_schema.columns
-            WHERE table_schema = 'public' AND table_name = 'refresh_tokens' AND column_name = 'issued_at'
-        );
+        DO $$
+        BEGIN
+            IF EXISTS (
+                SELECT 1
+                FROM information_schema.columns
+                WHERE table_schema = 'public' AND table_name = 'refresh_tokens' AND column_name = 'issued_at'
+            ) THEN
+                UPDATE refresh_tokens SET created_at = COALESCE(created_at, issued_at, NOW());
+            END IF;
+        END $$;
         """
     )
 
     op.execute(
         """
-        UPDATE refresh_tokens
-        SET rotated_from = CASE
-            WHEN rotated_from IS NOT NULL THEN rotated_from
-            WHEN rotated_from_token_id::text ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
-                THEN rotated_from_token_id::text::uuid
-            ELSE NULL
-        END
-        WHERE EXISTS (
-            SELECT 1
-            FROM information_schema.columns
-            WHERE table_schema = 'public' AND table_name = 'refresh_tokens' AND column_name = 'rotated_from_token_id'
-        );
+        DO $$
+        BEGIN
+            IF EXISTS (
+                SELECT 1
+                FROM information_schema.columns
+                WHERE table_schema = 'public' AND table_name = 'refresh_tokens' AND column_name = 'rotated_from_token_id'
+            ) THEN
+                UPDATE refresh_tokens
+                SET rotated_from = CASE
+                    WHEN rotated_from IS NOT NULL THEN rotated_from
+                    WHEN rotated_from_token_id::text ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+                        THEN rotated_from_token_id::text::uuid
+                    ELSE NULL
+                END;
+            END IF;
+        END $$;
         """
     )
 
