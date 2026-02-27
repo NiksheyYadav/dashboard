@@ -1,10 +1,10 @@
 {
     "builds": [
         {
-            "src": "backend/app/main.py",
+            "src": "backend/api/index.py",
             "use": "@vercel/python",
             "config": {
-                "maxDuration": 15
+                "maxDuration": 30
             }
         },
         {
@@ -12,10 +12,18 @@
             "use": "@vercel/next"
         }
     ],
-    "rewrites": [
+    "routes": [
         {
-            "source": "/api/v1/(.*)",
-            "destination": "backend/app/main.py"
+            "src": "/api/v1/(.*)",
+            "dest": "backend/api/index.py"
+        },
+        {
+            "src": "/health",
+            "dest": "backend/api/index.py"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/$1"
         }
     ]
 }

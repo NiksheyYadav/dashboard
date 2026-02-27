@@ -1,4 +1,4 @@
-from datetime import UTC, datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy import String, cast, func, select
@@ -58,7 +58,7 @@ def analytics_summary(
         select(func.count(func.distinct(UserSession.user_id))).where(UserSession.revoked_at.is_(None))
     ) or 0
     locked_users = db.scalar(
-        select(func.count()).select_from(User).where(User.locked_until.is_not(None), User.locked_until > datetime.now(UTC))
+        select(func.count()).select_from(User).where(User.locked_until.is_not(None), User.locked_until > datetime.now(timezone.utc))
     ) or 0
 
     avg_attendance = round((active_users / total_users) * 100, 1) if total_users else 0.0
@@ -108,7 +108,7 @@ def attendance_weekly(
     _: AuthContext = Depends(get_auth_context),
     db: Session = Depends(get_db),
 ) -> list[WeeklyTrendResponse]:
-    today = datetime.now(UTC).date()
+    today = datetime.now(timezone.utc).date()
     results: list[WeeklyTrendResponse] = []
 
     for day_offset in range(6, -1, -1):
@@ -137,7 +137,7 @@ def attendance_summary(
         select(func.count(func.distinct(UserSession.user_id))).where(UserSession.revoked_at.is_(None))
     ) or 0
     leave = db.scalar(
-        select(func.count()).select_from(User).where(User.locked_until.is_not(None), User.locked_until > datetime.now(UTC))
+        select(func.count()).select_from(User).where(User.locked_until.is_not(None), User.locked_until > datetime.now(timezone.utc))
     ) or 0
     absent = max(total_users - present - leave, 0)
 
