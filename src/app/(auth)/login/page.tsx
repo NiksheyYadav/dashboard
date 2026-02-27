@@ -207,8 +207,8 @@ export default function LoginPage() {
                         </p>
                     </div>
 
-                    {/* Role Toggle — 4 tabs */}
-                    <div className="mb-6 grid grid-cols-4 rounded-xl border border-gray-200 bg-gray-50 p-1">
+                    {/* Role Toggle — 5 tabs */}
+                    <div className="mb-6 grid grid-cols-5 rounded-xl border border-gray-200 bg-gray-50 p-1" suppressHydrationWarning>
                         {ROLE_OPTIONS.map((opt) => (
                             <button
                                 key={opt.key}
@@ -306,11 +306,12 @@ export default function LoginPage() {
                     </div>
 
                     {/* Quick login — 4 demo accounts */}
-                    <div className="space-y-2">
+                    <div className="space-y-2" suppressHydrationWarning>
                         {DEMO_ACCOUNTS.map((account) => (
                             <button
                                 key={account.role}
                                 type="button"
+                                suppressHydrationWarning
                                 onClick={() => {
                                     setSelectedRole(account.role);
                                     setEmail(roleEmail[account.role]);
