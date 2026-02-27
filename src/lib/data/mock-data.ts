@@ -183,6 +183,17 @@ export const MOCK_DASHBOARD_STATS: DashboardStats = {
 // ─── Announcements ──────────────────────────────────
 export const MOCK_ANNOUNCEMENTS: Announcement[] = [
     {
+        id: "ann-0",
+        title: "System Maintenance Scheduled",
+        message: "The EduPulse dashboard will undergo scheduled maintenance on Sunday, March 1, 2026, from 2:00 AM to 4:00 AM. The system may be intermittently unavailable during this period.",
+        author: "Administrator",
+        authorRole: "admin",
+        targetCourse: "all",
+        targetSemester: "all",
+        createdAt: "2026-02-27T12:00:00Z",
+        priority: "important",
+    },
+    {
         id: "ann-1",
         title: "Mid-Semester Examination Schedule Released",
         message: "The mid-semester examination schedule for all B.Tech courses has been finalized. Exams will commence from March 10, 2026. Please check the examination portal for your individual timetable and seating arrangement. All students must carry their ID cards.",

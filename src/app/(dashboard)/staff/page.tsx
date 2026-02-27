@@ -1,6 +1,6 @@
 "use client";
 
-import { RequireRole } from "@/components/providers/RequireRole";
+import RequireRole from "@/components/providers/RequireRole";
 import { API_BASE_URL } from "@/lib/api/client";
 import { useAuth } from "@/lib/auth/auth-context";
 import { Loader2, Trash2, UserCog } from "lucide-react";

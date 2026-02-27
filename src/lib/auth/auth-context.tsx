@@ -8,6 +8,7 @@ export type UserRole = "admin" | "dean" | "hod" | "coordinator" | "faculty";
 export type CoordinatorType = "placement" | "attendance" | "events" | null;
 
 export interface AuthUser {
+    id: string;
     name: string;
     email: string;
     role: UserRole;
@@ -84,9 +85,10 @@ function roleToDesignation(role: UserRole, coordType?: CoordinatorType): string 
     }
 }
 
-function buildAuthUser(email: string, role: UserRole, department?: string | null): AuthUser {
+function buildAuthUser(id: string, email: string, role: UserRole, department?: string | null): AuthUser {
     const coordType = role === "coordinator" ? coordinatorTypeFromEmail(email) : null;
     return {
+        id,
         name: email.split("@")[0],
         email,
         role,
@@ -135,7 +137,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 const storedUser = JSON.parse(storedUserRaw) as AuthUser;
                 try {
                     const me = await getCurrentUser(storedToken);
-                    const syncedUser = buildAuthUser(me.email, storedUser.role ?? roleFromEmail(me.email), me.department);
+                    const syncedUser = buildAuthUser(me.id, me.email, storedUser.role ?? roleFromEmail(me.email), me.department);
                     setAuthState(syncedUser, storedToken);
                     return;
                 } catch (error) {
@@ -147,6 +149,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 const refreshed = await refreshAccessToken();
                 const meAfterRefresh = await getCurrentUser(refreshed.access_token);
                 const refreshedUser = buildAuthUser(
+                    meAfterRefresh.id,
                     meAfterRefresh.email,
                     storedUser.role ?? roleFromEmail(meAfterRefresh.email),
                     meAfterRefresh.department
@@ -169,7 +172,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 const me = await getCurrentUser(tokenResponse.access_token);
                 const actualRole = roleFromEmail(me.email);
 
-                const authUser = buildAuthUser(me.email, actualRole, me.department);
+                const authUser = buildAuthUser(me.id, me.email, actualRole, me.department);
                 setAuthState(authUser, tokenResponse.access_token);
                 router.push("/dashboard");
                 return { ok: true };

@@ -5,7 +5,7 @@ export interface Announcement {
     title: string;
     message: string;
     author: string;
-    authorRole: "dean" | "hod" | "coordinator" | "faculty";
+    authorRole: "admin" | "dean" | "hod" | "coordinator" | "faculty";
     targetCourse: string | "all";
     targetSemester: number | "all";
     createdAt: string;
