@@ -8,6 +8,7 @@ import {
     FileText,
     LayoutGrid,
     Megaphone,
+    MessageSquare,
     Settings,
     Users
 } from "lucide-react";
@@ -30,6 +31,7 @@ const ALL_NAV_ITEMS: (NavItem & { roles: UserRole[] })[] = [
     { label: "Fees", icon: CreditCard, href: "/fees", roles: ["dean", "hod"] },
     { label: "Changelog", icon: FileText, href: "/changelog", roles: ["dean", "hod", "coordinator", "faculty"] },
     { label: "Reports", icon: FileText, href: "/reports", roles: ["dean", "hod", "coordinator"] },
+    { label: "Messages", icon: MessageSquare, href: "/anonymous-messages", roles: ["dean", "hod"] },
 ];
 
 export function getNavItemsForRole(role: UserRole): NavItem[] {

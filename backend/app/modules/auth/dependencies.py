@@ -53,3 +53,25 @@ def get_auth_context(
 
 def get_current_user(auth: AuthContext = Depends(get_auth_context)) -> User:
     return auth.user
+
+
+class RequireRole:
+    def __init__(self, allowed_roles: list[str]) -> None:
+        self.allowed_roles = allowed_roles
+
+    def __call__(self, auth: AuthContext = Depends(get_auth_context)) -> AuthContext:
+        email = auth.user.email.lower()
+        role = "faculty"
+        if "dean" in email:
+            role = "dean"
+        elif "hod" in email:
+            role = "hod"
+        elif "coord" in email:
+            role = "coordinator"
+
+        if role not in self.allowed_roles:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"Access denied. Requires one of: {', '.join(self.allowed_roles)}",
+            )
+        return auth

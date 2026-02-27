@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] - 2026-02-27
 
 ### Added
+- **Feedback System:** Built a secure Anonymous Messages feature allowing faculties to send untraceable feedback directly to the Dean.
 - **Password UX:** Added eye/eye-off toggle to show and hide passwords on the login screen.
 - **Password UX:** Added Caps Lock detection with a warning indicator on the login form.
 - **Forgot Password Flow:** Implemented complete email-based forgot password and reset password flow.

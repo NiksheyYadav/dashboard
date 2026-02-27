@@ -4,9 +4,9 @@ import { API_BASE_URL } from "@/lib/api/client";
 import { ArrowLeft, Eye, EyeOff, Loader2, LockKeyhole } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const token = searchParams.get("token");
@@ -178,5 +178,13 @@ export default function ResetPasswordPage() {
                 }
             `}</style>
         </div>
+    );
+}
+
+export default function ResetPasswordPage() {
+    return (
+        <Suspense fallback={<div className="flex justify-center p-8"><Loader2 className="h-6 w-6 animate-spin text-[#1a6fdb]" /></div>}>
+            <ResetPasswordForm />
+        </Suspense>
     );
 }

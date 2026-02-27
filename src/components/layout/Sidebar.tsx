@@ -1,5 +1,6 @@
 "use client";
 
+import { SendAnonymousMessageButton } from "@/components/messages/SendAnonymousMessageButton";
 import { useAuth, UserRole } from "@/lib/auth/auth-context";
 import { useSidebar } from "@/lib/hooks/useSidebar";
 import { cn } from "@/lib/utils";
@@ -108,6 +109,10 @@ export default function Sidebar() {
                     })}
                 </ul>
             </nav>
+
+            <div className="px-4 pb-4">
+                <SendAnonymousMessageButton />
+            </div>
 
             {/* User Profile */}
             <div className="border-t border-gray-200 px-4 py-4 dark:border-gray-800">
