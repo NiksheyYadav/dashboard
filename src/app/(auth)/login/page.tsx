@@ -80,10 +80,10 @@ export default function LoginPage() {
     };
 
     const roleEmail: Record<UserRole, string> = {
-        dean: "dean@example.com",
-        hod: "hod@example.com",
-        coordinator: "coordinator@example.com",
-        faculty: "faculty@example.com",
+        dean: "dean@sgtuniversity.edu",
+        hod: "hod@sgtuniversity.edu",
+        coordinator: "coordinator@sgtuniversity.edu",
+        faculty: "faculty@sgtuniversity.edu",
     };
 
     return (

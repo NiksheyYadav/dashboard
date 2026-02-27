@@ -5,10 +5,10 @@ from app.db.session import SessionLocal
 from app.modules.auth.service import AuthService
 
 DEMO_USERS = [
-    ("dean@example.com", "DemoPass123!"),
-    ("hod@example.com", "DemoPass123!"),
-    ("coordinator@example.com", "DemoPass123!"),
-    ("faculty@example.com", "DemoPass123!"),
+    ("dean@sgtuniversity.edu", "DemoPass123!"),
+    ("hod@sgtuniversity.edu", "DemoPass123!"),
+    ("coordinator@sgtuniversity.edu", "DemoPass123!"),
+    ("faculty@sgtuniversity.edu", "DemoPass123!"),
 ]
 
 
