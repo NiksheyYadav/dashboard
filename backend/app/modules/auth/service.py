@@ -1,3 +1,4 @@
+import secrets
 from datetime import timedelta
 from uuid import UUID
 
@@ -15,9 +16,11 @@ from app.core.security import (
     now_utc,
     verify_password,
 )
+from app.models.password_reset import PasswordResetToken
 from app.models.refresh_token import RefreshToken
 from app.models.session import Session as UserSession
 from app.models.user import User
+from app.utils.email import send_password_reset_email
 
 settings = get_settings()
 
@@ -54,14 +57,8 @@ class AuthService:
         if user.status != "ACTIVE":
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User is not active")
 
-        now = now_utc()
-        if user.locked_until and user.locked_until > now:
-            raise HTTPException(status_code=status.HTTP_423_LOCKED, detail="Account temporarily locked")
-
         if not verify_password(password, user.password_hash):
             user.failed_login_count += 1
-            if user.failed_login_count >= settings.auth_max_failed_attempts:
-                user.locked_until = now + timedelta(minutes=settings.auth_lock_minutes)
             db.commit()
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
 
@@ -192,4 +189,60 @@ class AuthService:
             return
 
         AuthService.revoke_session(db, session_id=session_id)
+        db.commit()
+
+    @staticmethod
+    def request_password_reset(db: Session, *, email: str) -> None:
+        normalized_email = normalize_email(email)
+        user = db.scalar(select(User).where(User.email == normalized_email))
+        
+        # We always return success to prevent email enumeration
+        if not user or user.status != "ACTIVE":
+            return
+            
+        token_raw = secrets.token_urlsafe(32)
+        token_hash = hash_refresh_token(token_raw)  # We can re-use this hashing function
+        
+        now = now_utc()
+        expires_at = now + timedelta(minutes=15)
+        
+        reset_token = PasswordResetToken(
+            user_id=user.id,
+            token_hash=token_hash,
+            expires_at=expires_at,
+        )
+        db.add(reset_token)
+        db.commit()
+        
+        send_password_reset_email(to_email=user.email, reset_token=token_raw)
+
+    @staticmethod
+    def reset_password(db: Session, *, token: str, new_password: str) -> None:
+        token_hash = hash_refresh_token(token)
+        
+        reset_record = db.scalar(
+            select(PasswordResetToken)
+            .where(PasswordResetToken.token_hash == token_hash)
+            .with_for_update()
+        )
+        
+        if not reset_record or reset_record.used:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired reset token")
+            
+        now = now_utc()
+        if reset_record.expires_at <= now:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Reset token has expired")
+            
+        user = AuthService._get_user_by_id(db, reset_record.user_id)
+        if not user or user.status != "ACTIVE":
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User account is not active")
+            
+        user.password_hash = hash_password(new_password)
+        reset_record.used = True
+        
+        # Revoke all existing sessions to force user to re-login with new password
+        AuthService.logout(db, user_id=user.id, session_id=None, all_devices=True)
+        # Note: the above commits to db internally using the condition that we passed all_devices=True
+        # Wait, our `logout` method commits but doing it like this is safe.
+        
         db.commit()

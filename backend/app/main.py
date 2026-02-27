@@ -9,6 +9,7 @@ from app.core.logging import configure_logging
 from app.middleware.request_id import RequestIdMiddleware
 from app.modules.auth.router import auth_router, protected_router
 from app.modules.insights.router import insights_router
+from app.modules.students.router import students_router
 from app.utils.exceptions import AppException
 
 settings = get_settings()
@@ -27,6 +28,7 @@ app.add_middleware(RequestIdMiddleware, header_name=settings.request_id_header)
 app.include_router(auth_router, prefix=settings.api_v1_prefix)
 app.include_router(protected_router, prefix=settings.api_v1_prefix)
 app.include_router(insights_router, prefix=settings.api_v1_prefix)
+app.include_router(students_router, prefix=settings.api_v1_prefix)
 
 
 @app.exception_handler(AppException)

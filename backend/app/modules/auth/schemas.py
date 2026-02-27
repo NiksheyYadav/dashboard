@@ -30,3 +30,16 @@ class RegisterResponse(BaseModel):
     id: str
     email: EmailStr
     status: str
+
+
+class ForgotPasswordRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    email: EmailStr
+
+
+class ResetPasswordRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    token: str
+    new_password: str = Field(min_length=8, max_length=128)

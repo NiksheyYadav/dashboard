@@ -1,11 +1,11 @@
-import { StudentStatus } from "@/lib/types/student";
+import { CVStatus, StudentStatus } from "@/lib/types/student";
 import { cn } from "@/lib/utils";
 
 interface StatusBadgeProps {
-    status: StudentStatus;
+    status: StudentStatus | CVStatus;
 }
 
-const statusConfig: Record<StudentStatus, { label: string; className: string }> = {
+const statusConfig: Record<string, { label: string; className: string }> = {
     Active: {
         label: "Active",
         className: "bg-emerald-50 text-emerald-600",
@@ -14,10 +14,22 @@ const statusConfig: Record<StudentStatus, { label: string; className: string }> 
         label: "Inactive",
         className: "bg-gray-100 text-gray-500",
     },
+    UPLOADED: {
+        label: "Uploaded",
+        className: "bg-emerald-50 text-emerald-600",
+    },
+    PENDING: {
+        label: "Pending",
+        className: "bg-amber-50 text-amber-600",
+    },
+    REJECTED: {
+        label: "Rejected",
+        className: "bg-red-50 text-red-500",
+    },
 };
 
 export default function StatusBadge({ status }: StatusBadgeProps) {
-    const config = statusConfig[status];
+    const config = statusConfig[status] ?? { label: status, className: "bg-gray-100 text-gray-500" };
     return (
         <span
             className={cn(

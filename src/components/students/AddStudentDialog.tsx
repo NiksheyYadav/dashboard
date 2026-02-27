@@ -9,26 +9,31 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import { API_BASE_URL } from "@/lib/api/client";
 import { COURSES, SEMESTERS } from "@/lib/utils/constants";
 import { useState } from "react";
 
 interface AddStudentDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
+    onStudentAdded?: () => void;
 }
 
 export default function AddStudentDialog({
     open,
     onOpenChange,
+    onStudentAdded,
 }: AddStudentDialogProps) {
     const [formData, setFormData] = useState({
         name: "",
         rollNo: "",
-        course: "btech-cs",
+        course: "B.Tech CS",
         semester: 1,
         email: "",
         phone: "",
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -40,19 +45,43 @@ export default function AddStudentDialog({
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO: Call createStudent API
-        console.log("[MOCK] Creating student:", formData);
-        onOpenChange(false);
-        setFormData({
-            name: "",
-            rollNo: "",
-            course: "btech-cs",
-            semester: 1,
-            email: "",
-            phone: "",
-        });
+        setError(null);
+        setIsSubmitting(true);
+
+        try {
+            const token = localStorage.getItem("edupulse_auth_token");
+            const res = await fetch(`${API_BASE_URL}/students`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!res.ok) {
+                const body = await res.json().catch(() => null);
+                throw new Error(body?.detail || "Failed to add student");
+            }
+
+            onOpenChange(false);
+            setFormData({
+                name: "",
+                rollNo: "",
+                course: "B.Tech CS",
+                semester: 1,
+                email: "",
+                phone: "",
+            });
+            onStudentAdded?.();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Something went wrong");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -77,7 +106,7 @@ export default function AddStudentDialog({
                             required
                             value={formData.name}
                             onChange={handleChange}
-                            placeholder="e.g. Alex Johnson"
+                            placeholder="e.g. Aarav Sharma"
                             className="h-10 w-full rounded-lg border border-gray-200 px-3 text-sm outline-none focus:border-[#1a6fdb] focus:ring-2 focus:ring-[#1a6fdb]/10"
                         />
                     </div>
@@ -92,7 +121,7 @@ export default function AddStudentDialog({
                             required
                             value={formData.rollNo}
                             onChange={handleChange}
-                            placeholder="e.g. CS20210042"
+                            placeholder="e.g. SGT/BC/2023/0001"
                             className="h-10 w-full rounded-lg border border-gray-200 px-3 text-sm outline-none focus:border-[#1a6fdb] focus:ring-2 focus:ring-[#1a6fdb]/10"
                         />
                     </div>
@@ -110,7 +139,7 @@ export default function AddStudentDialog({
                                 className="h-10 w-full rounded-lg border border-gray-200 px-3 text-sm outline-none focus:border-[#1a6fdb] focus:ring-2 focus:ring-[#1a6fdb]/10"
                             >
                                 {COURSES.filter((c) => c.value !== "all").map((c) => (
-                                    <option key={c.value} value={c.value}>
+                                    <option key={c.value} value={c.label}>
                                         {c.label}
                                     </option>
                                 ))}
@@ -145,7 +174,7 @@ export default function AddStudentDialog({
                             type="email"
                             value={formData.email}
                             onChange={handleChange}
-                            placeholder="e.g. alex.j@college.edu"
+                            placeholder="e.g. aarav.sharma@sgtuniversity.edu"
                             className="h-10 w-full rounded-lg border border-gray-200 px-3 text-sm outline-none focus:border-[#1a6fdb] focus:ring-2 focus:ring-[#1a6fdb]/10"
                         />
                     </div>
@@ -160,10 +189,14 @@ export default function AddStudentDialog({
                             type="tel"
                             value={formData.phone}
                             onChange={handleChange}
-                            placeholder="e.g. +1 (555) 012-3456"
+                            placeholder="e.g. +91 98765 43210"
                             className="h-10 w-full rounded-lg border border-gray-200 px-3 text-sm outline-none focus:border-[#1a6fdb] focus:ring-2 focus:ring-[#1a6fdb]/10"
                         />
                     </div>
+
+                    {error && (
+                        <p className="text-sm text-red-600">{error}</p>
+                    )}
 
                     <DialogFooter className="pt-2">
                         <Button
@@ -175,9 +208,10 @@ export default function AddStudentDialog({
                         </Button>
                         <Button
                             type="submit"
+                            disabled={isSubmitting}
                             className="bg-[#1a6fdb] text-white hover:bg-[#1560c2]"
                         >
-                            Add Student
+                            {isSubmitting ? "Adding..." : "Add Student"}
                         </Button>
                     </DialogFooter>
                 </form>

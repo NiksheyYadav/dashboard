@@ -9,11 +9,14 @@ import {
     Briefcase,
     CalendarCheck,
     Crown,
+    Eye,
+    EyeOff,
     FileText,
     GraduationCap,
     Shield,
     UserCog
 } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const FEATURES = [
@@ -51,6 +54,8 @@ export default function LoginPage() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [capsLockOn, setCapsLockOn] = useState(false);
     const [backendStatus, setBackendStatus] = useState<"checking" | "connected" | "disconnected">("checking");
 
     useEffect(() => {
@@ -236,19 +241,34 @@ export default function LoginPage() {
                                 <label htmlFor="login-password" className="text-sm font-medium text-gray-700">
                                     Password
                                 </label>
-                                <button type="button" className="text-xs font-medium text-[#1a6fdb] hover:underline">
+                                <Link href="/forgot-password" className="text-xs font-medium text-[#1a6fdb] hover:underline">
                                     Forgot password?
+                                </Link>
+                            </div>
+                            <div className="relative">
+                                <input
+                                    id="login-password"
+                                    name="password"
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    onKeyDown={(e) => setCapsLockOn(e.getModifierState("CapsLock"))}
+                                    onKeyUp={(e) => setCapsLockOn(e.getModifierState("CapsLock"))}
+                                    placeholder="••••••••"
+                                    className="h-11 w-full rounded-xl border border-gray-200 bg-white px-4 pr-10 text-sm outline-none transition-all focus:border-[#1a6fdb] focus:ring-2 focus:ring-[#1a6fdb]/10"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                    tabIndex={-1}
+                                >
+                                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                                 </button>
                             </div>
-                            <input
-                                id="login-password"
-                                name="password"
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="••••••••"
-                                className="h-11 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm outline-none transition-all focus:border-[#1a6fdb] focus:ring-2 focus:ring-[#1a6fdb]/10"
-                            />
+                            {capsLockOn && (
+                                <p className="mt-1 text-xs font-medium text-amber-600">⚠ Caps Lock is on</p>
+                            )}
                         </div>
 
                         {/* Remember me */}

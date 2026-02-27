@@ -4,19 +4,27 @@ import AddStudentDialog from "@/components/students/AddStudentDialog";
 import StatusBadge from "@/components/students/StatusBadge";
 import StudentDirectoryFilters from "@/components/students/StudentDirectoryFilters";
 import { Button } from "@/components/ui/button";
-import { MOCK_STUDENTS } from "@/lib/data/mock-data";
+import { apiGet } from "@/lib/api/client";
+import { Student } from "@/lib/types/student";
 import { getInitials } from "@/lib/utils/formatters";
 import {
     ChevronLeft,
     ChevronRight,
     Eye,
+    Loader2,
     Plus,
     Search,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const ITEMS_PER_PAGE = 5;
-const TOTAL_MOCK_STUDENTS = 248;
+
+interface PaginatedResponse {
+    data: Student[];
+    total: number;
+    page: number;
+    limit: number;
+}
 
 // Avatar color palette
 const avatarColors = [
@@ -62,41 +70,39 @@ export default function StudentsPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
 
-    // Filter students
-    const filteredStudents = useMemo(() => {
-        let students = [...MOCK_STUDENTS];
+    // Data
+    const [students, setStudents] = useState<Student[]>([]);
+    const [totalStudents, setTotalStudents] = useState(0);
+    const [loading, setLoading] = useState(true);
 
-        if (courseFilter !== "all") {
-            students = students.filter(
-                (s) =>
-                    s.course
-                        .toLowerCase()
-                        .replace(/[\s.]/g, "-")
-                        .includes(courseFilter)
-            );
-        }
-        if (semesterFilter !== 0) {
-            students = students.filter((s) => s.semester === semesterFilter);
-        }
-        if (searchQuery) {
-            const q = searchQuery.toLowerCase();
-            students = students.filter(
-                (s) =>
-                    s.name.toLowerCase().includes(q) ||
-                    s.rollNo.toLowerCase().includes(q)
-            );
-        }
+    const fetchStudents = useCallback(async () => {
+        setLoading(true);
+        try {
+            const params = new URLSearchParams({
+                page: String(currentPage),
+                limit: String(ITEMS_PER_PAGE),
+            });
+            if (courseFilter !== "all") params.set("course", courseFilter);
+            if (semesterFilter > 0) params.set("semester", String(semesterFilter));
+            if (searchQuery) params.set("search", searchQuery);
 
-        return students;
-    }, [courseFilter, semesterFilter, searchQuery]);
+            const res = await apiGet<PaginatedResponse>(`/students?${params.toString()}`);
+            setStudents(res.data);
+            setTotalStudents(res.total);
+        } catch {
+            // Fallback: keep whatever we have
+        } finally {
+            setLoading(false);
+        }
+    }, [currentPage, courseFilter, semesterFilter, searchQuery]);
 
-    const totalFiltered = filteredStudents.length;
-    const totalPages = Math.max(1, Math.ceil(TOTAL_MOCK_STUDENTS / ITEMS_PER_PAGE));
+    useEffect(() => {
+        void fetchStudents();
+    }, [fetchStudents]);
+
+    const totalPages = Math.max(1, Math.ceil(totalStudents / ITEMS_PER_PAGE));
     const startItem = (currentPage - 1) * ITEMS_PER_PAGE + 1;
-    const endItem = Math.min(currentPage * ITEMS_PER_PAGE, TOTAL_MOCK_STUDENTS);
-
-    // Show paginated slice (from mock)
-    const displayedStudents = filteredStudents.slice(0, ITEMS_PER_PAGE);
+    const endItem = Math.min(currentPage * ITEMS_PER_PAGE, totalStudents);
 
     const clearFilters = () => {
         setCourseFilter("all");
@@ -197,10 +203,10 @@ export default function StudentsPage() {
                                     Semester
                                 </th>
                                 <th className="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-gray-400">
-                                    Contact
+                                    Attendance
                                 </th>
                                 <th className="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-gray-400">
-                                    Status
+                                    CV Status
                                 </th>
                                 <th className="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-gray-400">
                                     Actions
@@ -208,75 +214,14 @@ export default function StudentsPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {displayedStudents.map((student) => (
-                                <tr
-                                    key={student.id}
-                                    className="border-b border-gray-50 transition-colors hover:bg-gray-50/50"
-                                >
-                                    {/* Student Profile */}
-                                    <td className="px-5 py-4">
-                                        <div className="flex items-center gap-3">
-                                            <div
-                                                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${getAvatarColor(student.name)}`}
-                                            >
-                                                {getInitials(student.name)}
-                                            </div>
-                                            <div className="min-w-0">
-                                                <p className="truncate text-sm font-semibold text-gray-900">
-                                                    {student.name}
-                                                </p>
-                                                <p className="text-xs text-gray-400">
-                                                    {formatJoinedDate(student.joinedDate)}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                    {/* Roll Number */}
-                                    <td className="px-5 py-4 text-sm font-medium text-gray-700">
-                                        {student.rollNo}
-                                    </td>
-
-                                    {/* Department */}
-                                    <td className="px-5 py-4 text-sm text-gray-600">
-                                        {student.department}
-                                    </td>
-
-                                    {/* Semester */}
-                                    <td className="px-5 py-4">
-                                        <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-600">
-                                            {getSemesterLabel(student.semester)}
-                                        </span>
-                                    </td>
-
-                                    {/* Contact */}
-                                    <td className="px-5 py-4">
-                                        <div className="min-w-0">
-                                            <p className="truncate text-sm text-gray-700">
-                                                {student.email}
-                                            </p>
-                                            <p className="text-xs text-gray-400">
-                                                {student.phone}
-                                            </p>
-                                        </div>
-                                    </td>
-
-                                    {/* Status */}
-                                    <td className="px-5 py-4">
-                                        <StatusBadge status={student.status} />
-                                    </td>
-
-                                    {/* Actions */}
-                                    <td className="px-5 py-4">
-                                        <button className="flex items-center gap-1.5 rounded-lg border border-[#1a6fdb] px-3 py-1.5 text-xs font-semibold text-[#1a6fdb] transition-colors hover:bg-[#1a6fdb] hover:text-white">
-                                            <Eye className="h-3.5 w-3.5" />
-                                            View Profile
-                                        </button>
+                            {loading ? (
+                                <tr>
+                                    <td colSpan={7} className="px-5 py-12 text-center">
+                                        <Loader2 className="mx-auto h-6 w-6 animate-spin text-[#1a6fdb]" />
+                                        <p className="mt-2 text-sm text-gray-400">Loading students…</p>
                                     </td>
                                 </tr>
-                            ))}
-
-                            {displayedStudents.length === 0 && (
+                            ) : students.length === 0 ? (
                                 <tr>
                                     <td
                                         colSpan={7}
@@ -285,6 +230,69 @@ export default function StudentsPage() {
                                         No students match your filters.
                                     </td>
                                 </tr>
+                            ) : (
+                                students.map((student) => (
+                                    <tr
+                                        key={student.id}
+                                        className="border-b border-gray-50 transition-colors hover:bg-gray-50/50"
+                                    >
+                                        {/* Student Profile */}
+                                        <td className="px-5 py-4">
+                                            <div className="flex items-center gap-3">
+                                                <div
+                                                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${getAvatarColor(student.name)}`}
+                                                >
+                                                    {getInitials(student.name)}
+                                                </div>
+                                                <div className="min-w-0">
+                                                    <p className="truncate text-sm font-semibold text-gray-900">
+                                                        {student.name}
+                                                    </p>
+                                                    <p className="text-xs text-gray-400">
+                                                        {student.course}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        {/* Roll Number */}
+                                        <td className="px-5 py-4 text-sm font-medium text-gray-700">
+                                            {student.rollNo}
+                                        </td>
+
+                                        {/* Department */}
+                                        <td className="px-5 py-4 text-sm text-gray-600">
+                                            {student.department}
+                                        </td>
+
+                                        {/* Semester */}
+                                        <td className="px-5 py-4">
+                                            <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-600">
+                                                {getSemesterLabel(student.semester)}
+                                            </span>
+                                        </td>
+
+                                        {/* Attendance */}
+                                        <td className="px-5 py-4">
+                                            <span className={`text-sm font-semibold ${student.attendancePercent >= 85 ? "text-emerald-600" : student.attendancePercent >= 75 ? "text-amber-600" : "text-red-500"}`}>
+                                                {student.attendancePercent}%
+                                            </span>
+                                        </td>
+
+                                        {/* CV Status */}
+                                        <td className="px-5 py-4">
+                                            <StatusBadge status={student.cvStatus} />
+                                        </td>
+
+                                        {/* Actions */}
+                                        <td className="px-5 py-4">
+                                            <button className="flex items-center gap-1.5 rounded-lg border border-[#1a6fdb] px-3 py-1.5 text-xs font-semibold text-[#1a6fdb] transition-colors hover:bg-[#1a6fdb] hover:text-white">
+                                                <Eye className="h-3.5 w-3.5" />
+                                                View Profile
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
                             )}
                         </tbody>
                     </table>
@@ -295,11 +303,11 @@ export default function StudentsPage() {
                     <p className="text-sm text-gray-500">
                         Showing{" "}
                         <span className="font-medium text-[#1a6fdb]">
-                            {startItem} to {endItem}
+                            {totalStudents > 0 ? startItem : 0} to {endItem}
                         </span>{" "}
                         of{" "}
                         <span className="font-medium text-gray-700">
-                            {TOTAL_MOCK_STUDENTS} students
+                            {totalStudents} students
                         </span>
                     </p>
                     <div className="flex items-center gap-1">
@@ -324,8 +332,8 @@ export default function StudentsPage() {
                                     key={page}
                                     onClick={() => setCurrentPage(page)}
                                     className={`flex h-8 w-8 items-center justify-center rounded-lg text-sm font-medium transition-colors ${currentPage === page
-                                            ? "bg-[#1a6fdb] text-white"
-                                            : "border border-gray-200 text-gray-600 hover:bg-gray-50"
+                                        ? "bg-[#1a6fdb] text-white"
+                                        : "border border-gray-200 text-gray-600 hover:bg-gray-50"
                                         }`}
                                 >
                                     {page}
@@ -350,6 +358,7 @@ export default function StudentsPage() {
             <AddStudentDialog
                 open={addDialogOpen}
                 onOpenChange={setAddDialogOpen}
+                onStudentAdded={fetchStudents}
             />
         </div>
     );

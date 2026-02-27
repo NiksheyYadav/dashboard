@@ -123,3 +123,18 @@ def me(user: User = Depends(get_current_user)) -> MeResponse:
 @protected_router.get("/protected")
 def protected(auth: AuthContext = Depends(get_auth_context)) -> dict[str, str]:
     return {"message": "Protected route success", "user_id": str(auth.user.id), "session_id": str(auth.session.id)}
+
+
+from app.modules.auth.schemas import ForgotPasswordRequest, ResetPasswordRequest
+
+
+@auth_router.post("/forgot-password")
+def forgot_password(payload: ForgotPasswordRequest, db: Session = Depends(get_db)) -> dict[str, str]:
+    AuthService.request_password_reset(db, email=payload.email)
+    return {"detail": "If your email is registered, you will receive a password reset link shortly."}
+
+
+@auth_router.post("/reset-password")
+def reset_password(payload: ResetPasswordRequest, db: Session = Depends(get_db)) -> dict[str, str]:
+    AuthService.reset_password(db, token=payload.token, new_password=payload.new_password)
+    return {"detail": "Password has been successfully reset."}

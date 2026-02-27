@@ -58,7 +58,7 @@ export default function AttendancePage() {
     };
 
     return (
-        <RequireRole allowedRoles={["coordinator"]}>
+        <RequireRole allowedRoles={["dean", "hod", "coordinator"]}>
             <div className="space-y-6">
                 {/* Breadcrumb */}
                 <div className="flex items-center gap-1.5 text-sm text-gray-400">

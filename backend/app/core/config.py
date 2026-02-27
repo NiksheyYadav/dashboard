@@ -38,9 +38,18 @@ class Settings(BaseSettings):
     log_level: str = Field(default="INFO", alias="LOG_LEVEL")
     request_id_header: str = Field(default="X-Request-ID", alias="REQUEST_ID_HEADER")
 
+    # Email Settings
+    smtp_host: str | None = Field(default=None, alias="SMTP_HOST")
+    smtp_port: int = Field(default=587, alias="SMTP_PORT")
+    smtp_user: str | None = Field(default=None, alias="SMTP_USER")
+    smtp_password: str | None = Field(default=None, alias="SMTP_PASSWORD")
+    smtp_from: str = Field(default="noreply@sgtuniversity.edu", alias="SMTP_FROM")
+    frontend_url: str = Field(default="http://localhost:3000", alias="FRONTEND_URL")
+
     @property
     def cors_origins(self) -> list[str]:
         return _split_origins(self.cors_origins_raw)
+
 
 
 @lru_cache
