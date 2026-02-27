@@ -22,7 +22,7 @@ interface NavItem {
 const ALL_NAV_ITEMS: (NavItem & { roles: UserRole[] })[] = [
     { label: "Dashboard", icon: LayoutGrid, href: "/dashboard", roles: ["dean", "hod", "coordinator", "faculty"] },
     { label: "Students", icon: Users, href: "/students", roles: ["dean", "hod", "coordinator", "faculty"] },
-    { label: "Attendance", icon: CalendarCheck, href: "/attendance", roles: ["dean", "hod", "coordinator", "faculty"] },
+    { label: "Attendance", icon: CalendarCheck, href: "/attendance", roles: ["coordinator"] },
     { label: "Forms", icon: ClipboardList, href: "/forms", roles: ["dean", "hod", "coordinator", "faculty"] },
     { label: "Announcements", icon: Megaphone, href: "/announcements", roles: ["dean", "hod"] },
     { label: "Analytics", icon: BarChart3, href: "/analytics", roles: ["dean", "hod"] },
