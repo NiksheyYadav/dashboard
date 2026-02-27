@@ -74,7 +74,7 @@ class AuthService:
             session_id=user_session.id,
             user_id=user.id,
             token_hash=hash_refresh_token(refresh_token_raw),
-            expires_at=now + timedelta(days=settings.refresh_token_ttl_days),
+            expires_at=now_utc() + timedelta(days=settings.refresh_token_ttl_days),
         )
         db.add(refresh_token_record)
 
