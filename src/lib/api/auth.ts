@@ -42,13 +42,18 @@ function buildUrl(path: string): string {
 
 function backendHealthUrl(): string {
     try {
-        const parsed = new URL(API_BASE_URL);
+        const base = API_BASE_URL;
+        // Handle relative URLs (e.g., "/api/v1" on Vercel)
+        if (base.startsWith("/")) {
+            return "/health";
+        }
+        const parsed = new URL(base);
         parsed.pathname = "/health";
         parsed.search = "";
         parsed.hash = "";
         return parsed.toString();
     } catch {
-        return "http://127.0.0.1:8000/health";
+        return "/health";
     }
 }
 
