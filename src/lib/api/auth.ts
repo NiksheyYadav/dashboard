@@ -1,7 +1,7 @@
 const API_BASE_URL =
     process.env.NEXT_PUBLIC_API_URL ||
     process.env.NEXT_PUBLIC_API_BASE_URL ||
-    "http://127.0.0.1:8000/api/v1";
+    "/api/v1";
 
 export interface LoginPayload {
     email: string;
@@ -17,6 +17,7 @@ export interface MeResponse {
     id: string;
     email: string;
     status: string;
+    department?: string | null;
 }
 
 export interface HealthResponse {
@@ -43,9 +44,11 @@ function buildUrl(path: string): string {
 function backendHealthUrl(): string {
     try {
         const base = API_BASE_URL;
-        // Handle relative URLs (e.g., "/api/v1" on Vercel)
+        // Handle relative URLs — proxy /health through the same rewrite
         if (base.startsWith("/")) {
-            return "/health";
+            // Strip /api/v1 suffix and append /health
+            const root = base.replace(/\/api\/v1\/?$/, "");
+            return `${root}/health`;
         }
         const parsed = new URL(base);
         parsed.pathname = "/health";

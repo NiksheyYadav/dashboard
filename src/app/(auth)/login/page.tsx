@@ -27,6 +27,7 @@ const FEATURES = [
 ];
 
 const ROLE_OPTIONS: { key: UserRole; label: string; icon: typeof Crown }[] = [
+    { key: "admin", label: "Admin", icon: Shield },
     { key: "dean", label: "Dean", icon: Crown },
     { key: "hod", label: "HOD", icon: Briefcase },
     { key: "coordinator", label: "Coordinator", icon: UserCog },
@@ -34,6 +35,7 @@ const ROLE_OPTIONS: { key: UserRole; label: string; icon: typeof Crown }[] = [
 ];
 
 const DEMO_ACCOUNTS: { role: UserRole; name: string; subtitle: string; icon: typeof Crown; iconBg: string }[] = [
+    { role: "admin", name: "System Admin", subtitle: "Administration", icon: Shield, iconBg: "bg-indigo-50 dark:bg-indigo-900/30" },
     { role: "dean", name: "Prof. Rajesh Gupta", subtitle: "Dean — Faculty of Engineering", icon: Crown, iconBg: "bg-amber-50 dark:bg-amber-900/30" },
     { role: "hod", name: "Dr. Priya Mehta", subtitle: "HOD — B.Tech CS", icon: Briefcase, iconBg: "bg-blue-50 dark:bg-blue-900/30" },
     { role: "coordinator", name: "Dr. Amit Sharma", subtitle: "Coordinator — B.Tech CS", icon: UserCog, iconBg: "bg-emerald-50 dark:bg-emerald-900/30" },
@@ -41,6 +43,7 @@ const DEMO_ACCOUNTS: { role: UserRole; name: string; subtitle: string; icon: typ
 ];
 
 const ROLE_ICON_COLORS: Record<UserRole, string> = {
+    admin: "text-indigo-500",
     dean: "text-amber-500",
     hod: "text-blue-500",
     coordinator: "text-emerald-500",
@@ -81,10 +84,14 @@ export default function LoginPage() {
             setError(result.error ?? "Invalid email or password");
         }
 
+        // Note: The role mismatch validation logic (e.g. trying to log in as admin from the dean tab) 
+        // is now handled inside the login function in auth-context.tsx
+
         setIsSubmitting(false);
     };
 
     const roleEmail: Record<UserRole, string> = {
+        admin: "admin@sgtuniversity.edu",
         dean: "dean@sgtuniversity.edu",
         hod: "hod@sgtuniversity.edu",
         coordinator: "coordinator@sgtuniversity.edu",

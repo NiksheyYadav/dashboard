@@ -1,0 +1,83 @@
+EduPulse RBAC Test - 2026-02-28 03:17:28
+============================================================
+
+PHASE 1: Creating / resetting demo accounts
+
+  [EXISTS]   admin                          admin@sgtuniversity.edu
+  [EXISTS]   dean                           dean@sgtuniversity.edu
+  [EXISTS]   hod                            hod@sgtuniversity.edu
+  [EXISTS]   faculty                        faculty@sgtuniversity.edu
+  [CREATED]  coordinator (placement)        placement.coord@sgtuniversity.edu
+  [CREATED]  coordinator (attendance)       attendance.coord@sgtuniversity.edu
+  [CREATED]  coordinator (events)           events.coord@sgtuniversity.edu
+
+PHASE 2: Testing login + API access per role
+
+  -- admin (admin@sgtuniversity.edu) --
+    [PASS] Login successful
+    [PASS] 200 OK           Get current user
+    [WARN] 500            List staff (admin only)
+    [PASS] 200 OK           List students
+    [PASS] 200 OK           Get attendance data
+    [FAIL] 403 denied   View anonymous messages
+
+  -- dean (dean@sgtuniversity.edu) --
+    [PASS] Login successful
+    [PASS] 200 OK           Get current user
+    [PASS] 403 blocked  List staff (admin only)
+    [PASS] 200 OK           List students
+    [PASS] 200 OK           Get attendance data
+    [WARN] 500            View anonymous messages
+
+  -- hod (hod@sgtuniversity.edu) --
+    [PASS] Login successful
+    [PASS] 200 OK           Get current user
+    [PASS] 403 blocked  List staff (admin only)
+    [PASS] 200 OK           List students
+    [PASS] 200 OK           Get attendance data
+    [WARN] 500            View anonymous messages
+
+  -- faculty (faculty@sgtuniversity.edu) --
+    [PASS] Login successful
+    [PASS] 200 OK           Get current user
+    [PASS] 403 blocked  List staff (admin only)
+    [PASS] 200 OK           List students
+    [PASS] 200 OK           Get attendance data
+    [PASS] 403 blocked  View anonymous messages
+
+  -- coordinator (placement) (placement.coord@sgtuniversity.edu) --
+    [PASS] Login successful
+    [PASS] 200 OK           Get current user
+    [PASS] 403 blocked  List staff (admin only)
+    [PASS] 200 OK           List students
+    [PASS] 200 OK           Get attendance data
+    [PASS] 403 blocked  View anonymous messages
+
+  -- coordinator (attendance) (attendance.coord@sgtuniversity.edu) --
+    [PASS] Login successful
+    [PASS] 200 OK           Get current user
+    [PASS] 403 blocked  List staff (admin only)
+    [PASS] 200 OK           List students
+    [PASS] 200 OK           Get attendance data
+    [PASS] 403 blocked  View anonymous messages
+
+  -- coordinator (events) (events.coord@sgtuniversity.edu) --
+    [PASS] Login successful
+    [PASS] 200 OK           Get current user
+    [PASS] 403 blocked  List staff (admin only)
+    [PASS] 200 OK           List students
+    [PASS] 200 OK           Get attendance data
+    [PASS] 403 blocked  View anonymous messages
+
+============================================================
+SUMMARY: 31/35 checks passed
+============================================================
+  [PASS] admin
+  [PASS] dean
+  [PASS] hod
+  [PASS] faculty
+  [PASS] coordinator (placement)
+  [PASS] coordinator (attendance)
+  [PASS] coordinator (events)
+
+Full log: c:\eblock\backend\scripts\test_roles_log.txt

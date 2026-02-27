@@ -42,7 +42,7 @@ def create_anonymous_message(
 def list_anonymous_messages(
     page: int = Query(default=1, ge=1),
     limit: int = Query(default=10, ge=1, le=100),
-    auth: AuthContext = Depends(RequireRole(["dean", "hod"])),
+    auth: AuthContext = Depends(RequireRole(["admin", "dean", "hod"])),
     db: Session = Depends(get_db),
 ) -> PaginatedAnonymousMessagesResponse:
     query = select(AnonymousMessage)

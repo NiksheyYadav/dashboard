@@ -28,7 +28,7 @@ export default function Sidebar() {
     const { user, role, logout } = useAuth();
     const { close } = useSidebar();
 
-    const navItems = role ? getNavItemsForRole(role) : [];
+    const navItems = role ? getNavItemsForRole(role, user?.coordinatorType) : [];
 
     return (
         <aside className="fixed left-0 top-0 z-50 flex h-screen w-[220px] flex-col border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">

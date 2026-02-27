@@ -3,7 +3,7 @@
 import RequireRole from "@/components/providers/RequireRole";
 import { API_BASE_URL } from "@/lib/api/client";
 import { useAuth } from "@/lib/auth/auth-context";
-import { format } from "date-fns";
+
 import { AlertCircle, ChevronLeft, ChevronRight, Loader2, MessageSquare, ShieldAlert } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -39,7 +39,12 @@ function AnonymousMessagesContent() {
                 setIsLoading(true);
                 setError("");
                 const res = await fetch(
-                    `${API_BASE_URL}/messages/anonymous?page=${page}&limit=${limit}`
+                    `${API_BASE_URL}/messages/anonymous?page=${page}&limit=${limit}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("edupulse_auth_token")}`,
+                        },
+                    }
                 );
                 const data = await res.json();
 
@@ -144,10 +149,10 @@ function AnonymousMessagesContent() {
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4 align-top">
                                             <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                                {format(new Date(msg.createdAt), "MMM d, yyyy")}
+                                                {new Date(msg.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                                             </div>
                                             <div className="text-sm text-gray-500 dark:text-gray-400">
-                                                {format(new Date(msg.createdAt), "h:mm a")}
+                                                {new Date(msg.createdAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true })}
                                             </div>
                                         </td>
                                     </tr>

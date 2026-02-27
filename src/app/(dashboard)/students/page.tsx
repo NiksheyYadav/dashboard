@@ -46,14 +46,6 @@ function getAvatarColor(name: string) {
     return avatarColors[Math.abs(hash) % avatarColors.length];
 }
 
-function formatJoinedDate(dateStr?: string): string {
-    if (!dateStr) return "";
-    const date = new Date(dateStr);
-    const month = date.toLocaleString("en-US", { month: "short" });
-    const year = date.getFullYear();
-    return `Joined ${month} ${year}`;
-}
-
 function getSemesterLabel(sem: number): string {
     const suffixes = ["th", "st", "nd", "rd"];
     const v = sem % 100;

@@ -6,6 +6,7 @@ class RegisterRequest(BaseModel):
 
     email: EmailStr
     password: str = Field(min_length=8, max_length=128)
+    department: str | None = None
 
 
 class LoginRequest(BaseModel):
@@ -24,6 +25,7 @@ class MeResponse(BaseModel):
     id: str
     email: EmailStr
     status: str
+    department: str | None = None
 
 
 class RegisterResponse(BaseModel):

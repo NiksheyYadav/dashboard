@@ -4,12 +4,14 @@ import { ApiError, getCurrentUser, loginWithPassword, logoutSession, refreshAcce
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
-export type UserRole = "dean" | "hod" | "coordinator" | "faculty";
+export type UserRole = "admin" | "dean" | "hod" | "coordinator" | "faculty";
+export type CoordinatorType = "placement" | "attendance" | "events" | null;
 
 export interface AuthUser {
     name: string;
     email: string;
     role: UserRole;
+    coordinatorType: CoordinatorType;
     department: string;
     designation: string;
     avatarInitials: string;
@@ -28,6 +30,9 @@ const AUTH_TOKEN_KEY = "edupulse_auth_token";
 
 function roleFromEmail(email: string): UserRole {
     const value = email.toLowerCase();
+    if (value.includes("admin")) {
+        return "admin";
+    }
     if (value.includes("dean")) {
         return "dean";
     }
@@ -38,6 +43,14 @@ function roleFromEmail(email: string): UserRole {
         return "coordinator";
     }
     return "faculty";
+}
+
+function coordinatorTypeFromEmail(email: string): CoordinatorType {
+    const value = email.toLowerCase();
+    if (value.includes("placement")) return "placement";
+    if (value.includes("attendance") || value.includes("attend")) return "attendance";
+    if (value.includes("event")) return "events";
+    return null;
 }
 
 function initialsFromEmail(email: string): string {
@@ -53,26 +66,33 @@ function initialsFromEmail(email: string): string {
     return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
 }
 
-function roleToDesignation(role: UserRole): string {
+function roleToDesignation(role: UserRole, coordType?: CoordinatorType): string {
     switch (role) {
+        case "admin":
+            return "System Administrator";
         case "dean":
             return "Dean";
         case "hod":
             return "Head of Department";
         case "coordinator":
+            if (coordType === "placement") return "Placement Coordinator";
+            if (coordType === "attendance") return "Attendance Coordinator";
+            if (coordType === "events") return "Events Coordinator";
             return "Program Coordinator";
         default:
             return "Faculty";
     }
 }
 
-function buildAuthUser(email: string, role: UserRole): AuthUser {
+function buildAuthUser(email: string, role: UserRole, department?: string | null): AuthUser {
+    const coordType = role === "coordinator" ? coordinatorTypeFromEmail(email) : null;
     return {
         name: email.split("@")[0],
         email,
         role,
-        department: "B.Tech CS",
-        designation: roleToDesignation(role),
+        coordinatorType: coordType,
+        department: department || "N/A",
+        designation: roleToDesignation(role, coordType),
         avatarInitials: initialsFromEmail(email),
     };
 }
@@ -115,7 +135,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 const storedUser = JSON.parse(storedUserRaw) as AuthUser;
                 try {
                     const me = await getCurrentUser(storedToken);
-                    const syncedUser = buildAuthUser(me.email, storedUser.role ?? roleFromEmail(me.email));
+                    const syncedUser = buildAuthUser(me.email, storedUser.role ?? roleFromEmail(me.email), me.department);
                     setAuthState(syncedUser, storedToken);
                     return;
                 } catch (error) {
@@ -128,7 +148,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 const meAfterRefresh = await getCurrentUser(refreshed.access_token);
                 const refreshedUser = buildAuthUser(
                     meAfterRefresh.email,
-                    storedUser.role ?? roleFromEmail(meAfterRefresh.email)
+                    storedUser.role ?? roleFromEmail(meAfterRefresh.email),
+                    meAfterRefresh.department
                 );
                 setAuthState(refreshedUser, refreshed.access_token);
             } catch {
@@ -142,12 +163,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }, [clearAuthState, setAuthState]);
 
     const login = useCallback(
-        async (email: string, password: string, preferredRole?: UserRole) => {
+        async (email: string, password: string, _preferredRole?: UserRole) => {
             try {
                 const tokenResponse = await loginWithPassword({ email, password });
                 const me = await getCurrentUser(tokenResponse.access_token);
-                const finalRole = preferredRole ?? roleFromEmail(me.email);
-                const authUser = buildAuthUser(me.email, finalRole);
+                const actualRole = roleFromEmail(me.email);
+
+                const authUser = buildAuthUser(me.email, actualRole, me.department);
                 setAuthState(authUser, tokenResponse.access_token);
                 router.push("/dashboard");
                 return { ok: true };

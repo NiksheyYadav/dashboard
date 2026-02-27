@@ -1,13 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/lib/auth/auth-context";
 import { useSidebar } from "@/lib/hooks/useSidebar";
 import { useTheme } from "@/lib/theme/theme-context";
 import { Bell, Menu, Moon, Plus, Search, Sun } from "lucide-react";
 
 export default function Topbar() {
-    const { role } = useAuth();
     const { toggle } = useSidebar();
     const { resolvedTheme, setTheme, theme } = useTheme();
 

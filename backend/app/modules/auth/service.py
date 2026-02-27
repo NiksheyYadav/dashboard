@@ -35,13 +35,13 @@ class AuthService:
         return db.scalar(select(UserSession).where(cast(UserSession.id, String) == str(session_id)))
 
     @staticmethod
-    def register_user(db: Session, *, email: str, password: str) -> User:
+    def register_user(db: Session, *, email: str, password: str, department: str | None = None) -> User:
         normalized_email = normalize_email(email)
         existing = db.scalar(select(User).where(User.email == normalized_email))
         if existing:
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email already registered")
 
-        user = User(email=normalized_email, password_hash=hash_password(password))
+        user = User(email=normalized_email, password_hash=hash_password(password), department=department)
         db.add(user)
         db.commit()
         return user

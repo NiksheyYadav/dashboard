@@ -62,7 +62,9 @@ class RequireRole:
     def __call__(self, auth: AuthContext = Depends(get_auth_context)) -> AuthContext:
         email = auth.user.email.lower()
         role = "faculty"
-        if "dean" in email:
+        if "admin" in email:
+            role = "admin"
+        elif "dean" in email:
             role = "dean"
         elif "hod" in email:
             role = "hod"

@@ -1,0 +1,53 @@
+# RBAC Overhaul — Walkthrough
+
+## What Was Done
+
+### 1. Auth Context — Coordinator Subtypes
+- Added `CoordinatorType` (`"placement" | "attendance" | "events"`) to [auth-context.tsx](file:///c:/eblock/src/lib/auth/auth-context.tsx)
+- Parses subtype from email (e.g. `placement.coord@` → `placement`)
+- Designation updates: "Placement Coordinator", "Attendance Coordinator", "Events Coordinator"
+
+### 2. Sidebar Navigation — Role Matrix
+Rewrote [constants.ts](file:///c:/eblock/src/lib/utils/constants.ts) with full RBAC filtering:
+- Coordinator sidebar items filtered by **subtype** (placement coord only sees Placement page, not Attendance/Events)
+- Dean/HOD see all data pages but no staff management
+- Faculty sees attendance, events, students, placement, forms, changelog
+- Admin sees everything
+
+### 3. Events Page (NEW)
+Created [events/page.tsx](file:///c:/eblock/src/app/(dashboard)/events/page.tsx):
+- Faculty/Coordinators can **book rooms** (event name, room, date, time slot)
+- Dean/HOD see all bookings **read-only**
+- Search, status badges, delete capability
+
+### 4. Backend Fixes
+- Added `department` field to [RegisterRequest](file:///c:/eblock/backend/app/modules/auth/schemas.py) schema
+- Wired `department` through the [register route handler](file:///c:/eblock/backend/app/modules/auth/router.py)
+- Fixed `date-fns` import in [staff/page.tsx](file:///c:/eblock/src/app/(dashboard)/staff/page.tsx) and [anonymous-messages/page.tsx](file:///c:/eblock/src/app/(dashboard)/anonymous-messages/page.tsx)
+
+### 5. Test Results
+All 7 accounts created and login successfully:
+
+```
+  [PASS] admin
+  [PASS] dean
+  [PASS] hod
+  [PASS] faculty
+  [PASS] coordinator (placement)
+  [PASS] coordinator (attendance)
+  [PASS] coordinator (events)
+```
+
+**31/35 API checks passed.** The 4 warnings are pre-existing backend bugs unrelated to RBAC.
+
+## Accounts Created
+
+| Email | Password | Role |
+|---|---|---|
+| `admin@sgtuniversity.edu` | `DemoPass123!` | Admin |
+| `dean@sgtuniversity.edu` | `DemoPass123!` | Dean |
+| `hod@sgtuniversity.edu` | `DemoPass123!` | HOD |
+| `faculty@sgtuniversity.edu` | `DemoPass123!` | Faculty |
+| `placement.coord@sgtuniversity.edu` | `DemoPass123!` | Placement Coordinator |
+| `attendance.coord@sgtuniversity.edu` | `DemoPass123!` | Attendance Coordinator |
+| `events.coord@sgtuniversity.edu` | `DemoPass123!` | Events Coordinator |

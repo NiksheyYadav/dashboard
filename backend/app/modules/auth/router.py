@@ -62,7 +62,7 @@ def _clear_auth_cookies(response: Response) -> None:
 
 @auth_router.post("/register", response_model=RegisterResponse, status_code=201)
 def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> RegisterResponse:
-    user = AuthService.register_user(db, email=payload.email, password=payload.password)
+    user = AuthService.register_user(db, email=payload.email, password=payload.password, department=payload.department)
     return RegisterResponse(id=str(user.id), email=user.email, status=user.status)
 
 
@@ -117,7 +117,7 @@ def logout(
 
 @auth_router.get("/me", response_model=MeResponse)
 def me(user: User = Depends(get_current_user)) -> MeResponse:
-    return MeResponse(id=str(user.id), email=user.email, status=user.status)
+    return MeResponse(id=str(user.id), email=user.email, status=user.status, department=user.department)
 
 
 @protected_router.get("/protected")

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 
 export type Theme = "light" | "dark" | "system";
 
@@ -21,38 +21,43 @@ function getSystemTheme(): "light" | "dark" {
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
+function getInitialTheme(): Theme {
+    if (typeof window === "undefined") return "light";
+    return (localStorage.getItem("edupulse_theme") as Theme | null) ?? "light";
+}
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setThemeState] = useState<Theme>("light");
-    const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("light");
+    const [theme, setThemeState] = useState<Theme>(getInitialTheme);
 
-    // Restore from localStorage
+    const resolvedTheme = useMemo<"light" | "dark">(() => {
+        return theme === "system" ? getSystemTheme() : theme;
+    }, [theme]);
+
+    const isFirstRender = useRef(true);
+
+    // Apply theme to DOM
     useEffect(() => {
-        const stored = localStorage.getItem("edupulse_theme") as Theme | null;
-        if (stored) {
-            setThemeState(stored);
+        // Skip the initial localStorage read since we handle it via getInitialTheme
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
         }
-    }, []);
-
-    // Apply theme
-    useEffect(() => {
-        const resolved = theme === "system" ? getSystemTheme() : theme;
-        setResolvedTheme(resolved);
 
         const root = document.documentElement;
-        if (resolved === "dark") {
+        if (resolvedTheme === "dark") {
             root.classList.add("dark");
         } else {
             root.classList.remove("dark");
         }
-    }, [theme]);
+    }, [resolvedTheme]);
 
     // Listen for system theme changes
     useEffect(() => {
         if (theme !== "system") return;
         const mq = window.matchMedia("(prefers-color-scheme: dark)");
         const handler = () => {
+            // Force a re-render by toggling theme state
+            setThemeState("system");
             const resolved = getSystemTheme();
-            setResolvedTheme(resolved);
             if (resolved === "dark") {
                 document.documentElement.classList.add("dark");
             } else {

@@ -8,10 +8,13 @@ import { COURSES, SEMESTERS } from "@/lib/utils/constants";
 import { ArrowLeft, Eye, Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
+
+let fieldCounter = 0;
 
 export default function CreateFormPage() {
     const router = useRouter();
+    const idCounter = useRef(fieldCounter++);
     const [mode, setMode] = useState<"edit" | "preview">("edit");
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -19,11 +22,11 @@ export default function CreateFormPage() {
     const [targetSemester, setTargetSemester] = useState<number | "all">("all");
     const [deadline, setDeadline] = useState("");
     const [fields, setFields] = useState<FormField[]>([
-        { id: `f-${Date.now()}`, type: "text", label: "", required: false },
+        { id: `f-${idCounter.current}`, type: "text", label: "", required: false },
     ]);
 
     const addField = () => {
-        setFields([...fields, { id: `f-${Date.now()}`, type: "text", label: "", required: false }]);
+        setFields([...fields, { id: `f-${++fieldCounter}`, type: "text", label: "", required: false }]);
     };
 
     const updateField = (index: number, updated: FormField) => {
@@ -199,7 +202,7 @@ export default function CreateFormPage() {
                         <div className="rounded-xl border border-blue-100 bg-blue-50/50 p-4 dark:border-blue-900/30 dark:bg-blue-950/20">
                             <h4 className="text-xs font-semibold text-gray-700 dark:text-gray-300">Tips</h4>
                             <ul className="mt-2 space-y-1 text-xs text-gray-600 dark:text-gray-400">
-                                <li>• Use "All Courses" to target everyone</li>
+                                <li>• Use &ldquo;All Courses&rdquo; to target everyone</li>
                                 <li>• Students see forms on their dashboard</li>
                                 <li>• Set a deadline to auto-close the form</li>
                                 <li>• Preview before publishing</li>
