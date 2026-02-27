@@ -218,10 +218,12 @@ export default function LoginPage() {
                     {/* Form */}
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
-                            <label className="mb-1.5 block text-sm font-medium text-gray-700">
+                            <label htmlFor="login-email" className="mb-1.5 block text-sm font-medium text-gray-700">
                                 Email
                             </label>
                             <input
+                                id="login-email"
+                                name="email"
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -231,7 +233,7 @@ export default function LoginPage() {
                         </div>
                         <div>
                             <div className="mb-1.5 flex items-center justify-between">
-                                <label className="text-sm font-medium text-gray-700">
+                                <label htmlFor="login-password" className="text-sm font-medium text-gray-700">
                                     Password
                                 </label>
                                 <button type="button" className="text-xs font-medium text-[#1a6fdb] hover:underline">
@@ -239,6 +241,8 @@ export default function LoginPage() {
                                 </button>
                             </div>
                             <input
+                                id="login-password"
+                                name="password"
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
