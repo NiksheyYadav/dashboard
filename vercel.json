@@ -1,10 +1,17 @@
 {
-    "functions": {
-        "backend/api/index.py": {
-            "runtime": "@vercel/python",
-            "maxDuration": 30
+    "builds": [
+        {
+            "src": "backend/api/index.py",
+            "use": "@vercel/python",
+            "config": {
+                "maxDuration": 30
+            }
+        },
+        {
+            "src": "package.json",
+            "use": "@vercel/next"
         }
-    },
+    ],
     "routes": [
         {
             "src": "/api/v1/(.*)",
@@ -15,17 +22,22 @@
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,PATCH,OPTIONS",
                 "Access-Control-Allow-Headers": "Content-Type,Authorization,X-Request-ID",
-                "Access-Control-Allow-Credentials": "true"
+                "Access-Control-Allow-Credentials": "true",
+                "Access-Control-Max-Age": "86400"
             },
             "status": 204
         },
         {
             "src": "/api/v1/(.*)",
-            "dest": "/backend/api/index.py"
+            "dest": "backend/api/index.py"
         },
         {
             "src": "/health",
-            "dest": "/backend/api/index.py"
+            "dest": "backend/api/index.py"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/$1"
         }
     ]
 }
