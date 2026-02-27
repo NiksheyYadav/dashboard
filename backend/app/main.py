@@ -59,21 +59,50 @@ def health_check() -> dict[str, str]:
 
 @app.on_event("startup")
 async def create_tables() -> None:
-    """Ensure anonymous_messages table exists on startup."""
-    from sqlalchemy import text
-    from app.db.session import SessionLocal
+    """Ensure all database tables exist and seed demo users on startup."""
+    from app.db.base import Base
+    from app.db.session import engine, SessionLocal
+    import app.models  # noqa: F401
+    
+    # 1. Create all tables
     try:
-        db = SessionLocal()
-        db.execute(text("""
-            CREATE TABLE IF NOT EXISTS anonymous_messages (
-                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                message TEXT NOT NULL,
-                status VARCHAR(20) NOT NULL DEFAULT 'UNREAD',
-                created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-            )
-        """))
-        db.commit()
-        db.close()
-        logger.info("anonymous_messages table ready")
+        # This will create all tables defined in models that don't exist yet
+        Base.metadata.create_all(bind=engine)
+        logger.info("Database tables initialized successfully")
     except Exception:
-        logger.warning("Could not auto-create anonymous_messages table", exc_info=True)
+        logger.exception("Could not initialize database tables")
+        
+    # 2. Seed demo users
+    from app.modules.auth.service import AuthService
+    from fastapi import HTTPException
+    
+    demo_users = [
+        {"email": "admin@sgtuniversity.edu", "password": "DemoPass123!", "department": "Administration"},
+        {"email": "dean@sgtuniversity.edu", "password": "DemoPass123!", "department": "All"},
+        {"email": "hod@sgtuniversity.edu", "password": "DemoPass123!", "department": "B.Tech CS"},
+        {"email": "hod_it@sgtuniversity.edu", "password": "DemoPass123!", "department": "B.Tech IT"},
+        {"email": "coordinator@sgtuniversity.edu", "password": "DemoPass123!", "department": "B.Tech CS"},
+        {"email": "faculty@sgtuniversity.edu", "password": "DemoPass123!", "department": "B.Tech CS"},
+    ]
+    
+    db = SessionLocal()
+    try:
+        for user_data in demo_users:
+            try:
+                AuthService.register_user(
+                    db, 
+                    email=user_data["email"], 
+                    password=user_data["password"],
+                    department=user_data["department"]
+                )
+                logger.info(f"Seed: Created user {user_data['email']}")
+            except HTTPException as exc:
+                if exc.status_code == 409:
+                    # User already exists
+                    continue
+                logger.error(f"Seed: Failed to create user {user_data['email']}: {exc.detail}")
+            except Exception:
+                logger.exception(f"Seed: Unexpected error creating user {user_data['email']}")
+        db.commit()
+    finally:
+        db.close()
