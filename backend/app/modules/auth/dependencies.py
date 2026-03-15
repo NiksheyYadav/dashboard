@@ -20,8 +20,10 @@ class AuthContext:
         self.session = session
 
 
+from typing import Optional
+
 def get_auth_context(
-    credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(bearer_scheme),
     db: Session = Depends(get_db),
 ) -> AuthContext:
     if not credentials:

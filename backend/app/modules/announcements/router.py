@@ -30,7 +30,7 @@ class AnnouncementOut(BaseModel):
     author: str
     authorRole: str
     targetCourse: str
-    targetSemester: str | int
+    targetSemester: Union[str, int]
     createdAt: str
     priority: str
 
@@ -58,10 +58,12 @@ def _to_out(a: Announcement) -> dict:
     }
 
 
+from typing import Optional, Union
+
 @announcements_router.get("")
 def list_announcements(
-    course: str | None = None,
-    semester: str | None = None,
+    course: Optional[str] = None,
+    semester: Optional[str] = None,
     db: Session = Depends(get_db),
 ):
     query = db.query(Announcement).order_by(Announcement.created_at.desc())

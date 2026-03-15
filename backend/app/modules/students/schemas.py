@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 
@@ -6,19 +7,19 @@ class StudentCreate(BaseModel):
     rollNo: str
     course: str
     semester: int
-    email: str | None = None
-    phone: str | None = None
+    email: Optional[str] = None
+    phone: Optional[str] = None
 
 
 class StudentUpdate(BaseModel):
-    name: str | None = None
-    course: str | None = None
-    semester: int | None = None
-    email: str | None = None
-    phone: str | None = None
-    cv_status: str | None = None
-    attendance_percent: float | None = None
-    status: str | None = None
+    name: Optional[str] = None
+    course: Optional[str] = None
+    semester: Optional[int] = None
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    cv_status: Optional[str] = None
+    attendance_percent: Optional[float] = None
+    status: Optional[str] = None
 
 
 class StudentResponse(BaseModel):
@@ -30,8 +31,8 @@ class StudentResponse(BaseModel):
     cvStatus: str
     attendancePercent: float
     semester: int
-    email: str | None = None
-    phone: str | None = None
+    email: Optional[str] = None
+    phone: Optional[str] = None
     status: str
 
 
