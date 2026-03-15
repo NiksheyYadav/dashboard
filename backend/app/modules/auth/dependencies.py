@@ -1,3 +1,4 @@
+from typing import Optional
 from uuid import UUID
 
 from fastapi import Depends, HTTPException, status
@@ -18,9 +19,6 @@ class AuthContext:
     def __init__(self, *, user: User, session: UserSession) -> None:
         self.user = user
         self.session = session
-
-
-from typing import Optional
 
 def get_auth_context(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(bearer_scheme),

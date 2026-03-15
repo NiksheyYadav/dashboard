@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime, timezone
+from typing import Optional, Union
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
@@ -57,8 +58,6 @@ def _to_out(a: Announcement) -> dict:
         "priority": a.priority,
     }
 
-
-from typing import Optional, Union
 
 @announcements_router.get("")
 def list_announcements(
