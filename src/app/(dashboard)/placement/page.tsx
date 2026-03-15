@@ -1,14 +1,22 @@
-"use client";
+﻿"use client";
 
+import { useState, useRef, useCallback } from "react";
 import {
     Award,
     Banknote,
     Calendar,
     CheckCircle2,
     ChevronDown,
+    Download,
+    FileSpreadsheet,
+    Loader2,
     Percent,
     Plus,
-    Users
+    Upload,
+    Users,
+    X,
+    AlertCircle,
+    FileUp,
 } from "lucide-react";
 
 import {
@@ -21,6 +29,12 @@ import {
     YAxis,
 } from "recharts";
 
+import {
+    downloadPlacementTemplate,
+    uploadPlacementData,
+} from "@/lib/api/placement-upload";
+import type { PlacementUploadResponse } from "@/lib/types/placement-upload";
+
 // Mock data components can go here
 
 const TREND_DATA = [
@@ -32,7 +46,67 @@ const TREND_DATA = [
     { name: "Jun", lastYear: 240, thisYear: 280 },
 ];
 
+type UploadState = "idle" | "uploading" | "success" | "error";
+
 export default function PlacementDashboard() {
+    const [showUploadDialog, setShowUploadDialog] = useState(false);
+    const [uploadState, setUploadState] = useState<UploadState>("idle");
+    const [uploadResult, setUploadResult] = useState<PlacementUploadResponse | null>(null);
+    const [uploadError, setUploadError] = useState<string>("");
+    const [dragOver, setDragOver] = useState(false);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleFile = useCallback((file: File) => {
+        const ext = file.name.toLowerCase();
+        if (!ext.endsWith(".csv") && !ext.endsWith(".xlsx")) {
+            setUploadError("Only .csv and .xlsx files are supported");
+            setUploadState("error");
+            return;
+        }
+        setSelectedFile(file);
+        setUploadError("");
+        setUploadState("idle");
+    }, []);
+
+    const handleDrop = useCallback(
+        (e: React.DragEvent) => {
+            e.preventDefault();
+            setDragOver(false);
+            const file = e.dataTransfer.files[0];
+            if (file) handleFile(file);
+        },
+        [handleFile]
+    );
+
+    const handleUpload = async () => {
+        if (!selectedFile) return;
+        setUploadState("uploading");
+        setUploadError("");
+
+        try {
+            const result = await uploadPlacementData(selectedFile);
+            setUploadResult(result);
+            setUploadState("success");
+        } catch (err) {
+            setUploadError(err instanceof Error ? err.message : "Upload failed");
+            setUploadState("error");
+        }
+    };
+
+    const resetUpload = () => {
+        setSelectedFile(null);
+        setUploadState("idle");
+        setUploadResult(null);
+        setUploadError("");
+        if (fileInputRef.current) fileInputRef.current.value = "";
+    };
+
+    const closeDialog = () => {
+        setShowUploadDialog(false);
+        resetUpload();
+    };
+
     return (
         <div className="flex flex-col gap-6 w-full max-w-7xl mx-auto">
             {/* Header Section */}
@@ -55,6 +129,208 @@ export default function PlacementDashboard() {
                     </button>
                 </div>
             </div>
+
+            {/* ===== Data Upload Section ===== */}
+            <div className="bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50 dark:from-blue-950/30 dark:via-indigo-950/20 dark:to-blue-950/30 rounded-xl p-6 border border-blue-100 dark:border-blue-900/50 shadow-sm">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div className="flex items-center gap-3">
+                        <div className="bg-white dark:bg-gray-900 p-2.5 rounded-lg border border-blue-100 dark:border-blue-800/50 shadow-sm">
+                            <FileSpreadsheet className="h-5 w-5 text-[#1a6fdb]" />
+                        </div>
+                        <div>
+                            <h2 className="text-base font-bold text-gray-900 dark:text-white">Placement Data Upload</h2>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                Upload student placement records in the standardized template format
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-2.5">
+                        <button
+                            onClick={downloadPlacementTemplate}
+                            id="download-template-btn"
+                            className="flex items-center gap-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all shadow-sm hover:shadow group"
+                        >
+                            <Download className="h-4 w-4 text-gray-400 group-hover:text-[#1a6fdb] transition-colors" />
+                            <span>Template</span>
+                        </button>
+                        <button
+                            onClick={() => setShowUploadDialog(true)}
+                            id="upload-data-btn"
+                            className="flex items-center gap-2 bg-[#1a6fdb] hover:bg-blue-700 text-white rounded-lg px-4 py-2.5 text-sm font-medium transition-all shadow-sm hover:shadow-md"
+                        >
+                            <Upload className="h-4 w-4" />
+                            <span>Upload Data</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* ===== Upload Dialog Modal ===== */}
+            {showUploadDialog && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center">
+                    <div
+                        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+                        onClick={closeDialog}
+                    />
+                    <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800 w-full max-w-lg mx-4 overflow-hidden animate-fade-in">
+                        {/* Dialog header */}
+                        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-800">
+                            <div className="flex items-center gap-2.5">
+                                <div className="bg-blue-50 dark:bg-blue-900/30 p-2 rounded-lg">
+                                    <FileUp className="h-4 w-4 text-[#1a6fdb]" />
+                                </div>
+                                <h3 className="text-base font-bold text-gray-900 dark:text-white">Upload Placement Data</h3>
+                            </div>
+                            <button
+                                onClick={closeDialog}
+                                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                            >
+                                <X className="h-5 w-5" />
+                            </button>
+                        </div>
+
+                        {/* Dialog body */}
+                        <div className="px-6 py-5">
+                            {uploadState === "success" && uploadResult ? (
+                                /* Success state */
+                                <div className="text-center py-4">
+                                    <div className="mx-auto w-14 h-14 bg-emerald-50 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mb-4">
+                                        <CheckCircle2 className="h-7 w-7 text-emerald-500" />
+                                    </div>
+                                    <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Upload Successful!</h4>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">Your placement data has been processed.</p>
+                                    <div className="grid grid-cols-3 gap-3 mb-5">
+                                        <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-lg p-3 border border-emerald-100 dark:border-emerald-800/50">
+                                            <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{uploadResult.processed}</p>
+                                            <p className="text-[10px] font-semibold text-emerald-500 uppercase tracking-wide mt-1">Processed</p>
+                                        </div>
+                                        <div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-3 border border-orange-100 dark:border-orange-800/50">
+                                            <p className="text-2xl font-bold text-orange-600 dark:text-orange-400">{uploadResult.skipped}</p>
+                                            <p className="text-[10px] font-semibold text-orange-500 uppercase tracking-wide mt-1">Skipped</p>
+                                        </div>
+                                        <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-3 border border-red-100 dark:border-red-800/50">
+                                            <p className="text-2xl font-bold text-red-600 dark:text-red-400">{uploadResult.errors.length}</p>
+                                            <p className="text-[10px] font-semibold text-red-500 uppercase tracking-wide mt-1">Errors</p>
+                                        </div>
+                                    </div>
+                                    {uploadResult.errors.length > 0 && (
+                                        <div className="bg-red-50 dark:bg-red-900/10 rounded-lg p-3 border border-red-100 dark:border-red-800/50 mb-4 text-left max-h-32 overflow-y-auto">
+                                            {uploadResult.errors.map((err, i) => (
+                                                <p key={i} className="text-xs text-red-600 dark:text-red-400 mb-1">
+                                                    Row {err.row}: {err.message}
+                                                </p>
+                                            ))}
+                                        </div>
+                                    )}
+                                    <button
+                                        onClick={closeDialog}
+                                        className="w-full bg-[#1a6fdb] hover:bg-blue-700 text-white rounded-lg px-4 py-2.5 text-sm font-medium transition-colors"
+                                    >
+                                        Done
+                                    </button>
+                                </div>
+                            ) : (
+                                /* Upload area */
+                                <>
+                                    <div
+                                        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+                                        onDragLeave={() => setDragOver(false)}
+                                        onDrop={handleDrop}
+                                        onClick={() => fileInputRef.current?.click()}
+                                        className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all ${dragOver
+                                            ? "border-[#1a6fdb] bg-blue-50/80 dark:bg-blue-900/20"
+                                            : selectedFile
+                                                ? "border-emerald-300 bg-emerald-50/50 dark:border-emerald-700 dark:bg-emerald-900/10"
+                                                : "border-gray-200 dark:border-gray-700 hover:border-[#1a6fdb] hover:bg-gray-50 dark:hover:bg-gray-800/50"
+                                            }`}
+                                    >
+                                        <input
+                                            ref={fileInputRef}
+                                            type="file"
+                                            accept=".csv,.xlsx"
+                                            className="hidden"
+                                            id="placement-file-input"
+                                            onChange={(e) => {
+                                                const file = e.target.files?.[0];
+                                                if (file) handleFile(file);
+                                            }}
+                                        />
+                                        {selectedFile ? (
+                                            <div className="flex flex-col items-center gap-2">
+                                                <div className="bg-emerald-100 dark:bg-emerald-900/30 p-3 rounded-full">
+                                                    <FileSpreadsheet className="h-6 w-6 text-emerald-500" />
+                                                </div>
+                                                <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedFile.name}</p>
+                                                <p className="text-xs text-gray-400">{(selectedFile.size / 1024).toFixed(1)} KB</p>
+                                                <button
+                                                    onClick={(e) => { e.stopPropagation(); resetUpload(); }}
+                                                    className="text-xs text-red-500 hover:text-red-600 font-medium mt-1"
+                                                >
+                                                    Remove file
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div className="flex flex-col items-center gap-2">
+                                                <div className="bg-gray-100 dark:bg-gray-800 p-3 rounded-full">
+                                                    <Upload className="h-6 w-6 text-gray-400" />
+                                                </div>
+                                                <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                                                    Drop your file here or <span className="text-[#1a6fdb] font-semibold">browse</span>
+                                                </p>
+                                                <p className="text-xs text-gray-400 dark:text-gray-500">Supports .csv and .xlsx files</p>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Error state */}
+                                    {uploadState === "error" && uploadError && (
+                                        <div className="mt-3 flex items-center gap-2 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800/50 rounded-lg px-3 py-2.5">
+                                            <AlertCircle className="h-4 w-4 text-red-500 flex-shrink-0" />
+                                            <p className="text-xs text-red-600 dark:text-red-400">{uploadError}</p>
+                                        </div>
+                                    )}
+
+                                    {/* Info */}
+                                    <div className="mt-4 flex items-start gap-2 bg-blue-50 dark:bg-blue-900/10 rounded-lg px-3 py-2.5 border border-blue-100 dark:border-blue-800/30">
+                                        <FileSpreadsheet className="h-4 w-4 text-[#1a6fdb] flex-shrink-0 mt-0.5" />
+                                        <p className="text-xs text-gray-600 dark:text-gray-400">
+                                            Use the <button onClick={(e) => { e.stopPropagation(); downloadPlacementTemplate(); }} className="text-[#1a6fdb] font-semibold hover:underline">Template</button> to ensure your data is in the correct format with all required columns.
+                                        </p>
+                                    </div>
+
+                                    {/* Upload button */}
+                                    <div className="mt-5 flex gap-3">
+                                        <button
+                                            onClick={closeDialog}
+                                            className="flex-1 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            onClick={handleUpload}
+                                            disabled={!selectedFile || uploadState === "uploading"}
+                                            id="submit-upload-btn"
+                                            className="flex-1 flex items-center justify-center gap-2 bg-[#1a6fdb] hover:bg-blue-700 disabled:bg-gray-300 dark:disabled:bg-gray-700 disabled:cursor-not-allowed text-white rounded-lg px-4 py-2.5 text-sm font-medium transition-colors"
+                                        >
+                                            {uploadState === "uploading" ? (
+                                                <>
+                                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                                    <span>Uploading...</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Upload className="h-4 w-4" />
+                                                    <span>Upload</span>
+                                                </>
+                                            )}
+                                        </button>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Top Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -371,7 +647,7 @@ export default function PlacementDashboard() {
                                 </div>
                                 <div>
                                     <h4 className="text-sm font-semibold text-gray-900 dark:text-white">Marcus J. Thorne</h4>
-                                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">CS-2024-0421 • CGPA 9.2</p>
+                                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">CS-2024-0421 â€¢ CGPA 9.2</p>
                                 </div>
                             </div>
                             <div className="text-right">
@@ -388,7 +664,7 @@ export default function PlacementDashboard() {
                                 </div>
                                 <div>
                                     <h4 className="text-sm font-semibold text-gray-900 dark:text-white">Sarah Al-Zayed</h4>
-                                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">IT-2024-0118 • CGPA 8.8</p>
+                                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">IT-2024-0118 â€¢ CGPA 8.8</p>
                                 </div>
                             </div>
                             <div className="text-right">
@@ -405,7 +681,7 @@ export default function PlacementDashboard() {
                                 </div>
                                 <div>
                                     <h4 className="text-sm font-semibold text-gray-900 dark:text-white">Rohan Deshmukh</h4>
-                                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">ME-2024-0056 • CGPA 8.4</p>
+                                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">ME-2024-0056 â€¢ CGPA 8.4</p>
                                 </div>
                             </div>
                             <div className="text-right">
@@ -422,7 +698,7 @@ export default function PlacementDashboard() {
                                 </div>
                                 <div>
                                     <h4 className="text-sm font-semibold text-gray-900 dark:text-white">Elena Gilbert</h4>
-                                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">EC-2024-0922 • CGPA 9.0</p>
+                                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">EC-2024-0922 â€¢ CGPA 9.0</p>
                                 </div>
                             </div>
                             <div className="text-right">
@@ -463,4 +739,3 @@ export default function PlacementDashboard() {
         </div>
     );
 }
-

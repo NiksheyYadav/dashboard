@@ -10,6 +10,7 @@ from app.middleware.request_id import RequestIdMiddleware
 from app.modules.auth.router import auth_router, protected_router
 from app.modules.insights.router import insights_router
 from app.modules.messages.router import messages_router
+from app.modules.placement.router import placement_router
 from app.modules.students.router import students_router
 from app.modules.users.router import users_router
 from app.utils.exceptions import AppException
@@ -38,6 +39,7 @@ app.include_router(protected_router, prefix=settings.api_v1_prefix)
 app.include_router(insights_router, prefix=settings.api_v1_prefix)
 app.include_router(students_router, prefix=settings.api_v1_prefix)
 app.include_router(messages_router, prefix=settings.api_v1_prefix)
+app.include_router(placement_router, prefix=settings.api_v1_prefix)
 app.include_router(users_router, prefix=settings.api_v1_prefix)
 
 
