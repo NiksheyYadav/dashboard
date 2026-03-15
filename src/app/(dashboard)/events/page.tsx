@@ -2,18 +2,20 @@
 
 import RequireRole from "@/components/providers/RequireRole";
 import { useAuth } from "@/lib/auth/auth-context";
+import { API_BASE_URL } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
 import {
     CalendarDays,
     Clock,
     DoorOpen,
+    Loader2,
     MapPin,
     Plus,
     Search,
     Trash2,
     X,
 } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface EventBooking {
     id: string;
@@ -45,17 +47,10 @@ const ROOMS = [
     "Computer Lab 1", "Computer Lab 2",
 ];
 
-const MOCK_EVENTS: EventBooking[] = [
-    { id: "1", eventName: "Faculty Development Program", roomNumber: "Auditorium A", date: "2026-03-01", timeSlot: "10:00 AM - 12:00 PM", bookedBy: "faculty@sgtuniversity.edu", status: "confirmed" },
-    { id: "2", eventName: "Guest Lecture - AI Ethics", roomNumber: "E-201", date: "2026-03-03", timeSlot: "2:00 PM - 3:00 PM", bookedBy: "faculty@sgtuniversity.edu", status: "pending" },
-    { id: "3", eventName: "Placement Drive", roomNumber: "Seminar Hall", date: "2026-03-05", timeSlot: "9:00 AM - 4:00 PM", bookedBy: "placement.coord@sgtuniversity.edu", status: "confirmed" },
-];
-
-let eventIdCounter = 100;
-
 function EventsContent() {
     const { user, role } = useAuth();
-    const [events, setEvents] = useState<EventBooking[]>(MOCK_EVENTS);
+    const [events, setEvents] = useState<EventBooking[]>([]);
+    const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -67,36 +62,80 @@ function EventsContent() {
 
     const isReadOnly = role === "dean" || role === "hod";
 
-    const handleCreate = () => {
+    const fetchEvents = useCallback(async () => {
+        try {
+            const token = localStorage.getItem("edupulse_auth_token");
+            const params = new URLSearchParams();
+            if (searchQuery) params.set("search", searchQuery);
+            const res = await fetch(`${API_BASE_URL}/events?${params.toString()}`, {
+                credentials: "include",
+                headers: {
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setEvents(data);
+            }
+        } catch {
+            // keep current state
+        } finally {
+            setLoading(false);
+        }
+    }, [searchQuery]);
+
+    useEffect(() => {
+        void fetchEvents();
+    }, [fetchEvents]);
+
+    const handleCreate = async () => {
         if (!eventName.trim() || !roomNumber || !date || !timeSlot) return;
 
-        const newEvent: EventBooking = {
-            id: String(++eventIdCounter),
-            eventName: eventName.trim(),
-            roomNumber,
-            date,
-            timeSlot,
-            bookedBy: user?.email || "unknown",
-            status: "pending",
-        };
+        try {
+            const token = localStorage.getItem("edupulse_auth_token");
+            const res = await fetch(`${API_BASE_URL}/events`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+                body: JSON.stringify({
+                    eventName: eventName.trim(),
+                    roomNumber,
+                    date,
+                    timeSlot,
+                }),
+            });
 
-        setEvents([newEvent, ...events]);
-        setEventName("");
-        setRoomNumber("");
-        setDate("");
-        setTimeSlot("");
-        setShowForm(false);
+            if (res.ok) {
+                setEventName("");
+                setRoomNumber("");
+                setDate("");
+                setTimeSlot("");
+                setShowForm(false);
+                void fetchEvents();
+            }
+        } catch {
+            // handle error silently
+        }
     };
 
-    const handleDelete = (id: string) => {
-        setEvents(events.filter((e) => e.id !== id));
+    const handleDelete = async (id: string) => {
+        try {
+            const token = localStorage.getItem("edupulse_auth_token");
+            await fetch(`${API_BASE_URL}/events/${id}`, {
+                method: "DELETE",
+                credentials: "include",
+                headers: {
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+            });
+            void fetchEvents();
+        } catch {
+            // handle error silently
+        }
     };
-
-    const filteredEvents = events.filter(
-        (e) =>
-            e.eventName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            e.roomNumber.toLowerCase().includes(searchQuery.toLowerCase())
-    );
 
     const statusColors: Record<string, string> = {
         confirmed: "bg-emerald-50 text-emerald-700 ring-emerald-600/20 dark:bg-emerald-500/10 dark:text-emerald-400",
@@ -231,7 +270,13 @@ function EventsContent() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                            {filteredEvents.length === 0 ? (
+                            {loading ? (
+                                <tr>
+                                    <td colSpan={isReadOnly ? 6 : 7} className="px-6 py-12 text-center">
+                                        <Loader2 className="mx-auto h-6 w-6 animate-spin text-[#1a6fdb]" />
+                                    </td>
+                                </tr>
+                            ) : events.length === 0 ? (
                                 <tr>
                                     <td colSpan={isReadOnly ? 6 : 7} className="px-6 py-12 text-center">
                                         <div className="flex flex-col items-center justify-center text-gray-500 dark:text-gray-400">
@@ -244,7 +289,7 @@ function EventsContent() {
                                     </td>
                                 </tr>
                             ) : (
-                                filteredEvents.map((event) => (
+                                events.map((event) => (
                                     <tr
                                         key={event.id}
                                         className="transition-colors hover:bg-gray-50 dark:hover:bg-gray-900/50"

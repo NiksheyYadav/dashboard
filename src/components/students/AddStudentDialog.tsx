@@ -174,7 +174,7 @@ export default function AddStudentDialog({
                             type="email"
                             value={formData.email}
                             onChange={handleChange}
-                            placeholder="e.g. aarav.sharma@sgtuniversity.edu"
+                            placeholder="e.g. aarav.sharma@sgtuniversity.org"
                             className="h-10 w-full rounded-lg border border-gray-200 px-3 text-sm outline-none focus:border-[#1a6fdb] focus:ring-2 focus:ring-[#1a6fdb]/10"
                         />
                     </div>

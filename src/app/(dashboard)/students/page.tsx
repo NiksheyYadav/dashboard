@@ -15,6 +15,7 @@ import {
     Plus,
     Search,
 } from "lucide-react";
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 const ITEMS_PER_PAGE = 5;
@@ -278,10 +279,13 @@ export default function StudentsPage() {
 
                                         {/* Actions */}
                                         <td className="px-5 py-4">
-                                            <button className="flex items-center gap-1.5 rounded-lg border border-[#1a6fdb] px-3 py-1.5 text-xs font-semibold text-[#1a6fdb] transition-colors hover:bg-[#1a6fdb] hover:text-white">
+                                            <Link
+                                                href={`/students/${student.id}`}
+                                                className="flex items-center gap-1.5 rounded-lg border border-[#1a6fdb] px-3 py-1.5 text-xs font-semibold text-[#1a6fdb] transition-colors hover:bg-[#1a6fdb] hover:text-white"
+                                            >
                                                 <Eye className="h-3.5 w-3.5" />
                                                 View Profile
-                                            </button>
+                                            </Link>
                                         </td>
                                     </tr>
                                 ))

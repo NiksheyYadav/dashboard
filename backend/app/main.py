@@ -7,7 +7,9 @@ from fastapi.responses import JSONResponse
 from app.core.config import get_settings
 from app.core.logging import configure_logging
 from app.middleware.request_id import RequestIdMiddleware
+from app.modules.announcements.router import announcements_router
 from app.modules.auth.router import auth_router, protected_router
+from app.modules.events.router import events_router
 from app.modules.insights.router import insights_router
 from app.modules.messages.router import messages_router
 from app.modules.placement.router import placement_router
@@ -41,6 +43,8 @@ app.include_router(students_router, prefix=settings.api_v1_prefix)
 app.include_router(messages_router, prefix=settings.api_v1_prefix)
 app.include_router(placement_router, prefix=settings.api_v1_prefix)
 app.include_router(users_router, prefix=settings.api_v1_prefix)
+app.include_router(announcements_router, prefix=settings.api_v1_prefix)
+app.include_router(events_router, prefix=settings.api_v1_prefix)
 
 
 @app.exception_handler(AppException)
@@ -90,12 +94,12 @@ async def create_tables() -> None:
     from fastapi import HTTPException
     
     demo_users = [
-        {"email": "admin@sgtuniversity.edu", "password": "DemoPass123!", "department": "Administration"},
-        {"email": "dean@sgtuniversity.edu", "password": "DemoPass123!", "department": "All"},
-        {"email": "hod@sgtuniversity.edu", "password": "DemoPass123!", "department": "B.Tech CS"},
-        {"email": "hod_it@sgtuniversity.edu", "password": "DemoPass123!", "department": "B.Tech IT"},
-        {"email": "coordinator@sgtuniversity.edu", "password": "DemoPass123!", "department": "B.Tech CS"},
-        {"email": "faculty@sgtuniversity.edu", "password": "DemoPass123!", "department": "B.Tech CS"},
+        {"email": "admin@sgtuniversity.org", "password": "DemoPass123!", "department": "Administration"},
+        {"email": "dean@sgtuniversity.org", "password": "DemoPass123!", "department": "All"},
+        {"email": "hod@sgtuniversity.org", "password": "DemoPass123!", "department": "B.Tech CS"},
+        {"email": "hod_it@sgtuniversity.org", "password": "DemoPass123!", "department": "B.Tech IT"},
+        {"email": "coordinator@sgtuniversity.org", "password": "DemoPass123!", "department": "B.Tech CS"},
+        {"email": "faculty@sgtuniversity.org", "password": "DemoPass123!", "department": "B.Tech CS"},
     ]
     
     db = SessionLocal()

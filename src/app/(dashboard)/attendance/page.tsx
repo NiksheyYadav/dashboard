@@ -38,16 +38,18 @@ export default function AttendancePage() {
     }, []);
 
     const handleUploadAndProcess = () => {
-        // TODO: Call bulk upload API
-        console.log("[MOCK] Processing files:", files);
+        // TODO: Call bulk upload API when backend endpoint is ready
         setFiles((prev) =>
             prev.map((f) => ({ ...f, status: "done" as const }))
         );
     };
 
     const handleDownloadSample = () => {
-        const csvContent =
-            "Student_ID,Date (YYYY-MM-DD),Course_ID,Status\nCS20210042,2026-01-15,CS101,Present\nME20220158,2026-01-15,ME201,Absent";
+        const lectureHeaders = Array.from({ length: 30 }, (_, i) => `Lecture ${i + 1}`);
+        const headers = ["Name", "Roll No.", ...lectureHeaders];
+        const sampleRow1 = ["Aarav Sharma", "CS20210042", ...Array(30).fill("")];
+        const sampleRow2 = ["Priya Patel", "CS20210088", ...Array(30).fill("")];
+        const csvContent = [headers.join(","), sampleRow1.join(","), sampleRow2.join(",")].join("\n");
         const blob = new Blob([csvContent], { type: "text/csv" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -90,9 +92,8 @@ export default function AttendancePage() {
                                 Need the correct format?
                             </p>
                             <p className="text-xs text-gray-500">
-                                Download our sample CSV template to ensure your records match
-                                the required system schema (Student ID, Date, Course Code,
-                                Status).
+                                Download our sample CSV template — columns: Name, Roll No.,
+                                and Lecture 1 through Lecture 30.
                             </p>
                         </div>
                     </div>
@@ -152,7 +153,7 @@ export default function AttendancePage() {
                         iconColor="text-blue-600"
                         iconBg="bg-blue-50"
                         title="Column Headers"
-                        description="Ensure headers match exactly: Student_ID, Date (YYYY-MM-DD), Course_ID, and Status."
+                        description="Ensure headers match: Name, Roll No., Lecture 1 through Lecture 30."
                     />
                     <ValidationInfoCard
                         icon={AlertCircle}

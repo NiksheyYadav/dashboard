@@ -1,7 +1,7 @@
 "use client";
 
-import { MOCK_FORMS, MOCK_FORM_RESPONSES } from "@/lib/data/mock-data";
 import { cn } from "@/lib/utils";
+import { FormDefinition } from "@/lib/types/form";
 import {
     CalendarClock,
     CheckCircle2,
@@ -13,7 +13,9 @@ import {
 import Link from "next/link";
 
 export default function FormsPage() {
-    const forms = MOCK_FORMS;
+    // Forms will be fetched from API once the forms backend is built
+    const forms: FormDefinition[] = [];
+    const responseCounts: Record<string, number> = {};
 
     return (
         <div className="animate-slide-up space-y-6">
@@ -43,7 +45,7 @@ export default function FormsPage() {
             ) : (
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
                     {forms.map((form) => {
-                        const responses = MOCK_FORM_RESPONSES.filter((r) => r.formId === form.id);
+                        const responseCount = responseCounts[form.id] ?? 0;
                         const isExpired = new Date(form.deadline) < new Date();
 
                         return (
@@ -80,7 +82,7 @@ export default function FormsPage() {
                                         <div className="flex items-center gap-4 text-xs text-gray-400 dark:text-gray-500">
                                             <span className="flex items-center gap-1">
                                                 <Users className="h-3 w-3" />
-                                                {responses.length} responses
+                                                {responseCount} responses
                                             </span>
                                             <span className="flex items-center gap-1">
                                                 <ClipboardList className="h-3 w-3" />

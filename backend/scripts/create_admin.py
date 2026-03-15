@@ -14,14 +14,14 @@ def main():
             f.write("Attempting to create admin user...\n")
             user = AuthService.register_user(
                 session, 
-                email="admin@sgtuniversity.edu", 
+                email="admin@sgtuniversity.org", 
                 password="DemoPass123!",
                 department="Administration"
             )
             f.write(f"Success! Created admin account (id={user.id})\n")
         except HTTPException as exc:
             if exc.status_code == 409:
-                f.write("admin@sgtuniversity.edu already exists.\n")
+                f.write("admin@sgtuniversity.org already exists.\n")
             else:
                 f.write(f"HTTPException: {exc.detail}\n")
         except Exception as e:

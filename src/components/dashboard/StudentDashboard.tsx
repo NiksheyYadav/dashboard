@@ -5,19 +5,22 @@ import StatCard from "@/components/dashboard/StatCard";
 import WeeklyTrendChart from "@/components/dashboard/WeeklyTrendChart";
 import FormFill from "@/components/forms/FormFill";
 import { useAuth } from "@/lib/auth/auth-context";
-import { MOCK_ANNOUNCEMENTS, MOCK_FORMS, MOCK_WEEKLY_TREND } from "@/lib/data/mock-data";
+import { API_BASE_URL } from "@/lib/api/client";
+import { getWeeklyTrend } from "@/lib/api/attendance";
+import { Announcement } from "@/lib/types/announcement";
+import { FormDefinition } from "@/lib/types/form";
+import { WeeklyTrendData } from "@/lib/types/attendance";
 import {
     CalendarCheck,
     CheckCircle2,
-    ClipboardList,
     Clock,
     FileText,
     Upload,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-// Mock stats for student
+// Mock stats for student (will be replaced when student profile API is ready)
 const STUDENT_STATS = {
     attendancePercent: 92.4,
     attendanceTrend: 1.8,
@@ -37,17 +40,39 @@ const UPCOMING_CLASSES = [
 export default function StudentDashboard() {
     const { user } = useAuth();
     const [activeFormId, setActiveFormId] = useState<string | null>(null);
+    const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+    const [weeklyTrend, setWeeklyTrend] = useState<WeeklyTrendData[]>([]);
+    const [pendingForms] = useState<FormDefinition[]>([]);
 
-    // Filter announcements and forms targeted to this student
-    const studentAnnouncements = MOCK_ANNOUNCEMENTS.filter(
-        (a) => a.targetCourse === "all" || a.targetCourse === user?.department
-    ).slice(0, 3);
+    useEffect(() => {
+        async function loadData() {
+            try {
+                const token = localStorage.getItem("edupulse_auth_token");
+                const [annRes, wt] = await Promise.all([
+                    fetch(`${API_BASE_URL}/announcements`, {
+                        credentials: "include",
+                        headers: {
+                            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                        },
+                    }),
+                    getWeeklyTrend(),
+                ]);
+                if (annRes.ok) {
+                    const data = await annRes.json();
+                    const filtered = (data as Announcement[]).filter(
+                        (a) => a.targetCourse === "all" || a.targetCourse === user?.department
+                    ).slice(0, 3);
+                    setAnnouncements(filtered);
+                }
+                setWeeklyTrend(wt);
+            } catch {
+                // keep defaults
+            }
+        }
+        void loadData();
+    }, [user?.department]);
 
-    const pendingForms = MOCK_FORMS.filter(
-        (f) => f.isActive && new Date(f.deadline) > new Date() && (f.targetCourse === "all" || f.targetCourse === user?.department)
-    );
-
-    const activeForm = MOCK_FORMS.find((f) => f.id === activeFormId);
+    const activeForm = pendingForms.find((f) => f.id === activeFormId);
 
     // If filling a form, show FormFill only
     if (activeForm) {
@@ -75,12 +100,12 @@ export default function StudentDashboard() {
             </div>
 
             {/* Announcements Banner */}
-            {studentAnnouncements.length > 0 && (
+            {announcements.length > 0 && (
                 <div className="space-y-3">
                     <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">
                         Latest Announcements
                     </h3>
-                    {studentAnnouncements.map((ann) => (
+                    {announcements.map((ann) => (
                         <AnnouncementCard key={ann.id} announcement={ann} />
                     ))}
                 </div>
@@ -134,7 +159,7 @@ export default function StudentDashboard() {
                                 className="flex items-start gap-3 rounded-xl border border-gray-100 bg-white p-4 text-left shadow-sm transition-all hover:border-[#1a6fdb]/30 hover:shadow-md active:scale-[0.98] dark:border-gray-800 dark:bg-gray-900"
                             >
                                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-950/30">
-                                    <ClipboardList className="h-5 w-5 text-[#1a6fdb]" />
+                                    <FileText className="h-5 w-5 text-[#1a6fdb]" />
                                 </div>
                                 <div className="min-w-0">
                                     <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
@@ -156,7 +181,7 @@ export default function StudentDashboard() {
             {/* Charts + Upcoming Classes */}
             <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1fr_380px]">
                 {/* Weekly Trend */}
-                <WeeklyTrendChart data={MOCK_WEEKLY_TREND} />
+                <WeeklyTrendChart data={weeklyTrend} />
 
                 {/* Upcoming Classes */}
                 <div className="rounded-xl border border-gray-100 bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] dark:border-gray-800 dark:bg-gray-900">

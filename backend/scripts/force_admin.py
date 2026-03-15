@@ -12,7 +12,7 @@ def main():
     with open(log_path, "w") as f:
         session = SessionLocal()
         try:
-            email = "admin@sgtuniversity.edu"
+            email = "admin@sgtuniversity.org"
             normalized = normalize_email(email)
             password = "DemoPass123!"
             

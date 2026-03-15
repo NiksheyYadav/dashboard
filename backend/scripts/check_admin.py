@@ -10,7 +10,7 @@ def main():
     with open(os.path.join(os.path.dirname(__file__), "admin_check.txt"), "w") as f:
         try:
             db = SessionLocal()
-            u = db.query(User).filter_by(email='admin@sgtuniversity.edu').first()
+            u = db.query(User).filter_by(email='admin@sgtuniversity.org').first()
             if u:
                 f.write(f"USER EXISTS: id={u.id}, email={u.email}, status={u.status}, dept={u.department}\n")
             else:

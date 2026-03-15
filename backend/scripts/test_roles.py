@@ -18,13 +18,13 @@ API = f"{BASE_URL}/api/v1"
 PASSWORD = "DemoPass123!"
 
 ACCOUNTS = [
-    ("admin@sgtuniversity.edu",               "Administration",   "admin",       None),
-    ("dean@sgtuniversity.edu",                "Engineering",      "dean",        None),
-    ("hod@sgtuniversity.edu",                 "B.Tech CS",        "hod",         None),
-    ("faculty@sgtuniversity.edu",             "B.Tech CS",        "faculty",     None),
-    ("placement.coord@sgtuniversity.edu",     "B.Tech CS",        "coordinator", "placement"),
-    ("attendance.coord@sgtuniversity.edu",    "B.Tech CS",        "coordinator", "attendance"),
-    ("events.coord@sgtuniversity.edu",        "B.Tech CS",        "coordinator", "events"),
+    ("admin@sgtuniversity.org",               "Administration",   "admin",       None),
+    ("dean@sgtuniversity.org",                "Engineering",      "dean",        None),
+    ("hod@sgtuniversity.org",                 "B.Tech CS",        "hod",         None),
+    ("faculty@sgtuniversity.org",             "B.Tech CS",        "faculty",     None),
+    ("placement.coord@sgtuniversity.org",     "B.Tech CS",        "coordinator", "placement"),
+    ("attendance.coord@sgtuniversity.org",    "B.Tech CS",        "coordinator", "attendance"),
+    ("events.coord@sgtuniversity.org",        "B.Tech CS",        "coordinator", "events"),
 ]
 
 ENDPOINTS = [

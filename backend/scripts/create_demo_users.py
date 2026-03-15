@@ -5,12 +5,12 @@ from app.db.session import SessionLocal
 from app.modules.auth.service import AuthService
 
 DEMO_USERS = [
-    {"email": "admin@sgtuniversity.edu", "password": "DemoPass123!", "department": "Administration"},
-    {"email": "dean@sgtuniversity.edu", "password": "DemoPass123!", "department": "All"},
-    {"email": "hod@sgtuniversity.edu", "password": "DemoPass123!", "department": "B.Tech CS"},
-    {"email": "hod_it@sgtuniversity.edu", "password": "DemoPass123!", "department": "B.Tech IT"},
-    {"email": "coordinator@sgtuniversity.edu", "password": "DemoPass123!", "department": "B.Tech CS"},
-    {"email": "faculty@sgtuniversity.edu", "password": "DemoPass123!", "department": "B.Tech CS"},
+    {"email": "admin@sgtuniversity.org", "password": "DemoPass123!", "department": "Administration"},
+    {"email": "dean@sgtuniversity.org", "password": "DemoPass123!", "department": "All"},
+    {"email": "hod@sgtuniversity.org", "password": "DemoPass123!", "department": "B.Tech CS"},
+    {"email": "hod_it@sgtuniversity.org", "password": "DemoPass123!", "department": "B.Tech IT"},
+    {"email": "coordinator@sgtuniversity.org", "password": "DemoPass123!", "department": "B.Tech CS"},
+    {"email": "faculty@sgtuniversity.org", "password": "DemoPass123!", "department": "B.Tech CS"},
 ]
 
 

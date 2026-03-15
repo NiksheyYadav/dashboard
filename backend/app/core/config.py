@@ -43,7 +43,7 @@ class Settings(BaseSettings):
     smtp_port: int = Field(default=587, alias="SMTP_PORT")
     smtp_user: str | None = Field(default=None, alias="SMTP_USER")
     smtp_password: str | None = Field(default=None, alias="SMTP_PASSWORD")
-    smtp_from: str = Field(default="noreply@sgtuniversity.edu", alias="SMTP_FROM")
+    smtp_from: str = Field(default="noreply@sgtuniversity.org", alias="SMTP_FROM")
     frontend_url: str = Field(default="http://localhost:3000", alias="FRONTEND_URL")
 
     @property

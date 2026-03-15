@@ -91,11 +91,11 @@ export default function LoginPage() {
     };
 
     const roleEmail: Record<UserRole, string> = {
-        admin: "admin@sgtuniversity.edu",
-        dean: "dean@sgtuniversity.edu",
-        hod: "hod@sgtuniversity.edu",
-        coordinator: "coordinator@sgtuniversity.edu",
-        faculty: "faculty@sgtuniversity.edu",
+        admin: "admin@sgtuniversity.org",
+        dean: "dean@sgtuniversity.org",
+        hod: "hod@sgtuniversity.org",
+        coordinator: "coordinator@sgtuniversity.org",
+        faculty: "faculty@sgtuniversity.org",
     };
 
     return (
@@ -239,7 +239,7 @@ export default function LoginPage() {
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder={`${selectedRole}@sgtuniversity.edu`}
+                                placeholder={`${selectedRole}@sgtuniversity.org`}
                                 className="h-11 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm outline-none transition-all focus:border-[#1a6fdb] focus:ring-2 focus:ring-[#1a6fdb]/10"
                             />
                         </div>

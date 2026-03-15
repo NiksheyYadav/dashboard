@@ -2,15 +2,16 @@
 
 import AnnouncementCard from "@/components/announcements/AnnouncementCard";
 import { useAuth } from "@/lib/auth/auth-context";
-import { MOCK_ANNOUNCEMENTS } from "@/lib/data/mock-data";
+import { API_BASE_URL } from "@/lib/api/client";
 import { Announcement, AnnouncementPriority } from "@/lib/types/announcement";
 import { COURSES, SEMESTERS } from "@/lib/utils/constants";
-import { Megaphone, Plus, X } from "lucide-react";
-import { useState } from "react";
+import { Loader2, Megaphone, Plus, X } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function AnnouncementsPage() {
     const { user, role } = useAuth();
-    const [announcements, setAnnouncements] = useState<Announcement[]>(MOCK_ANNOUNCEMENTS);
+    const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+    const [loading, setLoading] = useState(true);
     const [showCreate, setShowCreate] = useState(false);
     const [newTitle, setNewTitle] = useState("");
     const [newMessage, setNewMessage] = useState("");
@@ -18,30 +19,81 @@ export default function AnnouncementsPage() {
     const [newCourse, setNewCourse] = useState("all");
     const [newSemester, setNewSemester] = useState<number | "all">("all");
 
-    const handleCreate = () => {
+    const fetchAnnouncements = useCallback(async () => {
+        try {
+            const token = localStorage.getItem("edupulse_auth_token");
+            const res = await fetch(`${API_BASE_URL}/announcements`, {
+                credentials: "include",
+                headers: {
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setAnnouncements(data);
+            }
+        } catch {
+            // keep current state
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        void fetchAnnouncements();
+    }, [fetchAnnouncements]);
+
+    const handleCreate = async () => {
         if (!newTitle.trim() || !newMessage.trim()) return;
-        const ann: Announcement = {
-            id: `ann-${Date.now()}`,
-            title: newTitle,
-            message: newMessage,
-            author: user?.name ?? "Unknown",
-            authorRole: role ?? "faculty",
-            targetCourse: newCourse,
-            targetSemester: newSemester,
-            createdAt: new Date().toISOString(),
-            priority: newPriority,
-        };
-        setAnnouncements([ann, ...announcements]);
-        setShowCreate(false);
-        setNewTitle("");
-        setNewMessage("");
-        setNewPriority("normal");
-        setNewCourse("all");
-        setNewSemester("all");
+
+        try {
+            const token = localStorage.getItem("edupulse_auth_token");
+            const res = await fetch(`${API_BASE_URL}/announcements`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+                body: JSON.stringify({
+                    title: newTitle,
+                    message: newMessage,
+                    author: user?.name ?? "Unknown",
+                    author_role: role ?? "faculty",
+                    target_course: newCourse,
+                    target_semester: String(newSemester),
+                    priority: newPriority,
+                }),
+            });
+
+            if (res.ok) {
+                setShowCreate(false);
+                setNewTitle("");
+                setNewMessage("");
+                setNewPriority("normal");
+                setNewCourse("all");
+                setNewSemester("all");
+                void fetchAnnouncements();
+            }
+        } catch {
+            // handle error silently
+        }
     };
 
-    const handleDelete = (id: string) => {
-        setAnnouncements(announcements.filter((a) => a.id !== id));
+    const handleDelete = async (id: string) => {
+        try {
+            const token = localStorage.getItem("edupulse_auth_token");
+            await fetch(`${API_BASE_URL}/announcements/${id}`, {
+                method: "DELETE",
+                credentials: "include",
+                headers: {
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+            });
+            void fetchAnnouncements();
+        } catch {
+            // handle error silently
+        }
     };
 
     return (
@@ -151,7 +203,11 @@ export default function AnnouncementsPage() {
             )}
 
             {/* List */}
-            {announcements.length === 0 ? (
+            {loading ? (
+                <div className="flex items-center justify-center py-16">
+                    <Loader2 className="h-6 w-6 animate-spin text-[#1a6fdb]" />
+                </div>
+            ) : announcements.length === 0 ? (
                 <div className="flex flex-col items-center justify-center rounded-xl border border-gray-100 bg-white px-6 py-16 dark:border-gray-800 dark:bg-gray-900">
                     <Megaphone className="h-12 w-12 text-gray-300 dark:text-gray-600" />
                     <h3 className="mt-4 text-lg font-semibold text-gray-900 dark:text-gray-100">No Announcements Yet</h3>
