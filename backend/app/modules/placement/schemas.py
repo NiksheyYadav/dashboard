@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 
@@ -14,25 +15,25 @@ class PlacementUploadResponse(BaseModel):
 
 class PlacementRecordResponse(BaseModel):
     id: str
-    sl_no: int | None = None
+    sl_no: Optional[int] = None
     roll_no: str
     student_name: str
-    photo_id: str | None = None
-    gender: str | None = None
-    type: str | None = None
-    contact_no: str | None = None
-    email: str | None = None
-    x_result: str | None = None
-    xii_result: str | None = None
-    course: str | None = None
-    branch: str | None = None
-    designation: str | None = None
-    company_name: str | None = None
-    industry: str | None = None
-    date_of_drive: str | None = None
-    company_offers: str | None = None
-    probation_duration: str | None = None
-    stipend_per_month: str | None = None
-    package: str | None = None
-    offer_letter: str | None = None
-    hr_contact: str | None = None
+    photo_id: Optional[str] = None
+    gender: Optional[str] = None
+    type: Optional[str] = None
+    contact_no: Optional[str] = None
+    email: Optional[str] = None
+    x_result: Optional[str] = None
+    xii_result: Optional[str] = None
+    course: Optional[str] = None
+    branch: Optional[str] = None
+    designation: Optional[str] = None
+    company_name: Optional[str] = None
+    industry: Optional[str] = None
+    date_of_drive: Optional[str] = None
+    company_offers: Optional[str] = None
+    probation_duration: Optional[str] = None
+    stipend_per_month: Optional[str] = None
+    package: Optional[str] = None
+    offer_letter: Optional[str] = None
+    hr_contact: Optional[str] = None

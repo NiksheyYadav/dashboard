@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel, ConfigDict, EmailStr
 from datetime import datetime
 from uuid import UUID
@@ -8,5 +9,5 @@ class UserResponse(BaseModel):
     id: UUID
     email: EmailStr
     status: str
-    department: str | None = None
+    department: Optional[str] = None
     created_at: datetime

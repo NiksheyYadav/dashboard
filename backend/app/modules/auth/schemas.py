@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
@@ -6,7 +7,7 @@ class RegisterRequest(BaseModel):
 
     email: EmailStr
     password: str = Field(min_length=8, max_length=128)
-    department: str | None = None
+    department: Optional[str] = None
 
 
 class LoginRequest(BaseModel):
@@ -25,7 +26,7 @@ class MeResponse(BaseModel):
     id: str
     email: EmailStr
     status: str
-    department: str | None = None
+    department: Optional[str] = None
 
 
 class RegisterResponse(BaseModel):

@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime
+from typing import Optional
 
 from sqlalchemy import DateTime, Float, Integer, String, func
 from sqlalchemy.dialects.postgresql import UUID
@@ -17,8 +18,8 @@ class Student(Base):
     course: Mapped[str] = mapped_column(String(100), nullable=False)
     department: Mapped[str] = mapped_column(String(100), nullable=False)
     semester: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
-    email: Mapped[str | None] = mapped_column(String(320), nullable=True)
-    phone: Mapped[str | None] = mapped_column(String(30), nullable=True)
+    email: Mapped[Optional[str]] = mapped_column(String(320), nullable=True)
+    phone: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)
     cv_status: Mapped[str] = mapped_column(String(20), nullable=False, default="PENDING", server_default="PENDING")
     attendance_percent: Mapped[float] = mapped_column(Float, nullable=False, default=0.0, server_default="0.0")
     status: Mapped[str] = mapped_column(String(20), nullable=False, default="Active", server_default="Active")

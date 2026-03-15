@@ -1,5 +1,6 @@
 import secrets
 from datetime import timedelta
+from typing import Optional, Union
 from uuid import UUID
 
 from fastapi import HTTPException, status
@@ -27,15 +28,15 @@ settings = get_settings()
 
 class AuthService:
     @staticmethod
-    def _get_user_by_id(db: Session, user_id: UUID | str) -> User | None:
+    def _get_user_by_id(db: Session, user_id: Union[UUID, str]) -> Optional[User]:
         return db.scalar(select(User).where(cast(User.id, String) == str(user_id)))
 
     @staticmethod
-    def _get_session_by_id(db: Session, session_id: UUID | str) -> UserSession | None:
+    def _get_session_by_id(db: Session, session_id: Union[UUID, str]) -> Optional[UserSession]:
         return db.scalar(select(UserSession).where(cast(UserSession.id, String) == str(session_id)))
 
     @staticmethod
-    def register_user(db: Session, *, email: str, password: str, department: str | None = None) -> User:
+    def register_user(db: Session, *, email: str, password: str, department: Optional[str] = None) -> User:
         normalized_email = normalize_email(email)
         existing = db.scalar(select(User).where(User.email == normalized_email))
         if existing:
@@ -47,7 +48,7 @@ class AuthService:
         return user
 
     @staticmethod
-    def login_user(db: Session, *, email: str, password: str, ip: str | None, user_agent: str | None) -> tuple[str, str, User]:
+    def login_user(db: Session, *, email: str, password: str, ip: Optional[str], user_agent: Optional[str]) -> tuple:
         normalized_email = normalize_email(email)
         user = db.scalar(select(User).where(User.email == normalized_email))
 
@@ -85,7 +86,7 @@ class AuthService:
         return access_token, refresh_token_raw, user
 
     @staticmethod
-    def refresh_tokens(db: Session, *, refresh_token_raw: str, ip: str | None, user_agent: str | None) -> tuple[str, str]:
+    def refresh_tokens(db: Session, *, refresh_token_raw: str, ip: Optional[str], user_agent: Optional[str]) -> tuple:
         token_hash = hash_refresh_token(refresh_token_raw)
         token_record = db.scalar(
             select(RefreshToken).where(RefreshToken.token_hash == token_hash).with_for_update()

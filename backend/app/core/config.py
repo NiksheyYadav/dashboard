@@ -1,4 +1,5 @@
 from functools import lru_cache
+from typing import Optional
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -39,10 +40,10 @@ class Settings(BaseSettings):
     request_id_header: str = Field(default="X-Request-ID", alias="REQUEST_ID_HEADER")
 
     # Email Settings
-    smtp_host: str | None = Field(default=None, alias="SMTP_HOST")
+    smtp_host: Optional[str] = Field(default=None, alias="SMTP_HOST")
     smtp_port: int = Field(default=587, alias="SMTP_PORT")
-    smtp_user: str | None = Field(default=None, alias="SMTP_USER")
-    smtp_password: str | None = Field(default=None, alias="SMTP_PASSWORD")
+    smtp_user: Optional[str] = Field(default=None, alias="SMTP_USER")
+    smtp_password: Optional[str] = Field(default=None, alias="SMTP_PASSWORD")
     smtp_from: str = Field(default="noreply@sgtuniversity.org", alias="SMTP_FROM")
     frontend_url: str = Field(default="http://localhost:3000", alias="FRONTEND_URL")
 
