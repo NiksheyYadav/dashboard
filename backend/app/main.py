@@ -6,6 +6,8 @@ from fastapi.responses import JSONResponse
 
 from app.core.config import get_settings
 from app.core.logging import configure_logging
+from app.db.base import Base
+from app.db.session import engine
 from app.middleware.request_id import RequestIdMiddleware
 from app.modules.announcements.router import announcements_router
 from app.modules.auth.router import auth_router, protected_router
@@ -17,6 +19,9 @@ from app.modules.projects.router import projects_router
 from app.modules.students.router import students_router
 from app.modules.users.router import users_router
 from app.utils.exceptions import AppException
+
+# Import all models so SQLAlchemy knows about them before create_all()
+import app.models  # noqa: F401
 
 settings = get_settings()
 configure_logging(settings.log_level)
@@ -67,8 +72,11 @@ def health_check() -> dict[str, str]:
 
 @app.on_event("startup")
 async def create_tables() -> None:
-    """Ensure all database tables exist and seed demo users on startup."""
-    # Note: Disabled on serverless deployments (Vercel) to prevent cold start timeouts
-    # as create_all() and database seeding can easily exceed the 10-second limit.
-    # Database initialization should be handled via separate migration scripts.
-    pass
+    """Ensure all database tables exist on startup.
+    Uses create_all with checkfirst=True — safe to run repeatedly, only creates missing tables.
+    """
+    try:
+        Base.metadata.create_all(bind=engine, checkfirst=True)
+        logger.info("Database tables verified/created successfully")
+    except Exception as e:
+        logger.error(f"Failed to create database tables: {e}")
