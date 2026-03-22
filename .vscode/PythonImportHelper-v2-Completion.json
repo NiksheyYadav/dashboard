@@ -1155,6 +1155,14 @@
         "documentation": {}
     },
     {
+        "label": "Base",
+        "importPath": "app.db.base",
+        "description": "app.db.base",
+        "isExtraImport": true,
+        "detail": "app.db.base",
+        "documentation": {}
+    },
+    {
         "label": "models",
         "importPath": "app",
         "description": "app",
@@ -1911,6 +1919,14 @@
         "documentation": {}
     },
     {
+        "label": "NullPool",
+        "importPath": "sqlalchemy.pool",
+        "description": "sqlalchemy.pool",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.pool",
+        "documentation": {}
+    },
+    {
         "label": "uuid",
         "kind": 6,
         "isExtraImport": true,
@@ -2473,6 +2489,14 @@
     },
     {
         "label": "get_db",
+        "importPath": "app.db.session",
+        "description": "app.db.session",
+        "isExtraImport": true,
+        "detail": "app.db.session",
+        "documentation": {}
+    },
+    {
+        "label": "engine",
         "importPath": "app.db.session",
         "description": "app.db.session",
         "isExtraImport": true,
@@ -3331,6 +3355,15 @@
         "documentation": {}
     },
     {
+        "label": "app.models",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "app.models",
+        "description": "app.models",
+        "detail": "app.models",
+        "documentation": {}
+    },
+    {
         "label": "sys,",
         "kind": 6,
         "isExtraImport": true,
@@ -3893,7 +3926,7 @@
         "kind": 5,
         "importPath": "backend.app.db.session",
         "description": "backend.app.db.session",
-        "peekOfCode": "settings = get_settings()\nengine = create_engine(settings.database_url, pool_pre_ping=True)\nSessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False)\ndef get_db() -> Generator[Session, None, None]:\n    db = SessionLocal()\n    try:\n        yield db\n    finally:\n        db.close()",
+        "peekOfCode": "settings = get_settings()\n# Use NullPool for serverless environments (Vercel) to avoid connection pooling issues\nengine = create_engine(settings.database_url, poolclass=NullPool)\nSessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False)\ndef get_db() -> Generator[Session, None, None]:\n    db = SessionLocal()\n    try:\n        yield db\n    finally:\n        db.close()",
         "detail": "backend.app.db.session",
         "documentation": {}
     },
@@ -3902,7 +3935,7 @@
         "kind": 5,
         "importPath": "backend.app.db.session",
         "description": "backend.app.db.session",
-        "peekOfCode": "engine = create_engine(settings.database_url, pool_pre_ping=True)\nSessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False)\ndef get_db() -> Generator[Session, None, None]:\n    db = SessionLocal()\n    try:\n        yield db\n    finally:\n        db.close()",
+        "peekOfCode": "engine = create_engine(settings.database_url, poolclass=NullPool)\nSessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False)\ndef get_db() -> Generator[Session, None, None]:\n    db = SessionLocal()\n    try:\n        yield db\n    finally:\n        db.close()",
         "detail": "backend.app.db.session",
         "documentation": {}
     },
@@ -4982,7 +5015,7 @@
         "kind": 2,
         "importPath": "backend.app.main",
         "description": "backend.app.main",
-        "peekOfCode": "def health_check() -> dict[str, str]:\n    return {\"status\": \"ok\"}\n@app.on_event(\"startup\")\nasync def create_tables() -> None:\n    \"\"\"Ensure all database tables exist and seed demo users on startup.\"\"\"\n    # Note: Disabled on serverless deployments (Vercel) to prevent cold start timeouts\n    # as create_all() and database seeding can easily exceed the 10-second limit.\n    # Database initialization should be handled via separate migration scripts.\n    pass",
+        "peekOfCode": "def health_check() -> dict[str, str]:\n    return {\"status\": \"ok\"}\n@app.on_event(\"startup\")\nasync def create_tables() -> None:\n    \"\"\"Ensure all database tables exist on startup.\n    Uses create_all with checkfirst=True — safe to run repeatedly, only creates missing tables.\n    \"\"\"\n    try:\n        Base.metadata.create_all(bind=engine, checkfirst=True)\n        logger.info(\"Database tables verified/created successfully\")",
         "detail": "backend.app.main",
         "documentation": {}
     },

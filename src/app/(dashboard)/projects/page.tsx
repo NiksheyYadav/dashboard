@@ -25,10 +25,11 @@ export default function ProjectsPage() {
   const [rejectReason, setRejectReason] = useState("");
   const [error, setError] = useState<string>("");
 
-  // Fetch projects on mount
+  // Fetch projects on mount — stable reference via getState to avoid infinite loop
+  const fetchProjectsOnce = projectStore.fetchProjects;
   useEffect(() => {
-    projectStore.fetchProjects();
-  }, [projectStore]);
+    fetchProjectsOnce();
+  }, [fetchProjectsOnce]);
 
   // Get filtered projects
   const filteredProjects = projectStore.projects.filter((project) => {
