@@ -1,6 +1,5 @@
 "use client";
 
-import AttendanceBarChart from "@/components/dashboard/AttendanceBarChart";
 import DistributionDonut from "@/components/dashboard/DistributionDonut";
 import StatCard from "@/components/dashboard/StatCard";
 import StudentDirectoryTable from "@/components/dashboard/StudentDirectoryTable";
@@ -8,6 +7,7 @@ import WeeklyTrendChart from "@/components/dashboard/WeeklyTrendChart";
 import { getDashboardStats } from "@/lib/api/analytics";
 import { getDistribution, getWeeklyTrend } from "@/lib/api/attendance";
 import { getStudents } from "@/lib/api/students";
+import { useAuth } from "@/lib/auth/auth-context";
 import { PaginatedResponse } from "@/lib/types/api";
 import { DashboardStats, DistributionData, WeeklyTrendData } from "@/lib/types/attendance";
 import { Student } from "@/lib/types/student";
@@ -15,6 +15,13 @@ import { AlertTriangle, CalendarCheck, CloudUpload, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function TeacherDashboard() {
+    const { role, user } = useAuth();
+    const hasAttendanceAccess =
+        role === "admin" ||
+        role === "dean" ||
+        role === "hod" ||
+        (role === "coordinator" && user?.coordinatorType === "attendance");
+
     const [stats, setStats] = useState<DashboardStats | null>(null);
     const [weeklyTrend, setWeeklyTrend] = useState<WeeklyTrendData[]>([]);
     const [distribution, setDistribution] = useState<DistributionData | null>(null);
@@ -23,22 +30,31 @@ export default function TeacherDashboard() {
 
     useEffect(() => {
         async function loadData() {
-            const [s, wt, dist, studs] = await Promise.all([
-                getDashboardStats(),
-                getWeeklyTrend(),
-                getDistribution(),
-                getStudents({ page: 1, limit: 4 }),
-            ]);
-            setStats(s);
-            setWeeklyTrend(wt);
-            setDistribution(dist);
-            setStudents(studs);
-            setLoading(false);
+            try {
+                const [s, studs] = await Promise.all([
+                    getDashboardStats(),
+                    getStudents({ page: 1, limit: 4 }),
+                ]);
+
+                setStats(s);
+                setStudents(studs);
+
+                if (hasAttendanceAccess) {
+                    const [wt, dist] = await Promise.all([
+                        getWeeklyTrend().catch(() => [] as WeeklyTrendData[]),
+                        getDistribution().catch(() => null),
+                    ]);
+                    setWeeklyTrend(wt);
+                    setDistribution(dist);
+                }
+            } finally {
+                setLoading(false);
+            }
         }
         loadData();
-    }, []);
+    }, [hasAttendanceAccess]);
 
-    if (loading || !stats || !distribution || !students) {
+    if (loading || !stats || !students) {
         return (
             <div className="flex h-[50vh] items-center justify-center">
                 <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-[#1a6fdb]" />
@@ -64,28 +80,34 @@ export default function TeacherDashboard() {
                     value={stats.cvsUploaded.toLocaleString()}
                     subtitle={stats.cvsUploadedLabel}
                 />
-                <StatCard
-                    icon={<CalendarCheck className="h-5 w-5 text-[#059669]" />}
-                    iconBg="bg-emerald-50 dark:bg-emerald-950/30"
-                    label="Avg Attendance"
-                    value={`${stats.avgAttendance}%`}
-                    trend={stats.avgAttendanceTrend}
-                />
-                <StatCard
-                    icon={<AlertTriangle className="h-5 w-5 text-[#dc2626]" />}
-                    iconBg="bg-red-50 dark:bg-red-950/30"
-                    label="Low Attendance"
-                    value={stats.lowAttendance}
-                    actionLabel="View List"
-                    actionHref="/students?filter=low-attendance"
-                />
+                {hasAttendanceAccess && (
+                    <StatCard
+                        icon={<CalendarCheck className="h-5 w-5 text-[#059669]" />}
+                        iconBg="bg-emerald-50 dark:bg-emerald-950/30"
+                        label="Avg Attendance"
+                        value={`${stats.avgAttendance}%`}
+                        trend={stats.avgAttendanceTrend}
+                    />
+                )}
+                {hasAttendanceAccess && (
+                    <StatCard
+                        icon={<AlertTriangle className="h-5 w-5 text-[#dc2626]" />}
+                        iconBg="bg-red-50 dark:bg-red-950/30"
+                        label="Low Attendance"
+                        value={stats.lowAttendance}
+                        actionLabel="View List"
+                        actionHref="/students?filter=low-attendance"
+                    />
+                )}
             </div>
 
             {/* Charts Row */}
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <WeeklyTrendChart data={weeklyTrend} />
-                <DistributionDonut data={distribution} />
-            </div>
+            {hasAttendanceAccess && (
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <WeeklyTrendChart data={weeklyTrend} />
+                    {distribution && <DistributionDonut data={distribution} />}
+                </div>
+            )}
 
             {/* Student Directory */}
             <StudentDirectoryTable initialData={students} />
