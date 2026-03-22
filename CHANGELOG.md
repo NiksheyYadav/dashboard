@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-03-02
+
+### Added (1.3.0)
+
+- **Projects Module:** Complete project management system with CRUD operations and role-based access.
+- **Project Flow System:** Typed flow classification with `"internal" | "external"` enum for explicit project type tracking.
+- **Faculty Coordinator:** New field to designate the internal faculty managing project approvals and student enrollment.
+- **Approval Tracking:** Added `approvalSubmittedBy` field to create an audit trail of who submitted projects for approval.
+- **Project Form:** Interactive form with flow toggle buttons ("🏫 Internal" / "🌐 External") and conditional external faculty fields.
+- **Project List View:** ProjectCard component displaying projects with automatic external collaboration detection and coordinator information.
+- **Project Detail Modal:** Detailed project view with support for showing both coordinators and external faculty where applicable.
+- **Student Assignment:** Interface to add and manage students assigned to projects with role-based permissions.
+- **Projects REST API:** 10 REST endpoints for complete project lifecycle management (list, get, create, update, delete, approve, reject, add/remove students, complete).
+- **Database Migration:** Alembic migration (20260302_0009) to update projects table schema with new fields and column renames.
+
+### Changed (1.3.0)
+
+- **Faculty Field Semantics:** Renamed `internalFaculty` to `facultyCoordinator` across frontend components and backend models for clarity on role responsibility.
+- **Flow Representation:** Replaced boolean `isExternalCollaboration` flag with typed `ProjectFlow` enum for type-safe flow management.
+
+### Technical Details (1.3.0)
+
+- **Frontend Types:** Updated `src/lib/types/project.ts` with new `ProjectFlow` type and field structure.
+- **Components Updated:** ProjectForm, ProjectCard, ProjectDetailModal now use new flow system and field names.
+- **Backend Models:** SQLAlchemy Project model and Pydantic ProjectCreate schema updated with new columns and validation.
+- **API Endpoints:** create_project endpoint auto-populates `faculty_coordinator` from authenticated user context.
+- **Database Schema:** Added `flow`, renamed `internal_faculty` → `faculty_coordinator`, added `approval_submitted_by` columns.
+
 ## [1.2.0] - 2026-02-28
 
 ### Added (1.2.0)

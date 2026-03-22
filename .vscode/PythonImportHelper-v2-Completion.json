@@ -90,6 +90,22 @@
         "documentation": {}
     },
     {
+        "label": "op",
+        "importPath": "alembic",
+        "description": "alembic",
+        "isExtraImport": true,
+        "detail": "alembic",
+        "documentation": {}
+    },
+    {
+        "label": "op",
+        "importPath": "alembic",
+        "description": "alembic",
+        "isExtraImport": true,
+        "detail": "alembic",
+        "documentation": {}
+    },
+    {
         "label": "context",
         "importPath": "alembic",
         "description": "alembic",
@@ -340,6 +356,54 @@
     },
     {
         "label": "func",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Column",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "DateTime",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "String",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Text",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "JSON",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "ForeignKey",
         "importPath": "sqlalchemy",
         "description": "sqlalchemy",
         "isExtraImport": true,
@@ -739,6 +803,38 @@
         "documentation": {}
     },
     {
+        "label": "Sequence",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Union",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Sequence",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Union",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Optional",
         "importPath": "typing",
         "description": "typing",
@@ -844,6 +940,22 @@
     },
     {
         "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -1035,6 +1147,14 @@
         "documentation": {}
     },
     {
+        "label": "Base",
+        "importPath": "app.db.base",
+        "description": "app.db.base",
+        "isExtraImport": true,
+        "detail": "app.db.base",
+        "documentation": {}
+    },
+    {
         "label": "models",
         "importPath": "app",
         "description": "app",
@@ -1092,6 +1212,14 @@
     },
     {
         "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
         "importPath": "pydantic",
         "description": "pydantic",
         "isExtraImport": true,
@@ -1359,6 +1487,22 @@
         "documentation": {}
     },
     {
+        "label": "timezone",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "datetime",
         "importPath": "datetime",
         "description": "datetime",
@@ -1448,6 +1592,22 @@
     },
     {
         "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timezone",
         "importPath": "datetime",
         "description": "datetime",
         "isExtraImport": true,
@@ -1640,6 +1800,14 @@
     },
     {
         "label": "mapped_column",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "Session",
         "importPath": "sqlalchemy.orm",
         "description": "sqlalchemy.orm",
         "isExtraImport": true,
@@ -2128,6 +2296,30 @@
         "documentation": {}
     },
     {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Depends",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
         "label": "Query",
         "importPath": "fastapi",
         "description": "fastapi",
@@ -2205,6 +2397,14 @@
         "description": "fastapi",
         "isExtraImport": true,
         "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "get_db",
+        "importPath": "app.db.session",
+        "description": "app.db.session",
+        "isExtraImport": true,
+        "detail": "app.db.session",
         "documentation": {}
     },
     {
@@ -2528,6 +2728,14 @@
         "documentation": {}
     },
     {
+        "label": "User",
+        "importPath": "app.models.user",
+        "description": "app.models.user",
+        "isExtraImport": true,
+        "detail": "app.models.user",
+        "documentation": {}
+    },
+    {
         "label": "AuthContext",
         "importPath": "app.modules.auth.dependencies",
         "description": "app.modules.auth.dependencies",
@@ -2617,6 +2825,14 @@
     },
     {
         "label": "get_auth_context",
+        "importPath": "app.modules.auth.dependencies",
+        "description": "app.modules.auth.dependencies",
+        "isExtraImport": true,
+        "detail": "app.modules.auth.dependencies",
+        "documentation": {}
+    },
+    {
+        "label": "get_current_user",
         "importPath": "app.modules.auth.dependencies",
         "description": "app.modules.auth.dependencies",
         "isExtraImport": true,
@@ -2914,6 +3130,14 @@
         "documentation": {}
     },
     {
+        "label": "Project",
+        "importPath": "app.models.project",
+        "description": "app.models.project",
+        "isExtraImport": true,
+        "detail": "app.models.project",
+        "documentation": {}
+    },
+    {
         "label": "Student",
         "importPath": "app.models.student",
         "description": "app.models.student",
@@ -3072,6 +3296,14 @@
         "description": "app.modules.placement.router",
         "isExtraImport": true,
         "detail": "app.modules.placement.router",
+        "documentation": {}
+    },
+    {
+        "label": "projects_router",
+        "importPath": "app.modules.projects.router",
+        "description": "app.modules.projects.router",
+        "isExtraImport": true,
+        "detail": "app.modules.projects.router",
         "documentation": {}
     },
     {
@@ -3384,6 +3616,42 @@
         "description": "backend.alembic.versions.20260228_0007_add_department_to_users",
         "peekOfCode": "def downgrade() -> None:\n    # ### commands auto generated by Alembic - please adjust! ###\n    op.drop_column('users', 'department')\n    # ### end Alembic commands ###",
         "detail": "backend.alembic.versions.20260228_0007_add_department_to_users",
+        "documentation": {}
+    },
+    {
+        "label": "upgrade",
+        "kind": 2,
+        "importPath": "backend.alembic.versions.20260301_0008_create_projects_table",
+        "description": "backend.alembic.versions.20260301_0008_create_projects_table",
+        "peekOfCode": "def upgrade() -> None:\n    op.create_table(\n        \"projects\",\n        sa.Column(\"id\", sa.String(50), primary_key=True),\n        sa.Column(\"title\", sa.String(255), nullable=False),\n        sa.Column(\"type\", sa.String(50), nullable=False),\n        sa.Column(\"description\", sa.Text, nullable=False),\n        sa.Column(\"start_date\", sa.String(50), nullable=False),\n        sa.Column(\"end_date\", sa.String(50), nullable=False),\n        sa.Column(\"status\", sa.String(50), nullable=False, server_default=\"Pending Approval\"),",
+        "detail": "backend.alembic.versions.20260301_0008_create_projects_table",
+        "documentation": {}
+    },
+    {
+        "label": "downgrade",
+        "kind": 2,
+        "importPath": "backend.alembic.versions.20260301_0008_create_projects_table",
+        "description": "backend.alembic.versions.20260301_0008_create_projects_table",
+        "peekOfCode": "def downgrade() -> None:\n    op.drop_table(\"projects\")",
+        "detail": "backend.alembic.versions.20260301_0008_create_projects_table",
+        "documentation": {}
+    },
+    {
+        "label": "upgrade",
+        "kind": 2,
+        "importPath": "backend.alembic.versions.20260302_0009_update_projects_flow_fields",
+        "description": "backend.alembic.versions.20260302_0009_update_projects_flow_fields",
+        "peekOfCode": "def upgrade() -> None:\n    # Add new columns\n    op.add_column(\"projects\", sa.Column(\"flow\", sa.String(20), nullable=False, server_default=\"internal\"))\n    op.add_column(\"projects\", sa.Column(\"approval_submitted_by\", sa.String(150), nullable=True))\n    # Rename internal_faculty to faculty_coordinator\n    op.alter_column(\"projects\", \"internal_faculty\", new_column_name=\"faculty_coordinator\")\ndef downgrade() -> None:\n    # Rename faculty_coordinator back to internal_faculty\n    op.alter_column(\"projects\", \"faculty_coordinator\", new_column_name=\"internal_faculty\")\n    # Remove new columns",
+        "detail": "backend.alembic.versions.20260302_0009_update_projects_flow_fields",
+        "documentation": {}
+    },
+    {
+        "label": "downgrade",
+        "kind": 2,
+        "importPath": "backend.alembic.versions.20260302_0009_update_projects_flow_fields",
+        "description": "backend.alembic.versions.20260302_0009_update_projects_flow_fields",
+        "peekOfCode": "def downgrade() -> None:\n    # Rename faculty_coordinator back to internal_faculty\n    op.alter_column(\"projects\", \"faculty_coordinator\", new_column_name=\"internal_faculty\")\n    # Remove new columns\n    op.drop_column(\"projects\", \"approval_submitted_by\")\n    op.drop_column(\"projects\", \"flow\")",
+        "detail": "backend.alembic.versions.20260302_0009_update_projects_flow_fields",
         "documentation": {}
     },
     {
@@ -3717,6 +3985,15 @@
         "description": "backend.app.models.placement_record",
         "peekOfCode": "class PlacementRecord(Base):\n    __tablename__ = \"placement_records\"\n    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)\n    sl_no: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)\n    roll_no: Mapped[str] = mapped_column(String(50), index=True, nullable=False)\n    student_name: Mapped[str] = mapped_column(String(200), nullable=False)\n    photo_id: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)\n    gender: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)\n    type: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)\n    contact_no: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)",
         "detail": "backend.app.models.placement_record",
+        "documentation": {}
+    },
+    {
+        "label": "Project",
+        "kind": 6,
+        "importPath": "backend.app.models.project",
+        "description": "backend.app.models.project",
+        "peekOfCode": "class Project(Base):\n    __tablename__ = \"projects\"\n    id = Column(String(50), primary_key=True, default=lambda: f\"proj-{uuid.uuid4().hex[:8]}\")\n    title = Column(String(255), nullable=False)\n    type = Column(String(50), nullable=False)  # Research, Dev, Industry, Other\n    description = Column(Text, nullable=False)\n    start_date = Column(String(20), nullable=False)\n    end_date = Column(String(20), nullable=False)\n    status = Column(String(50), nullable=False, default=\"Pending Approval\")  # Pending Approval, Active, Completed, Rejected\n    flow = Column(String(20), nullable=False, default=\"internal\")  # internal or external",
+        "detail": "backend.app.models.project",
         "documentation": {}
     },
     {
@@ -4356,6 +4633,168 @@
         "description": "backend.app.modules.placement.schemas",
         "peekOfCode": "class PlacementRecordResponse(BaseModel):\n    id: str\n    sl_no: Optional[int] = None\n    roll_no: str\n    student_name: str\n    photo_id: Optional[str] = None\n    gender: Optional[str] = None\n    type: Optional[str] = None\n    contact_no: Optional[str] = None\n    email: Optional[str] = None",
         "detail": "backend.app.modules.placement.schemas",
+        "documentation": {}
+    },
+    {
+        "label": "FacultyInfo",
+        "kind": 6,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "class FacultyInfo(BaseModel):\n    id: str\n    name: str\n    email: str\n    department: str\n    role: str\nclass AssignedStudent(BaseModel):\n    id: str\n    name: str\n    rollNo: str",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "AssignedStudent",
+        "kind": 6,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "class AssignedStudent(BaseModel):\n    id: str\n    name: str\n    rollNo: str\n    email: str\n    department: str\nclass PPTFile(BaseModel):\n    name: str\n    url: str\n    uploadedAt: str",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "PPTFile",
+        "kind": 6,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "class PPTFile(BaseModel):\n    name: str\n    url: str\n    uploadedAt: str\nclass ProjectCreate(BaseModel):\n    title: str\n    type: str  # Research, Dev, Industry, Other\n    description: str\n    startDate: str\n    endDate: str",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "ProjectCreate",
+        "kind": 6,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "class ProjectCreate(BaseModel):\n    title: str\n    type: str  # Research, Dev, Industry, Other\n    description: str\n    startDate: str\n    endDate: str\n    flow: str  # \"internal\" or \"external\"\n    externalFaculty: Optional[FacultyInfo] = None\nclass ProjectUpdate(BaseModel):\n    title: Optional[str] = None",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "ProjectUpdate",
+        "kind": 6,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "class ProjectUpdate(BaseModel):\n    title: Optional[str] = None\n    type: Optional[str] = None\n    description: Optional[str] = None\n    startDate: Optional[str] = None\n    endDate: Optional[str] = None\n    status: Optional[str] = None\n    rejectionReason: Optional[str] = None\n    notes: Optional[str] = None\nclass ProjectOut(BaseModel):",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "ProjectOut",
+        "kind": 6,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "class ProjectOut(BaseModel):\n    id: str\n    title: str\n    type: str\n    description: str\n    startDate: str\n    endDate: str\n    status: str\n    pptFile: Optional[PPTFile] = None\n    createdBy: str",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "list_projects",
+        "kind": 2,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "def list_projects(\n    status: Optional[str] = None,\n    type_filter: Optional[str] = None,\n    search: Optional[str] = None,\n    db: Session = Depends(get_db),\n):\n    \"\"\"List all projects with optional filtering.\"\"\"\n    query = db.query(Project).order_by(Project.created_at.desc())\n    if status:\n        query = query.filter(Project.status == status)",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "get_project",
+        "kind": 2,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "def get_project(project_id: str, db: Session = Depends(get_db)):\n    \"\"\"Get a single project by ID.\"\"\"\n    project = db.query(Project).filter(Project.id == project_id).first()\n    if not project:\n        raise HTTPException(status_code=404, detail=\"Project not found\")\n    return _to_out(project)\n@projects_router.post(\"\", status_code=201)\ndef create_project(\n    body: ProjectCreate, \n    db: Session = Depends(get_db),",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "create_project",
+        "kind": 2,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "def create_project(\n    body: ProjectCreate, \n    db: Session = Depends(get_db),\n    current_user: User = Depends(get_current_user)\n):\n    \"\"\"Create a new project.\"\"\"\n    project = Project(\n        title=body.title,\n        type=body.type,\n        description=body.description,",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "update_project",
+        "kind": 2,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "def update_project(project_id: str, body: ProjectUpdate, db: Session = Depends(get_db)):\n    \"\"\"Update a project.\"\"\"\n    project = db.query(Project).filter(Project.id == project_id).first()\n    if not project:\n        raise HTTPException(status_code=404, detail=\"Project not found\")\n    if body.title:\n        project.title = body.title\n    if body.type:\n        project.type = body.type\n    if body.description:",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "delete_project",
+        "kind": 2,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "def delete_project(project_id: str, db: Session = Depends(get_db)):\n    \"\"\"Delete a project.\"\"\"\n    project = db.query(Project).filter(Project.id == project_id).first()\n    if not project:\n        raise HTTPException(status_code=404, detail=\"Project not found\")\n    db.delete(project)\n    db.commit()\n    logger.info(f\"Deleted project: {project.id}\")\n    return {\"message\": \"Project deleted successfully\"}\n@projects_router.post(\"/{project_id}/approve\")",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "approve_project",
+        "kind": 2,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "def approve_project(project_id: str, db: Session = Depends(get_db)):\n    \"\"\"Approve a pending project.\"\"\"\n    project = db.query(Project).filter(Project.id == project_id).first()\n    if not project:\n        raise HTTPException(status_code=404, detail=\"Project not found\")\n    if project.status != \"Pending Approval\":\n        raise HTTPException(status_code=400, detail=\"Only pending projects can be approved\")\n    project.status = \"Active\"\n    project.updated_at = datetime.now(timezone.utc)\n    db.commit()",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "reject_project",
+        "kind": 2,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "def reject_project(project_id: str, reason: str, db: Session = Depends(get_db)):\n    \"\"\"Reject a pending project.\"\"\"\n    project = db.query(Project).filter(Project.id == project_id).first()\n    if not project:\n        raise HTTPException(status_code=404, detail=\"Project not found\")\n    if project.status != \"Pending Approval\":\n        raise HTTPException(status_code=400, detail=\"Only pending projects can be rejected\")\n    project.status = \"Rejected\"\n    project.rejection_reason = reason\n    project.updated_at = datetime.now(timezone.utc)",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "add_student_to_project",
+        "kind": 2,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "def add_student_to_project(\n    project_id: str, \n    student: AssignedStudent, \n    db: Session = Depends(get_db)\n):\n    \"\"\"Add a student to a project.\"\"\"\n    project = db.query(Project).filter(Project.id == project_id).first()\n    if not project:\n        raise HTTPException(status_code=404, detail=\"Project not found\")\n    students = project.assigned_students or []",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "remove_student_from_project",
+        "kind": 2,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "def remove_student_from_project(\n    project_id: str,\n    student_id: str,\n    db: Session = Depends(get_db)\n):\n    \"\"\"Remove a student from a project.\"\"\"\n    project = db.query(Project).filter(Project.id == project_id).first()\n    if not project:\n        raise HTTPException(status_code=404, detail=\"Project not found\")\n    students = project.assigned_students or []",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "complete_project",
+        "kind": 2,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "def complete_project(project_id: str, db: Session = Depends(get_db)):\n    \"\"\"Mark a project as completed.\"\"\"\n    project = db.query(Project).filter(Project.id == project_id).first()\n    if not project:\n        raise HTTPException(status_code=404, detail=\"Project not found\")\n    project.status = \"Completed\"\n    project.updated_at = datetime.now(timezone.utc)\n    db.commit()\n    db.refresh(project)\n    logger.info(f\"Completed project: {project.id}\")",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nprojects_router = APIRouter(prefix=\"/projects\", tags=[\"projects\"])\n# Pydantic Models\nclass FacultyInfo(BaseModel):\n    id: str\n    name: str\n    email: str\n    department: str\n    role: str\nclass AssignedStudent(BaseModel):",
+        "detail": "backend.app.modules.projects.router",
+        "documentation": {}
+    },
+    {
+        "label": "projects_router",
+        "kind": 5,
+        "importPath": "backend.app.modules.projects.router",
+        "description": "backend.app.modules.projects.router",
+        "peekOfCode": "projects_router = APIRouter(prefix=\"/projects\", tags=[\"projects\"])\n# Pydantic Models\nclass FacultyInfo(BaseModel):\n    id: str\n    name: str\n    email: str\n    department: str\n    role: str\nclass AssignedStudent(BaseModel):\n    id: str",
+        "detail": "backend.app.modules.projects.router",
         "documentation": {}
     },
     {
