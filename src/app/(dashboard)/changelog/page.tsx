@@ -17,6 +17,103 @@ export default function ChangelogPage() {
             </div>
 
             <div className="space-y-12">
+                {/* Version 1.3.0 */}
+                <div className="relative border-l border-gray-200 pl-8 pb-12">
+                    <div className="absolute -left-3 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-purple-100 ring-8 ring-white">
+                        <FileText className="h-3 w-3 text-purple-600" />
+                    </div>
+
+                    <div className="mb-4">
+                        <span className="inline-flex items-center rounded-full bg-purple-50 px-3 py-1 text-sm font-semibold text-purple-700">
+                            v1.3.0
+                        </span>
+                        <span className="ml-4 text-sm font-medium text-gray-400">
+                            March 2, 2026
+                        </span>
+                    </div>
+
+                    <h2 className="mb-6 text-xl font-bold text-gray-900">
+                        Projects Module &amp; Flow System
+                    </h2>
+
+                    <div className="space-y-8">
+                        <div>
+                            <h3 className="mb-3 text-sm font-bold uppercase tracking-wider text-emerald-600">
+                                ✨ Added
+                            </h3>
+                            <ul className="list-inside list-disc space-y-2 text-gray-600 marker:text-emerald-500">
+                                <li>
+                                    <strong className="text-gray-900">Projects Module:</strong> Complete project management system with CRUD operations and role-based access control.
+                                </li>
+                                <li>
+                                    <strong className="text-gray-900">Project Flow System:</strong> Typed flow classification with <code className="bg-gray-100 px-1 rounded text-sm">&quot;internal&quot; | &quot;external&quot;</code> enum for explicit project type tracking.
+                                </li>
+                                <li>
+                                    <strong className="text-gray-900">Faculty Coordinator:</strong> New field to designate the internal faculty managing project approvals and student enrollment.
+                                </li>
+                                <li>
+                                    <strong className="text-gray-900">Approval Tracking:</strong> Added <code className="bg-gray-100 px-1 rounded text-sm">approvalSubmittedBy</code> field to create an audit trail of who submitted projects for approval.
+                                </li>
+                                <li>
+                                    <strong className="text-gray-900">Project Form:</strong> Interactive form with flow toggle buttons (&quot;🏫 Internal&quot; / &quot;🌐 External&quot;) and conditional external faculty fields.
+                                </li>
+                                <li>
+                                    <strong className="text-gray-900">Project Card View:</strong> List display showing projects with automatic external collaboration detection and coordinator information.
+                                </li>
+                                <li>
+                                    <strong className="text-gray-900">Project Detail Modal:</strong> Detailed project view with support for showing both coordinators and external faculty where applicable.
+                                </li>
+                                <li>
+                                    <strong className="text-gray-900">Student Assignment:</strong> Interface to add and manage students assigned to projects with role-based permissions.
+                                </li>
+                                <li>
+                                    <strong className="text-gray-900">Projects REST API:</strong> 10 REST endpoints for complete project lifecycle management (list, get, create, update, delete, approve, reject, add/remove students, complete).
+                                </li>
+                                <li>
+                                    <strong className="text-gray-900">Database Migration:</strong> Alembic migration <code className="bg-gray-100 px-1 rounded text-sm">20260302_0009</code> to update projects table schema with new fields and column renames.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 className="mb-3 text-sm font-bold uppercase tracking-wider text-blue-600">
+                                🔄 Changed
+                            </h3>
+                            <ul className="list-inside list-disc space-y-2 text-gray-600 marker:text-blue-500">
+                                <li>
+                                    <strong className="text-gray-900">Faculty Field Semantics:</strong> Renamed <code className="bg-gray-100 px-1 rounded text-sm">internalFaculty</code> to <code className="bg-gray-100 px-1 rounded text-sm">facultyCoordinator</code> across frontend components and backend models for clarity on role responsibility.
+                                </li>
+                                <li>
+                                    <strong className="text-gray-900">Flow Representation:</strong> Replaced boolean <code className="bg-gray-100 px-1 rounded text-sm">isExternalCollaboration</code> flag with typed <code className="bg-gray-100 px-1 rounded text-sm">ProjectFlow</code> enum for type-safe flow management.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 className="mb-3 text-sm font-bold uppercase tracking-wider text-gray-600">
+                                🏗️ Technical Details
+                            </h3>
+                            <ul className="list-inside list-disc space-y-2 text-gray-600 marker:text-gray-500">
+                                <li>
+                                    <strong className="text-gray-900">Frontend Types:</strong> Updated <code className="bg-gray-100 px-1 rounded text-sm">src/lib/types/project.ts</code> with new <code className="bg-gray-100 px-1 rounded text-sm">ProjectFlow</code> type and field structure.
+                                </li>
+                                <li>
+                                    <strong className="text-gray-900">Components Updated:</strong> ProjectForm, ProjectCard, ProjectDetailModal now use new flow system and field names.
+                                </li>
+                                <li>
+                                    <strong className="text-gray-900">Backend Models:</strong> SQLAlchemy Project model and Pydantic ProjectCreate schema updated with new columns and validation.
+                                </li>
+                                <li>
+                                    <strong className="text-gray-900">API Endpoints:</strong> create_project endpoint auto-populates <code className="bg-gray-100 px-1 rounded text-sm">faculty_coordinator</code> from authenticated user context.
+                                </li>
+                                <li>
+                                    <strong className="text-gray-900">Database Schema:</strong> Added <code className="bg-gray-100 px-1 rounded text-sm">flow</code>, renamed <code className="bg-gray-100 px-1 rounded text-sm">internal_faculty → faculty_coordinator</code>, added <code className="bg-gray-100 px-1 rounded text-sm">approval_submitted_by</code> columns.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Version 1.2.0 */}
                 <div className="relative border-l border-gray-200 pl-8 pb-12">
                     <div className="absolute -left-3 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-indigo-100 ring-8 ring-white">
