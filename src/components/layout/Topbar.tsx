@@ -4,10 +4,12 @@ import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/lib/hooks/useSidebar";
 import { useTheme } from "@/lib/theme/theme-context";
 import { Bell, Menu, Moon, Plus, Search, Sun } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Topbar() {
     const { toggle } = useSidebar();
     const { resolvedTheme, setTheme, theme } = useTheme();
+    const router = useRouter();
 
     const cycleTheme = () => {
         if (theme === "light") setTheme("dark");
@@ -63,7 +65,10 @@ export default function Topbar() {
                 </button>
 
                 {/* New Entry */}
-                <Button className="hidden h-10 gap-2 bg-[#1a6fdb] px-4 text-sm font-semibold text-white shadow-sm hover:bg-[#1560c2] sm:flex">
+                <Button
+                    className="hidden h-10 gap-2 bg-[#1a6fdb] px-4 text-sm font-semibold text-white shadow-sm hover:bg-[#1560c2] sm:flex"
+                    onClick={() => router.push("/students")}
+                >
                     <Plus className="h-4 w-4" />
                     New Entry
                 </Button>

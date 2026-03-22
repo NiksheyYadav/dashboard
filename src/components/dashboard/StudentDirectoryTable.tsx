@@ -46,6 +46,43 @@ export default function StudentDirectoryTable({
         return avatarColors[Math.abs(hash) % avatarColors.length];
     }
 
+    const handleDownload = () => {
+        const headers = [
+            "Student Name",
+            "Roll No.",
+            "Course",
+            "CV Status",
+            "phone no.",
+            "email",
+        ];
+
+        const escapeCell = (value: unknown) => {
+            const cell = value == null ? "" : String(value);
+            return `"${cell.replace(/"/g, '""')}"`;
+        };
+
+        const rows = data.data.map((student) => [
+            student.name,
+            student.rollNo,
+            student.course,
+            student.cvStatus,
+            student.phone ?? "",
+            student.email ?? "",
+        ]);
+
+        const csv = [headers, ...rows]
+            .map((row) => row.map(escapeCell).join(","))
+            .join("\r\n");
+
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "students-report.csv";
+        link.click();
+        URL.revokeObjectURL(url);
+    };
+
     return (
         <div className="rounded-xl border border-gray-100 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
             {/* Header */}
@@ -64,7 +101,10 @@ export default function StudentDirectoryTable({
                         Semester 4
                     </span>
                 </div>
-                <Button className="gap-2 bg-[#1a6fdb] px-4 text-sm font-semibold text-white shadow-sm hover:bg-[#1560c2]">
+                <Button
+                    className="gap-2 bg-[#1a6fdb] px-4 text-sm font-semibold text-white shadow-sm hover:bg-[#1560c2]"
+                    onClick={handleDownload}
+                >
                     <Download className="h-4 w-4" />
                     Download Report
                 </Button>
