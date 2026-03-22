@@ -13,6 +13,7 @@ from app.modules.events.router import events_router
 from app.modules.insights.router import insights_router
 from app.modules.messages.router import messages_router
 from app.modules.placement.router import placement_router
+from app.modules.projects.router import projects_router
 from app.modules.students.router import students_router
 from app.modules.users.router import users_router
 from app.utils.exceptions import AppException
@@ -45,6 +46,7 @@ app.include_router(placement_router, prefix=settings.api_v1_prefix)
 app.include_router(users_router, prefix=settings.api_v1_prefix)
 app.include_router(announcements_router, prefix=settings.api_v1_prefix)
 app.include_router(events_router, prefix=settings.api_v1_prefix)
+app.include_router(projects_router, prefix=settings.api_v1_prefix)
 
 
 @app.exception_handler(AppException)

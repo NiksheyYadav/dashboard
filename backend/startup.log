@@ -1,0 +1,38 @@
+INFO:     Will watch for changes in these directories: ['c:\\eblock\\backend']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [31116] using WatchFiles
+INFO:     Started server process [31188]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app\modules\projects\router.py'. Reloading...
+ INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [31188]
+INFO:     Started server process [32192]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app\modules\projects\router.py'. Reloading...
+ INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [32192]
+WARNING:  WatchFiles detected changes in 'app\models\project.py', 'app\modules\projects\router.py', 'alembic\versions\20260302_0009_update_projects_flow_fields.py'. Reloading...
+ Process SpawnProcess-3:
+Traceback (most recent call last):
+  File "C:\Users\IQBAL SINGH\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Users\IQBAL SINGH\AppData\Local\Programs\Python\Python310\lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\IQBAL SINGH\AppData\Local\Programs\Python\Python310\lib\site-packages\uvicorn\_subprocess.py", line 73, in subprocess_started
+    sys.stdin = os.fdopen(stdin_fileno)  # pragma: full coverage
+  File "C:\Users\IQBAL SINGH\AppData\Local\Programs\Python\Python310\lib\os.py", line 1030, in fdopen
+    return io.open(fd, mode, buffering, encoding, *args, **kwargs)
+  File "C:\Users\IQBAL SINGH\AppData\Local\Programs\Python\Python310\lib\codecs.py", line 309, in __init__
+    def __init__(self, errors='strict'):
+KeyboardInterrupt
+INFO:     Started server process [31160]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app\models\project.py', 'app\modules\projects\router.py', 'alembic\versions\20260302_0009_update_projects_flow_fields.py'. Reloading...
+ 
