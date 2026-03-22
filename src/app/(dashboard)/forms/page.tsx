@@ -1,5 +1,6 @@
 "use client";
 
+import { API_BASE_URL, apiGet } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
 import { FormDefinition } from "@/lib/types/form";
 import {
@@ -8,14 +9,84 @@ import {
     ClipboardList,
     Eye,
     Plus,
+    Trash,
     Users,
 } from "lucide-react";
 import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
 
 export default function FormsPage() {
-    // Forms will be fetched from API once the forms backend is built
-    const forms: FormDefinition[] = [];
+    const [forms, setForms] = useState<FormDefinition[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+    const [isMutating, setIsMutating] = useState<string | null>(null);
+
     const responseCounts: Record<string, number> = {};
+
+    const getToken = () => {
+        if (typeof window === "undefined") return null;
+        return localStorage.getItem("edupulse_auth_token");
+    };
+
+    const fetchForms = useCallback(async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await apiGet<FormDefinition[]>("/forms");
+            setForms(data);
+        } catch (err) {
+            const message = err instanceof Error ? err.message : "Failed to load forms";
+            setError(message);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchForms();
+    }, [fetchForms]);
+
+    const handleToggle = async (id: string) => {
+        setIsMutating(id);
+        setError(null);
+        try {
+            const token = getToken();
+            await fetch(`${API_BASE_URL}/forms/${id}/toggle`, {
+                method: "PUT",
+                credentials: "include",
+                headers: {
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+            });
+            await fetchForms();
+        } catch (err) {
+            const message = err instanceof Error ? err.message : "Unable to update form";
+            setError(message);
+        } finally {
+            setIsMutating(null);
+        }
+    };
+
+    const handleDelete = async (id: string) => {
+        setIsMutating(id);
+        setError(null);
+        try {
+            const token = getToken();
+            await fetch(`${API_BASE_URL}/forms/${id}`, {
+                method: "DELETE",
+                credentials: "include",
+                headers: {
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+            });
+            await fetchForms();
+        } catch (err) {
+            const message = err instanceof Error ? err.message : "Unable to delete form";
+            setError(message);
+        } finally {
+            setIsMutating(null);
+        }
+    };
 
     return (
         <div className="animate-slide-up space-y-6">
@@ -35,8 +106,17 @@ export default function FormsPage() {
                 </Link>
             </div>
 
-            {/* Forms Grid */}
-            {forms.length === 0 ? (
+            {error && (
+                <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-900/30 dark:text-red-200">
+                    {error}
+                </div>
+            )}
+
+            {loading ? (
+                <div className="flex items-center justify-center rounded-xl border border-gray-100 bg-white px-6 py-16 text-sm text-gray-500 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400">
+                    Loading forms...
+                </div>
+            ) : forms.length === 0 ? (
                 <div className="flex flex-col items-center justify-center rounded-xl border border-gray-100 bg-white px-6 py-16 dark:border-gray-800 dark:bg-gray-900">
                     <ClipboardList className="h-12 w-12 text-gray-300 dark:text-gray-600" />
                     <h3 className="mt-4 text-lg font-semibold text-gray-900 dark:text-gray-100">No Forms Yet</h3>
@@ -102,8 +182,20 @@ export default function FormsPage() {
                                         <Eye className="h-3.5 w-3.5" /> View Responses
                                     </button>
                                     <div className="w-px bg-gray-100 dark:bg-gray-800" />
-                                    <button className="flex flex-1 items-center justify-center gap-1.5 py-3 text-xs font-medium text-gray-500 transition-colors hover:bg-gray-50 hover:text-[#1a6fdb] dark:hover:bg-gray-800">
+                                    <button
+                                        onClick={() => handleToggle(form.id)}
+                                        disabled={isMutating === form.id}
+                                        className="flex flex-1 items-center justify-center gap-1.5 py-3 text-xs font-medium text-gray-500 transition-colors hover:bg-gray-50 hover:text-[#1a6fdb] disabled:cursor-not-allowed disabled:opacity-60 dark:hover:bg-gray-800"
+                                    >
                                         <CheckCircle2 className="h-3.5 w-3.5" /> {form.isActive ? "Close" : "Reopen"}
+                                    </button>
+                                    <div className="w-px bg-gray-100 dark:bg-gray-800" />
+                                    <button
+                                        onClick={() => handleDelete(form.id)}
+                                        disabled={isMutating === form.id}
+                                        className="flex flex-1 items-center justify-center gap-1.5 py-3 text-xs font-medium text-red-500 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60 dark:hover:bg-gray-800"
+                                    >
+                                        <Trash className="h-3.5 w-3.5" /> Delete
                                     </button>
                                 </div>
                             </div>

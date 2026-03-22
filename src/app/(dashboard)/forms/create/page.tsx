@@ -3,6 +3,7 @@
 import FormFieldEditor from "@/components/forms/FormFieldEditor";
 import FormPreview from "@/components/forms/FormPreview";
 import { FormDefinition, FormField } from "@/lib/types/form";
+import { API_BASE_URL } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
 import { COURSES, SEMESTERS } from "@/lib/utils/constants";
 import { ArrowLeft, Eye, Pencil, Plus } from "lucide-react";
@@ -24,6 +25,8 @@ export default function CreateFormPage() {
     const [fields, setFields] = useState<FormField[]>([
         { id: `f-${idCounter.current}`, type: "text", label: "", required: false },
     ]);
+    const [publishing, setPublishing] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const addField = () => {
         setFields([...fields, { id: `f-${++fieldCounter}`, type: "text", label: "", required: false }]);
@@ -57,10 +60,55 @@ export default function CreateFormPage() {
         deadline: deadline || undefined,
     };
 
-    const handlePublish = () => {
-        // In a real app, this would POST to API
-        alert("Form published! (Mock — data not persisted)");
-        router.push("/forms");
+    const getToken = () => {
+        if (typeof window === "undefined") return null;
+        return localStorage.getItem("edupulse_auth_token");
+    };
+
+    const handlePublish = async () => {
+        setPublishing(true);
+        setError(null);
+        try {
+            const token = getToken();
+            const deadlineIso = deadline ? new Date(deadline).toISOString() : new Date().toISOString();
+            const payload = {
+                title,
+                description,
+                fields,
+                targetCourse: targetCourse === "all" ? "all" : COURSES.find((c) => c.value === targetCourse)?.label ?? targetCourse,
+                targetSemester,
+                deadline: deadlineIso,
+                isActive: true,
+            };
+
+            const response = await fetch(`${API_BASE_URL}/forms`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+                let detail = "Failed to publish form";
+                try {
+                    const data = (await response.json()) as { detail?: string };
+                    if (data?.detail) detail = data.detail;
+                } catch {
+                    // ignore
+                }
+                throw new Error(detail);
+            }
+
+            router.push("/forms");
+        } catch (err) {
+            const message = err instanceof Error ? err.message : "Something went wrong";
+            setError(message);
+        } finally {
+            setPublishing(false);
+        }
     };
 
     return (
@@ -99,10 +147,10 @@ export default function CreateFormPage() {
                     </div>
                     <button
                         onClick={handlePublish}
-                        disabled={!title.trim() || fields.length === 0}
+                        disabled={!title.trim() || fields.length === 0 || publishing}
                         className="rounded-lg bg-[#1a6fdb] px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-[#1560c2] disabled:opacity-50 active:scale-[0.98]"
                     >
-                        Publish Form
+                        {publishing ? "Publishing..." : "Publish Form"}
                     </button>
                 </div>
             </div>
@@ -208,6 +256,12 @@ export default function CreateFormPage() {
                                 <li>• Preview before publishing</li>
                             </ul>
                         </div>
+
+                        {error && (
+                            <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800 dark:bg-red-900/30 dark:text-red-200">
+                                {error}
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
