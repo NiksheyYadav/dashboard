@@ -6,17 +6,16 @@ import StatCard from "@/components/dashboard/StatCard";
 import StudentDirectoryTable from "@/components/dashboard/StudentDirectoryTable";
 import WeeklyTrendChart from "@/components/dashboard/WeeklyTrendChart";
 import { getDashboardStats } from "@/lib/api/analytics";
-import { getDistribution, getTopPerformers, getWeeklyTrend } from "@/lib/api/attendance";
+import { getDistribution, getWeeklyTrend } from "@/lib/api/attendance";
 import { getStudents } from "@/lib/api/students";
 import { PaginatedResponse } from "@/lib/types/api";
-import { DashboardStats, DistributionData, TopPerformerData, WeeklyTrendData } from "@/lib/types/attendance";
+import { DashboardStats, DistributionData, WeeklyTrendData } from "@/lib/types/attendance";
 import { Student } from "@/lib/types/student";
 import { AlertTriangle, CalendarCheck, CloudUpload, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function TeacherDashboard() {
     const [stats, setStats] = useState<DashboardStats | null>(null);
-    const [topPerformers, setTopPerformers] = useState<TopPerformerData[]>([]);
     const [weeklyTrend, setWeeklyTrend] = useState<WeeklyTrendData[]>([]);
     const [distribution, setDistribution] = useState<DistributionData | null>(null);
     const [students, setStudents] = useState<PaginatedResponse<Student> | null>(null);
@@ -24,15 +23,13 @@ export default function TeacherDashboard() {
 
     useEffect(() => {
         async function loadData() {
-            const [s, tp, wt, dist, studs] = await Promise.all([
+            const [s, wt, dist, studs] = await Promise.all([
                 getDashboardStats(),
-                getTopPerformers(),
                 getWeeklyTrend(),
                 getDistribution(),
                 getStudents({ page: 1, limit: 4 }),
             ]);
             setStats(s);
-            setTopPerformers(tp);
             setWeeklyTrend(wt);
             setDistribution(dist);
             setStudents(studs);
@@ -85,12 +82,9 @@ export default function TeacherDashboard() {
             </div>
 
             {/* Charts Row */}
-            <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1fr_300px]">
-                <AttendanceBarChart data={topPerformers} />
-                <div className="flex flex-col gap-4">
-                    <WeeklyTrendChart data={weeklyTrend} />
-                    <DistributionDonut data={distribution} />
-                </div>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <WeeklyTrendChart data={weeklyTrend} />
+                <DistributionDonut data={distribution} />
             </div>
 
             {/* Student Directory */}

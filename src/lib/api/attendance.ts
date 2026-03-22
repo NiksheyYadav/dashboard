@@ -1,15 +1,5 @@
 import { apiGet } from "@/lib/api/client";
-import { DistributionData, TopPerformerData, WeeklyTrendData } from "@/lib/types/attendance";
-
-/**
- * Get top-performing students' attendance.
- * TODO: Replace with axios.get(`${BASE_URL}/attendance?type=top&semester=current`)
- */
-export async function getTopPerformers(
-    _semester?: string
-): Promise<TopPerformerData[]> {
-    return apiGet<TopPerformerData[]>("/attendance/top");
-}
+import { DistributionData, WeeklyTrendData } from "@/lib/types/attendance";
 
 /**
  * Get weekly attendance trend data.

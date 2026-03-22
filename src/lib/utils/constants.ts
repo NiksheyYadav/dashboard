@@ -25,7 +25,7 @@ const ALL_NAV_ITEMS: (NavItem & { roles: UserRole[]; coordTypes?: CoordinatorTyp
     { label: "Dashboard", icon: LayoutGrid, href: "/dashboard", roles: ["admin", "dean", "hod", "coordinator", "faculty"] },
     { label: "Staff Management", icon: Users, href: "/staff", roles: ["admin"] },
     { label: "Students", icon: Users, href: "/students", roles: ["admin", "dean", "hod", "coordinator", "faculty"] },
-    { label: "Attendance", icon: CalendarCheck, href: "/attendance", roles: ["admin", "dean", "hod", "coordinator", "faculty"], coordTypes: ["attendance"] },
+    { label: "Attendance", icon: CalendarCheck, href: "/attendance", roles: ["dean", "hod", "coordinator"], coordTypes: ["attendance"] },
     { label: "Events", icon: MapPin, href: "/events", roles: ["admin", "dean", "hod", "coordinator", "faculty"], coordTypes: ["events"] },
     { label: "Forms", icon: ClipboardList, href: "/forms", roles: ["admin", "dean", "hod", "coordinator"] },
     { label: "Announcements", icon: Megaphone, href: "/announcements", roles: ["admin", "dean", "hod"] },
@@ -34,7 +34,7 @@ const ALL_NAV_ITEMS: (NavItem & { roles: UserRole[]; coordTypes?: CoordinatorTyp
     { label: "Fees", icon: CreditCard, href: "/fees", roles: ["admin", "dean", "hod"] },
     { label: "Changelog", icon: FileText, href: "/changelog", roles: ["admin", "dean", "hod", "coordinator", "faculty"] },
     { label: "Reports", icon: FileText, href: "/reports", roles: ["admin", "dean", "hod", "coordinator"] },
-    { label: "Messages", icon: MessageSquare, href: "/anonymous-messages", roles: ["admin", "dean", "hod"] },
+    { label: "Messages", icon: MessageSquare, href: "/anonymous-messages", roles: ["dean", "hod"] },
 ];
 
 export function getNavItemsForRole(role: UserRole, coordType?: CoordinatorType): NavItem[] {

@@ -1,5 +1,5 @@
 import { Announcement } from "@/lib/types/announcement";
-import { DashboardStats, DistributionData, TopPerformerData, WeeklyTrendData } from "@/lib/types/attendance";
+import { DashboardStats, DistributionData, WeeklyTrendData } from "@/lib/types/attendance";
 import { FormDefinition, FormResponse } from "@/lib/types/form";
 import { Student } from "@/lib/types/student";
 
@@ -146,15 +146,6 @@ export const MOCK_STUDENTS: Student[] = [
     },
 ];
 
-export const MOCK_TOP_PERFORMERS: TopPerformerData[] = [
-    { name: "ALICE W.", attendance: 96 },
-    { name: "BOB M.", attendance: 92 },
-    { name: "CHARLIE D.", attendance: 94 },
-    { name: "DIANA R.", attendance: 91 },
-    { name: "ETHAN K.", attendance: 85 },
-    { name: "FIONA S.", attendance: 78 },
-    { name: "GEORGE B.", attendance: 88 },
-];
 
 export const MOCK_WEEKLY_TREND: WeeklyTrendData[] = [
     { week: "W1", attendance: 88 },

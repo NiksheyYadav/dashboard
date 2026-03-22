@@ -1,8 +1,3 @@
-export interface TopPerformerData {
-    name: string;
-    attendance: number;
-}
-
 export interface WeeklyTrendData {
     week: string;
     attendance: number;
