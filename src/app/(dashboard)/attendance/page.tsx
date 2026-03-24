@@ -10,7 +10,7 @@ import RequireRole from "@/components/providers/RequireRole";
 import { Button } from "@/components/ui/button";
 import { getDashboardStats } from "@/lib/api/analytics";
 import { getDistribution, getWeeklyTrend } from "@/lib/api/attendance";
-import { apiGet } from "@/lib/api/client";
+
 import { useAuth } from "@/lib/auth/auth-context";
 import { DashboardStats, DistributionData, WeeklyTrendData } from "@/lib/types/attendance";
 import { UploadedFile } from "@/lib/types/attendance-upload";
@@ -38,37 +38,34 @@ import {
 
 let fileIdCounter = 0;
 
-/* ─── Top Performer type & fetcher ─── */
-interface TopPerformer {
-    name: string;
-    attendance: number;
-}
-
-async function getTopPerformers(): Promise<TopPerformer[]> {
-    return apiGet<TopPerformer[]>("/attendance/top");
-}
+/* ─── Department-wise attendance (static until backend endpoint is built) ─── */
+const DEPT_ATTENDANCE = [
+    { department: "CSE", attendance: 78.5 },
+    { department: "ECE", attendance: 72.3 },
+    { department: "ME", attendance: 68.9 },
+    { department: "Civil", attendance: 74.1 },
+    { department: "EE", attendance: 70.6 },
+    { department: "IT", attendance: 76.2 },
+];
 
 /* ─── Dean's graph-based attendance overview ─── */
 function DeanAttendanceView() {
     const [stats, setStats] = useState<DashboardStats | null>(null);
     const [weeklyTrend, setWeeklyTrend] = useState<WeeklyTrendData[]>([]);
     const [distribution, setDistribution] = useState<DistributionData | null>(null);
-    const [topPerformers, setTopPerformers] = useState<TopPerformer[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function loadData() {
             try {
-                const [s, wt, dist, tp] = await Promise.all([
+                const [s, wt, dist] = await Promise.all([
                     getDashboardStats(),
                     getWeeklyTrend().catch(() => [] as WeeklyTrendData[]),
                     getDistribution().catch(() => null),
-                    getTopPerformers().catch(() => [] as TopPerformer[]),
                 ]);
                 setStats(s);
                 setWeeklyTrend(wt);
                 setDistribution(dist);
-                setTopPerformers(tp);
             } finally {
                 setLoading(false);
             }
@@ -142,54 +139,48 @@ function DeanAttendanceView() {
                 {distribution && <DistributionDonut data={distribution} />}
             </div>
 
-            {/* Top Performers Bar Chart */}
-            {topPerformers.length > 0 && (
-                <div className="rounded-xl border border-gray-100 bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
-                    <h3 className="mb-4 text-sm font-semibold text-gray-900">
-                        Top Attendance — Students
-                    </h3>
-                    <div className="h-[220px]">
-                        <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
-                            <BarChart
-                                data={topPerformers}
-                                layout="vertical"
-                                margin={{ top: 0, right: 30, left: 10, bottom: 0 }}
-                            >
-                                <XAxis
-                                    type="number"
-                                    domain={[0, 100]}
-                                    tick={{ fontSize: 11, fill: "#9ca3af" }}
-                                    tickLine={false}
-                                    axisLine={false}
-                                    tickFormatter={(v: number) => `${v}%`}
-                                />
-                                <YAxis
-                                    type="category"
-                                    dataKey="name"
-                                    tick={{ fontSize: 12, fill: "#374151" }}
-                                    tickLine={false}
-                                    axisLine={false}
-                                    width={120}
-                                />
-                                <Tooltip
-                                    contentStyle={{
-                                        borderRadius: "8px",
-                                        border: "1px solid #e5e7eb",
-                                        fontSize: "12px",
-                                    }}
-                                    formatter={(value: number | string | undefined) => [`${value ?? 0}%`, "Attendance"]}
-                                />
-                                <Bar
-                                    dataKey="attendance"
-                                    fill="#1a6fdb"
-                                    radius={[0, 6, 6, 0]}
-                                    barSize={20}
-                                />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
+            {/* Department-wise Attendance Bar Chart */}
+            <div className="rounded-xl border border-gray-100 bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+                <h3 className="mb-4 text-sm font-semibold text-gray-900">
+                    Department-wise Attendance
+                </h3>
+                <div className="h-[250px]">
+                    <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
+                        <BarChart
+                            data={DEPT_ATTENDANCE}
+                            margin={{ top: 5, right: 30, left: -10, bottom: 5 }}
+                        >
+                            <XAxis
+                                dataKey="department"
+                                tick={{ fontSize: 12, fill: "#374151" }}
+                                tickLine={false}
+                                axisLine={false}
+                            />
+                            <YAxis
+                                domain={[0, 100]}
+                                tick={{ fontSize: 11, fill: "#9ca3af" }}
+                                tickLine={false}
+                                axisLine={false}
+                                tickFormatter={(v: number) => `${v}%`}
+                            />
+                            <Tooltip
+                                contentStyle={{
+                                    borderRadius: "8px",
+                                    border: "1px solid #e5e7eb",
+                                    fontSize: "12px",
+                                }}
+                                formatter={(value: number | string | undefined) => [`${value ?? 0}%`, "Avg Attendance"]}
+                            />
+                            <Bar
+                                dataKey="attendance"
+                                fill="#1a6fdb"
+                                radius={[6, 6, 0, 0]}
+                                barSize={40}
+                            />
+                        </BarChart>
+                    </ResponsiveContainer>
                 </div>
-            )}
+            </div>
         </div>
     );
 }
