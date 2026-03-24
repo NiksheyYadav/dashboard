@@ -3,12 +3,21 @@
 import FileDropZone from "@/components/attendance/FileDropZone";
 import FileQueueItem from "@/components/attendance/FileQueueItem";
 import ValidationInfoCard from "@/components/attendance/ValidationInfoCard";
+import DistributionDonut from "@/components/dashboard/DistributionDonut";
+import StatCard from "@/components/dashboard/StatCard";
+import WeeklyTrendChart from "@/components/dashboard/WeeklyTrendChart";
 import RequireRole from "@/components/providers/RequireRole";
 import { Button } from "@/components/ui/button";
+import { getDashboardStats } from "@/lib/api/analytics";
+import { getDistribution, getWeeklyTrend } from "@/lib/api/attendance";
+import { apiGet } from "@/lib/api/client";
 import { useAuth } from "@/lib/auth/auth-context";
+import { DashboardStats, DistributionData, WeeklyTrendData } from "@/lib/types/attendance";
 import { UploadedFile } from "@/lib/types/attendance-upload";
 import {
     AlertCircle,
+    AlertTriangle,
+    CalendarCheck,
     ChevronRight,
     Download,
     FileText,
@@ -16,33 +25,67 @@ import {
     ShieldCheck,
     Upload,
     Users,
-    BookOpen,
-    Filter,
 } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import {
+    Bar,
+    BarChart,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from "recharts";
 
 let fileIdCounter = 0;
 
-/* ─── Mock data for Dean's read-only view ─── */
-const MOCK_ATTENDANCE = [
-    { name: "Aarav Sharma", rollNo: "CS20210042", course: "B.Tech CS", totalLectures: 30, attended: 27, percentage: 90 },
-    { name: "Priya Patel", rollNo: "CS20210088", course: "B.Tech CS", totalLectures: 30, attended: 24, percentage: 80 },
-    { name: "Rohan Verma", rollNo: "CS20210105", course: "B.Tech CS", totalLectures: 30, attended: 20, percentage: 67 },
-    { name: "Sneha Gupta", rollNo: "CS20210113", course: "B.Tech CS", totalLectures: 30, attended: 29, percentage: 97 },
-];
+/* ─── Top Performer type & fetcher ─── */
+interface TopPerformer {
+    name: string;
+    attendance: number;
+}
 
-const COURSE_OPTIONS = ["All Courses", "B.Tech CS"];
-const SEMESTER_OPTIONS = ["All Semesters", "Semester 1", "Semester 2", "Semester 3", "Semester 4", "Semester 5", "Semester 6", "Semester 7", "Semester 8"];
+async function getTopPerformers(): Promise<TopPerformer[]> {
+    return apiGet<TopPerformer[]>("/attendance/top");
+}
 
-/* ─── Dean's read-only attendance overview ─── */
+/* ─── Dean's graph-based attendance overview ─── */
 function DeanAttendanceView() {
-    const [courseFilter, setCourseFilter] = useState("All Courses");
-    const [semesterFilter, setSemesterFilter] = useState("All Semesters");
+    const [stats, setStats] = useState<DashboardStats | null>(null);
+    const [weeklyTrend, setWeeklyTrend] = useState<WeeklyTrendData[]>([]);
+    const [distribution, setDistribution] = useState<DistributionData | null>(null);
+    const [topPerformers, setTopPerformers] = useState<TopPerformer[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const data = MOCK_ATTENDANCE;
+    useEffect(() => {
+        async function loadData() {
+            try {
+                const [s, wt, dist, tp] = await Promise.all([
+                    getDashboardStats(),
+                    getWeeklyTrend().catch(() => [] as WeeklyTrendData[]),
+                    getDistribution().catch(() => null),
+                    getTopPerformers().catch(() => [] as TopPerformer[]),
+                ]);
+                setStats(s);
+                setWeeklyTrend(wt);
+                setDistribution(dist);
+                setTopPerformers(tp);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadData();
+    }, []);
+
+    if (loading || !stats) {
+        return (
+            <div className="flex h-[50vh] items-center justify-center">
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-[#1a6fdb]" />
+            </div>
+        );
+    }
 
     return (
-        <div className="space-y-6">
+        <div className="animate-slide-up space-y-6">
             {/* Breadcrumb */}
             <div className="flex items-center gap-1.5 text-sm text-gray-400">
                 <span>Attendance</span>
@@ -56,114 +99,95 @@ function DeanAttendanceView() {
                     Attendance Overview — CSE Department
                 </h1>
                 <p className="mt-1 text-sm leading-relaxed text-gray-500">
-                    View attendance records uploaded by coordinators and HODs across the CSE department.
+                    High-level attendance insights across the CSE department. Data is updated live from the system.
                 </p>
             </div>
 
             {/* Stat Cards */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <div className="flex items-center gap-4 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50">
-                        <Users className="h-5 w-5 text-blue-600" />
-                    </div>
-                    <div>
-                        <p className="text-xs font-medium uppercase tracking-wider text-gray-400">Total Students</p>
-                        <p className="text-lg font-bold text-gray-900">{data.length}</p>
-                    </div>
-                </div>
-                <div className="flex items-center gap-4 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-50">
-                        <BookOpen className="h-5 w-5 text-emerald-600" />
-                    </div>
-                    <div>
-                        <p className="text-xs font-medium uppercase tracking-wider text-gray-400">Avg. Attendance</p>
-                        <p className="text-lg font-bold text-gray-900">
-                            {data.length > 0 ? Math.round(data.reduce((s, r) => s + r.percentage, 0) / data.length) : 0}%
-                        </p>
-                    </div>
-                </div>
-                <div className="flex items-center gap-4 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-50">
-                        <AlertCircle className="h-5 w-5 text-amber-500" />
-                    </div>
-                    <div>
-                        <p className="text-xs font-medium uppercase tracking-wider text-gray-400">Below 75%</p>
-                        <p className="text-lg font-bold text-gray-900">
-                            {data.filter((r) => r.percentage < 75).length}
-                        </p>
-                    </div>
-                </div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                <StatCard
+                    icon={<Users className="h-5 w-5 text-[#1a6fdb]" />}
+                    iconBg="bg-blue-50 dark:bg-blue-950/30"
+                    label="Total Students"
+                    value={stats.totalStudents.toLocaleString()}
+                    trend={stats.totalStudentsTrend}
+                />
+                <StatCard
+                    icon={<CalendarCheck className="h-5 w-5 text-[#059669]" />}
+                    iconBg="bg-emerald-50 dark:bg-emerald-950/30"
+                    label="Avg Attendance"
+                    value={`${stats.avgAttendance}%`}
+                    trend={stats.avgAttendanceTrend}
+                />
+                <StatCard
+                    icon={<AlertTriangle className="h-5 w-5 text-[#dc2626]" />}
+                    iconBg="bg-red-50 dark:bg-red-950/30"
+                    label="Low Attendance"
+                    value={stats.lowAttendance}
+                    actionLabel="View List"
+                    actionHref="/students?filter=low-attendance"
+                />
+                <StatCard
+                    icon={<FileText className="h-5 w-5 text-[#7c3aed]" />}
+                    iconBg="bg-purple-50 dark:bg-purple-950/30"
+                    label="CVs Uploaded"
+                    value={stats.cvsUploaded.toLocaleString()}
+                    subtitle={stats.cvsUploadedLabel}
+                />
             </div>
 
-            {/* Filters */}
-            <div className="flex flex-wrap items-center gap-3">
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <Filter className="h-4 w-4" />
-                    <span className="font-medium">Filters:</span>
-                </div>
-                <select
-                    value={courseFilter}
-                    onChange={(e) => setCourseFilter(e.target.value)}
-                    className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                >
-                    {COURSE_OPTIONS.map((c) => (
-                        <option key={c} value={c}>{c}</option>
-                    ))}
-                </select>
-                <select
-                    value={semesterFilter}
-                    onChange={(e) => setSemesterFilter(e.target.value)}
-                    className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                >
-                    {SEMESTER_OPTIONS.map((s) => (
-                        <option key={s} value={s}>{s}</option>
-                    ))}
-                </select>
+            {/* Charts Row — Weekly Trend + Distribution */}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <WeeklyTrendChart data={weeklyTrend} />
+                {distribution && <DistributionDonut data={distribution} />}
             </div>
 
-            {/* Table */}
-            {data.length === 0 ? (
-                <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-gray-200 bg-gray-50/50 py-16">
-                    <Users className="mb-3 h-10 w-10 text-gray-300" />
-                    <p className="text-sm font-medium text-gray-500">No attendance records uploaded yet</p>
-                    <p className="mt-1 text-xs text-gray-400">Records will appear here once coordinators upload attendance data.</p>
-                </div>
-            ) : (
-                <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
-                    <table className="w-full text-left text-sm">
-                        <thead>
-                            <tr className="border-b border-gray-100 bg-gray-50/80">
-                                <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Student Name</th>
-                                <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Roll No.</th>
-                                <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Course</th>
-                                <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400 text-center">Total Lectures</th>
-                                <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400 text-center">Attended</th>
-                                <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-400 text-center">Percentage</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-50">
-                            {data.map((row) => (
-                                <tr key={row.rollNo} className="transition-colors hover:bg-blue-50/30">
-                                    <td className="px-5 py-3.5 font-medium text-gray-900">{row.name}</td>
-                                    <td className="px-5 py-3.5 text-gray-600">{row.rollNo}</td>
-                                    <td className="px-5 py-3.5 text-gray-600">{row.course}</td>
-                                    <td className="px-5 py-3.5 text-center text-gray-600">{row.totalLectures}</td>
-                                    <td className="px-5 py-3.5 text-center text-gray-600">{row.attended}</td>
-                                    <td className="px-5 py-3.5 text-center">
-                                        <span
-                                            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                                                row.percentage >= 75
-                                                    ? "bg-emerald-50 text-emerald-700"
-                                                    : "bg-red-50 text-red-700"
-                                            }`}
-                                        >
-                                            {row.percentage}%
-                                        </span>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+            {/* Top Performers Bar Chart */}
+            {topPerformers.length > 0 && (
+                <div className="rounded-xl border border-gray-100 bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+                    <h3 className="mb-4 text-sm font-semibold text-gray-900">
+                        Top Attendance — Students
+                    </h3>
+                    <div className="h-[220px]">
+                        <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
+                            <BarChart
+                                data={topPerformers}
+                                layout="vertical"
+                                margin={{ top: 0, right: 30, left: 10, bottom: 0 }}
+                            >
+                                <XAxis
+                                    type="number"
+                                    domain={[0, 100]}
+                                    tick={{ fontSize: 11, fill: "#9ca3af" }}
+                                    tickLine={false}
+                                    axisLine={false}
+                                    tickFormatter={(v: number) => `${v}%`}
+                                />
+                                <YAxis
+                                    type="category"
+                                    dataKey="name"
+                                    tick={{ fontSize: 12, fill: "#374151" }}
+                                    tickLine={false}
+                                    axisLine={false}
+                                    width={120}
+                                />
+                                <Tooltip
+                                    contentStyle={{
+                                        borderRadius: "8px",
+                                        border: "1px solid #e5e7eb",
+                                        fontSize: "12px",
+                                    }}
+                                    formatter={(value: number | string) => [`${value}%`, "Attendance"]}
+                                />
+                                <Bar
+                                    dataKey="attendance"
+                                    fill="#1a6fdb"
+                                    radius={[0, 6, 6, 0]}
+                                    barSize={20}
+                                />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
                 </div>
             )}
         </div>
