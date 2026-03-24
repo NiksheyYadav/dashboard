@@ -38,14 +38,40 @@ import {
 
 let fileIdCounter = 0;
 
-/* ─── Department-wise attendance (static until backend endpoint is built) ─── */
-const DEPT_ATTENDANCE = [
-    { department: "CSE", attendance: 78.5 },
-    { department: "ECE", attendance: 72.3 },
-    { department: "ME", attendance: 68.9 },
-    { department: "Civil", attendance: 74.1 },
-    { department: "EE", attendance: 70.6 },
-    { department: "IT", attendance: 76.2 },
+/* ─── Department-wise attendance by period (static until backend is built) ─── */
+type TimePeriod = "daily" | "weekly" | "monthly";
+
+const DEPT_ATTENDANCE: Record<TimePeriod, { department: string; attendance: number }[]> = {
+    daily: [
+        { department: "CSE", attendance: 82.1 },
+        { department: "ECE", attendance: 74.5 },
+        { department: "ME", attendance: 65.3 },
+        { department: "Civil", attendance: 71.8 },
+        { department: "EE", attendance: 68.2 },
+        { department: "IT", attendance: 79.4 },
+    ],
+    weekly: [
+        { department: "CSE", attendance: 78.5 },
+        { department: "ECE", attendance: 72.3 },
+        { department: "ME", attendance: 68.9 },
+        { department: "Civil", attendance: 74.1 },
+        { department: "EE", attendance: 70.6 },
+        { department: "IT", attendance: 76.2 },
+    ],
+    monthly: [
+        { department: "CSE", attendance: 76.0 },
+        { department: "ECE", attendance: 70.8 },
+        { department: "ME", attendance: 66.5 },
+        { department: "Civil", attendance: 72.9 },
+        { department: "EE", attendance: 69.1 },
+        { department: "IT", attendance: 74.7 },
+    ],
+};
+
+const PERIOD_LABELS: { key: TimePeriod; label: string }[] = [
+    { key: "daily", label: "Daily" },
+    { key: "weekly", label: "Weekly" },
+    { key: "monthly", label: "Monthly" },
 ];
 
 /* ─── Dean's graph-based attendance overview ─── */
@@ -54,6 +80,8 @@ function DeanAttendanceView() {
     const [weeklyTrend, setWeeklyTrend] = useState<WeeklyTrendData[]>([]);
     const [distribution, setDistribution] = useState<DistributionData | null>(null);
     const [loading, setLoading] = useState(true);
+    const [timePeriod, setTimePeriod] = useState<TimePeriod>("daily");
+    const [selectedDate, setSelectedDate] = useState(() => new Date().toISOString().slice(0, 10));
 
     useEffect(() => {
         async function loadData() {
@@ -141,13 +169,41 @@ function DeanAttendanceView() {
 
             {/* Department-wise Attendance Bar Chart */}
             <div className="rounded-xl border border-gray-100 bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
-                <h3 className="mb-4 text-sm font-semibold text-gray-900">
-                    Department-wise Attendance
-                </h3>
+                {/* Header row: title + period tabs + date picker */}
+                <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+                    <h3 className="text-sm font-semibold text-gray-900">
+                        Department-wise Attendance
+                    </h3>
+                    <div className="flex items-center gap-3">
+                        {/* Period tabs */}
+                        <div className="flex rounded-lg border border-gray-200 bg-gray-50 p-0.5">
+                            {PERIOD_LABELS.map(({ key, label }) => (
+                                <button
+                                    key={key}
+                                    onClick={() => setTimePeriod(key)}
+                                    className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-all ${
+                                        timePeriod === key
+                                            ? "bg-white text-[#1a6fdb] shadow-sm"
+                                            : "text-gray-500 hover:text-gray-700"
+                                    }`}
+                                >
+                                    {label}
+                                </button>
+                            ))}
+                        </div>
+                        {/* Date picker */}
+                        <input
+                            type="date"
+                            value={selectedDate}
+                            onChange={(e) => setSelectedDate(e.target.value)}
+                            className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-700 shadow-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"
+                        />
+                    </div>
+                </div>
                 <div className="h-[250px]">
                     <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                         <BarChart
-                            data={DEPT_ATTENDANCE}
+                            data={DEPT_ATTENDANCE[timePeriod]}
                             margin={{ top: 5, right: 30, left: -10, bottom: 5 }}
                         >
                             <XAxis
