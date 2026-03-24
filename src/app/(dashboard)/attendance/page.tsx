@@ -177,7 +177,7 @@ function DeanAttendanceView() {
                                         border: "1px solid #e5e7eb",
                                         fontSize: "12px",
                                     }}
-                                    formatter={(value: number | string) => [`${value}%`, "Attendance"]}
+                                    formatter={(value: number | string | undefined) => [`${value ?? 0}%`, "Attendance"]}
                                 />
                                 <Bar
                                     dataKey="attendance"
