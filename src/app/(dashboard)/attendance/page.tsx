@@ -30,6 +30,9 @@ import { useCallback, useEffect, useState } from "react";
 import {
     Bar,
     BarChart,
+    Line,
+    LineChart,
+    ReferenceLine,
     ResponsiveContainer,
     Tooltip,
     XAxis,
@@ -72,6 +75,40 @@ const PERIOD_LABELS: { key: TimePeriod; label: string }[] = [
     { key: "daily", label: "Daily" },
     { key: "weekly", label: "Weekly" },
     { key: "monthly", label: "Monthly" },
+];
+
+/* ─── Top Performers vs Defaulters (static) ─── */
+const PERFORMERS_DATA = [
+    { name: "Aarav Sharma", top: 94, defaulter: 0 },
+    { name: "Priya Patel", top: 91, defaulter: 0 },
+    { name: "Rohan Mehta", top: 89, defaulter: 0 },
+    { name: "Sneha Gupta", top: 88, defaulter: 0 },
+    { name: "Arjun Singh", top: 87, defaulter: 0 },
+    { name: "Rahul Verma", top: 0, defaulter: 52 },
+    { name: "Kiran Shah", top: 0, defaulter: 55 },
+    { name: "Amit Yadav", top: 0, defaulter: 58 },
+    { name: "Pooja Nair", top: 0, defaulter: 61 },
+    { name: "Vikram Joshi", top: 0, defaulter: 63 },
+];
+
+/* ─── Month-wise semester attendance trend (static) ─── */
+const MONTHLY_TREND_DATA = [
+    { month: "Aug", attendance: 78 },
+    { month: "Sep", attendance: 82 },
+    { month: "Oct", attendance: 75 },
+    { month: "Nov", attendance: 80 },
+    { month: "Dec", attendance: 85 },
+    { month: "Jan", attendance: 88 },
+];
+
+/* ─── Course-wise attendance breakdown (static) ─── */
+const COURSE_ATTENDANCE = [
+    { course: "B.Tech CS Sem 4", subject: "Data Structures", faculty: "Dr. Mehta", students: 45, avg: 82, status: "good" as const },
+    { course: "B.Tech CS Sem 4", subject: "DBMS", faculty: "Dr. Sharma", students: 45, avg: 71, status: "low" as const },
+    { course: "B.Tech CS Sem 6", subject: "ML", faculty: "Dr. Patel", students: 38, avg: 88, status: "good" as const },
+    { course: "B.Tech CS Sem 6", subject: "CN", faculty: "Dr. Gupta", students: 38, avg: 68, status: "critical" as const },
+    { course: "B.Tech CS Sem 2", subject: "Maths", faculty: "Dr. Singh", students: 52, avg: 79, status: "good" as const },
+    { course: "B.Tech CS Sem 2", subject: "Physics", faculty: "Dr. Kumar", students: 52, avg: 74, status: "low" as const },
 ];
 
 /* ─── Dean's graph-based attendance overview ─── */
@@ -235,6 +272,154 @@ function DeanAttendanceView() {
                             />
                         </BarChart>
                     </ResponsiveContainer>
+                </div>
+            </div>
+
+            {/* ─── Top Performers vs Defaulters ─── */}
+            <div className="rounded-xl border border-gray-100 bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+                <h3 className="mb-4 text-sm font-semibold text-gray-900">
+                    Top Performers vs Defaulters
+                </h3>
+                <div className="h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
+                        <BarChart
+                            data={PERFORMERS_DATA}
+                            margin={{ top: 5, right: 30, left: -10, bottom: 5 }}
+                        >
+                            <XAxis
+                                dataKey="name"
+                                tick={{ fontSize: 11, fill: "#374151" }}
+                                tickLine={false}
+                                axisLine={false}
+                                interval={0}
+                                angle={-25}
+                                textAnchor="end"
+                                height={60}
+                            />
+                            <YAxis
+                                domain={[0, 100]}
+                                tick={{ fontSize: 11, fill: "#9ca3af" }}
+                                tickLine={false}
+                                axisLine={false}
+                                tickFormatter={(v: number) => `${v}%`}
+                            />
+                            <Tooltip
+                                contentStyle={{
+                                    borderRadius: "8px",
+                                    border: "1px solid #e5e7eb",
+                                    fontSize: "12px",
+                                }}
+                                formatter={(value: number | string | undefined, name?: string) => [
+                                    `${value ?? 0}%`,
+                                    name === "top" ? "Top Performer" : "Defaulter",
+                                ]}
+                            />
+                            <ReferenceLine
+                                y={75}
+                                stroke="#dc2626"
+                                strokeDasharray="6 4"
+                                label={{ value: "75% min", position: "right", fontSize: 11, fill: "#dc2626" }}
+                            />
+                            <Bar dataKey="top" fill="#059669" radius={[6, 6, 0, 0]} barSize={32} name="top" />
+                            <Bar dataKey="defaulter" fill="#dc2626" radius={[6, 6, 0, 0]} barSize={32} name="defaulter" />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+
+            {/* ─── Semester Attendance Trend (Month-wise) ─── */}
+            <div className="rounded-xl border border-gray-100 bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+                <h3 className="mb-4 text-sm font-semibold text-gray-900">
+                    Semester Attendance Trend (Month-wise)
+                </h3>
+                <div className="h-[250px]">
+                    <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
+                        <LineChart
+                            data={MONTHLY_TREND_DATA}
+                            margin={{ top: 5, right: 30, left: -10, bottom: 5 }}
+                        >
+                            <XAxis
+                                dataKey="month"
+                                tick={{ fontSize: 12, fill: "#374151" }}
+                                tickLine={false}
+                                axisLine={false}
+                            />
+                            <YAxis
+                                domain={[0, 100]}
+                                tick={{ fontSize: 11, fill: "#9ca3af" }}
+                                tickLine={false}
+                                axisLine={false}
+                                tickFormatter={(v: number) => `${v}%`}
+                            />
+                            <Tooltip
+                                contentStyle={{
+                                    borderRadius: "8px",
+                                    border: "1px solid #e5e7eb",
+                                    fontSize: "12px",
+                                }}
+                                formatter={(value: number | string | undefined) => [`${value ?? 0}%`, "Attendance"]}
+                            />
+                            <ReferenceLine
+                                y={75}
+                                stroke="#dc2626"
+                                strokeDasharray="6 4"
+                                label={{ value: "75% min", position: "right", fontSize: 11, fill: "#dc2626" }}
+                            />
+                            <Line
+                                type="monotone"
+                                dataKey="attendance"
+                                stroke="#1a6fdb"
+                                strokeWidth={2.5}
+                                dot={{ r: 4, fill: "#1a6fdb", strokeWidth: 2, stroke: "#fff" }}
+                                activeDot={{ r: 6, fill: "#1a6fdb", strokeWidth: 2, stroke: "#fff" }}
+                            />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+
+            {/* ─── Course-wise Attendance Breakdown ─── */}
+            <div className="rounded-xl border border-gray-100 bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+                <h3 className="mb-4 text-sm font-semibold text-gray-900">
+                    Course-wise Attendance Breakdown
+                </h3>
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left text-sm">
+                        <thead>
+                            <tr className="border-b border-gray-100 text-xs font-semibold uppercase tracking-wider text-gray-400">
+                                <th className="whitespace-nowrap px-4 py-3">Course</th>
+                                <th className="whitespace-nowrap px-4 py-3">Subject</th>
+                                <th className="whitespace-nowrap px-4 py-3">Faculty</th>
+                                <th className="whitespace-nowrap px-4 py-3 text-center">Students</th>
+                                <th className="whitespace-nowrap px-4 py-3 text-center">Avg Attendance</th>
+                                <th className="whitespace-nowrap px-4 py-3 text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-50">
+                            {COURSE_ATTENDANCE.map((row, i) => {
+                                const badge =
+                                    row.status === "good"
+                                        ? { label: "✅ Good", bg: "bg-emerald-50", text: "text-emerald-700" }
+                                        : row.status === "low"
+                                          ? { label: "⚠️ Low", bg: "bg-amber-50", text: "text-amber-700" }
+                                          : { label: "🔴 Critical", bg: "bg-red-50", text: "text-red-700" };
+                                return (
+                                    <tr key={i} className="transition-colors hover:bg-gray-50/60">
+                                        <td className="whitespace-nowrap px-4 py-3 font-medium text-gray-800">{row.course}</td>
+                                        <td className="whitespace-nowrap px-4 py-3 text-gray-600">{row.subject}</td>
+                                        <td className="whitespace-nowrap px-4 py-3 text-gray-600">{row.faculty}</td>
+                                        <td className="whitespace-nowrap px-4 py-3 text-center text-gray-600">{row.students}</td>
+                                        <td className="whitespace-nowrap px-4 py-3 text-center font-semibold text-gray-800">{row.avg}%</td>
+                                        <td className="whitespace-nowrap px-4 py-3 text-center">
+                                            <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${badge.bg} ${badge.text}`}>
+                                                {badge.label}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
