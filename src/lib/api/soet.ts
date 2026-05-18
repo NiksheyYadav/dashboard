@@ -13,6 +13,10 @@ export async function getAssignedSubjects() {
     return apiGet<Array<{ id: string; code: string; name: string; planned_lecture_count: number }>>("/attendance/assigned-subjects");
 }
 
+export async function getAttendanceStudents(subjectId: string) {
+    return apiGet<Array<{ id: string; roll_no: string; name: string }>>(`/attendance/students/${subjectId}`);
+}
+
 export async function getMentorMentees() {
     return apiGet<Array<{ id: string; name: string; roll_no: string; overall_percentage: number; risk_status: string }>>("/mentor/mentees");
 }

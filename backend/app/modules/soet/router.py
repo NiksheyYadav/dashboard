@@ -26,8 +26,10 @@ from app.models.soet import (
     Semester,
     Subject,
     TimetableSlot,
+    WarningLetter,
 )
 from app.models.student import Student
+from app.models.user import User
 from app.modules.auth.dependencies import AuthContext, RequireRole
 from app.modules.soet.schemas import (
     ArrangementAssignRequest,
@@ -51,6 +53,10 @@ def _has_role(auth: AuthContext, allowed: set[str]) -> bool:
 
 def _notify(db: Session, user_id: str, type_: str, message: str) -> None:
     db.add(Notification(user_id=user_id, type=type_, message=message))
+
+
+def _emit_parent_report_event(student_id: str) -> None:
+    print(f"Parent report generation event queued for student {student_id}")
 
 
 @soet_router.get("/attendance/assigned-subjects")
@@ -99,8 +105,8 @@ def mark_attendance(payload: BulkAttendanceMarkRequest, auth: AuthContext = Depe
         if attendance["percentage"] < 65:
             for mentor_id in mentors:
                 _notify(db, mentor_id, "attendance_critical", f"Student {row.student_id} dropped below 65% attendance.")
-            hods = db.scalars(select(Subject.assigned_teacher_id).where(Subject.assigned_teacher_id.is_not(None))).all()
-            for hod_id in hods[:1]:
+            hods = db.scalars(select(User.id).where(User.roles.any("HOD"))).all()
+            for hod_id in hods:
                 _notify(db, hod_id, "attendance_critical_hod", f"Critical attendance alert for student {row.student_id}.")
     db.commit()
     return {"detail": "Attendance marked successfully"}
@@ -108,7 +114,18 @@ def mark_attendance(payload: BulkAttendanceMarkRequest, auth: AuthContext = Depe
 
 @soet_router.post("/attendance/mark-no-class")
 def mark_no_class(payload: NoClassRequest, auth: AuthContext = Depends(RequireRole(["TEACHER", "ADMIN"])), db: Session = Depends(get_db)):
-    students = db.scalars(select(Student.id)).all()
+    subject = db.scalar(select(Subject).where(Subject.id == payload.subject_id))
+    if not subject:
+        raise HTTPException(status_code=404, detail="Subject not found")
+    semester = db.scalar(select(Semester).where(Semester.id == subject.semester_id))
+    programme = db.scalar(select(Programme).where(Programme.id == subject.programme_id))
+    students_query = select(Student.id)
+    if semester:
+        students_query = students_query.where(Student.semester == semester.number)
+    if programme and programme.code:
+        prefix = programme.code[:2] if len(programme.code) >= 2 else programme.code
+        students_query = students_query.where(Student.course.ilike(f"%{prefix}%"))
+    students = db.scalars(students_query).all()
     for student_id in students:
         existing = db.scalar(
             select(AttendanceTransaction).where(
@@ -170,6 +187,23 @@ def attendance_summary(student_id: str, auth: AuthContext = Depends(RequireRole(
     ]
 
 
+@soet_router.get("/attendance/students/{subject_id}")
+def attendance_students(subject_id: str, auth: AuthContext = Depends(RequireRole(["TEACHER", "HOD", "DEAN", "ADMIN"])), db: Session = Depends(get_db)):
+    subject = db.scalar(select(Subject).where(Subject.id == subject_id))
+    if not subject:
+        raise HTTPException(status_code=404, detail="Subject not found")
+    semester = db.scalar(select(Semester).where(Semester.id == subject.semester_id))
+    programme = db.scalar(select(Programme).where(Programme.id == subject.programme_id))
+    query = select(Student)
+    if semester:
+        query = query.where(Student.semester == semester.number)
+    if programme and programme.code:
+        prefix = programme.code[:2] if len(programme.code) >= 2 else programme.code
+        query = query.where(Student.course.ilike(f"%{prefix}%"))
+    students = db.scalars(query.order_by(Student.roll_no.asc())).all()
+    return [{"id": str(student.id), "roll_no": student.roll_no, "name": student.name} for student in students]
+
+
 @soet_router.get("/attendance/calculate")
 def attendance_calculate(student_id: str = Query(...), subject_id: str = Query(...), auth: AuthContext = Depends(RequireRole(["TEACHER", "MENTOR", "HOD", "DEAN", "ADMIN"])), db: Session = Depends(get_db)):
     return calculate_student_attendance(db, student_id, subject_id)
@@ -178,8 +212,18 @@ def attendance_calculate(student_id: str = Query(...), subject_id: str = Query(.
 @soet_router.get("/dashboard/teacher")
 def teacher_dashboard(auth: AuthContext = Depends(RequireRole(["TEACHER", "ADMIN"])), db: Session = Depends(get_db)):
     today = date.today()
-    today_classes = db.scalar(select(func.count(TimetableSlot.id)).join(Subject, Subject.id == TimetableSlot.subject_id).where(Subject.assigned_teacher_id == auth.user.id)) or 0
-    pending = db.scalar(select(func.count(AttendanceTransaction.id)).where(AttendanceTransaction.marked_by == auth.user.id, AttendanceTransaction.date == today, AttendanceTransaction.status == "absent")) or 0
+    today_classes = db.scalar(
+        select(func.count(TimetableSlot.id))
+        .join(Subject, Subject.id == TimetableSlot.subject_id)
+        .where(Subject.assigned_teacher_id == auth.user.id)
+    ) or 0
+    marked_today = db.scalar(
+        select(func.count(func.distinct(AttendanceTransaction.slot_id))).where(
+            AttendanceTransaction.marked_by == auth.user.id,
+            AttendanceTransaction.date == today,
+        )
+    ) or 0
+    pending = max(today_classes - marked_today, 0)
     subject_count = db.scalar(select(func.count(Subject.id)).where(Subject.assigned_teacher_id == auth.user.id)) or 0
     mentees = db.scalar(select(func.count(MentorMapping.id)).where(MentorMapping.mentor_id == auth.user.id)) or 0
     return {"todays_classes": today_classes, "pending_attendance": pending, "assigned_subjects": subject_count, "assigned_mentees": mentees}
@@ -204,7 +248,7 @@ def dean_dashboard(auth: AuthContext = Depends(RequireRole(["DEAN", "ADMIN"])), 
 
 
 @soet_router.get("/mentor/mentees")
-def mentor_mentees(auth: AuthContext = Depends(RequireRole(["MENTOR", "ADMIN"])), db: Session = Depends(get_db)):
+def mentor_mentees(auth: AuthContext = Depends(RequireRole(["MENTOR", "TEACHER", "ADMIN"])), db: Session = Depends(get_db)):
     rows = db.execute(
         select(Student.id, Student.name, Student.roll_no, Student.attendance_percent)
         .join(MentorMapping, MentorMapping.student_id == Student.id)
@@ -223,13 +267,13 @@ def mentor_mentees(auth: AuthContext = Depends(RequireRole(["MENTOR", "ADMIN"]))
 
 
 @soet_router.get("/mentor/mentee/{id}/drilldown")
-def mentor_mentee_drilldown(id: str, auth: AuthContext = Depends(RequireRole(["MENTOR", "ADMIN", "HOD", "DEAN"])), db: Session = Depends(get_db)):
+def mentor_mentee_drilldown(id: str, auth: AuthContext = Depends(RequireRole(["MENTOR", "TEACHER", "ADMIN", "HOD", "DEAN"])), db: Session = Depends(get_db)):
     subjects = db.scalars(select(Subject)).all()
     return [{"subject_id": str(subject.id), "subject": subject.name, **calculate_student_attendance(db, id, str(subject.id))} for subject in subjects]
 
 
 @soet_router.post("/mentor/counselling-note")
-def add_counselling_note(payload: MentorNoteRequest, auth: AuthContext = Depends(RequireRole(["MENTOR", "ADMIN"])), db: Session = Depends(get_db)):
+def add_counselling_note(payload: MentorNoteRequest, auth: AuthContext = Depends(RequireRole(["MENTOR", "TEACHER", "ADMIN"])), db: Session = Depends(get_db)):
     note = CounsellingNote(mentor_id=auth.user.id, student_id=payload.student_id, note=payload.note, student_response=payload.student_response, corrective_action=payload.corrective_action, next_review_date=payload.next_review_date)
     db.add(note)
     db.commit()
@@ -237,7 +281,7 @@ def add_counselling_note(payload: MentorNoteRequest, auth: AuthContext = Depends
 
 
 @soet_router.post("/mentor/parent-communication")
-def add_parent_communication(payload: ParentCommunicationRequest, auth: AuthContext = Depends(RequireRole(["MENTOR", "ADMIN"])), db: Session = Depends(get_db)):
+def add_parent_communication(payload: ParentCommunicationRequest, auth: AuthContext = Depends(RequireRole(["MENTOR", "TEACHER", "ADMIN"])), db: Session = Depends(get_db)):
     communication = ParentCommunication(mentor_id=auth.user.id, student_id=payload.student_id, channel=payload.channel, summary=payload.summary, followup_date=payload.followup_date)
     db.add(communication)
     db.commit()
@@ -245,7 +289,7 @@ def add_parent_communication(payload: ParentCommunicationRequest, auth: AuthCont
 
 
 @soet_router.post("/mentor/regularization-request")
-def add_regularization_request(payload: RegularizationRequestCreate, auth: AuthContext = Depends(RequireRole(["MENTOR", "ADMIN"])), db: Session = Depends(get_db)):
+def add_regularization_request(payload: RegularizationRequestCreate, auth: AuthContext = Depends(RequireRole(["MENTOR", "TEACHER", "ADMIN"])), db: Session = Depends(get_db)):
     request = RegularizationRequest(
         mentor_id=auth.user.id,
         student_id=payload.student_id,
@@ -262,12 +306,12 @@ def add_regularization_request(payload: RegularizationRequestCreate, auth: AuthC
 
 
 @soet_router.get("/mentor/generate-parent-report/{id}")
-def generate_parent_report(id: str, background_tasks: BackgroundTasks, auth: AuthContext = Depends(RequireRole(["MENTOR", "HOD", "ADMIN"])), db: Session = Depends(get_db)):
+def generate_parent_report(id: str, background_tasks: BackgroundTasks, auth: AuthContext = Depends(RequireRole(["MENTOR", "TEACHER", "HOD", "ADMIN"])), db: Session = Depends(get_db)):
     student = db.scalar(select(Student).where(Student.id == id))
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
 
-    background_tasks.add_task(lambda: None)
+    background_tasks.add_task(_emit_parent_report_event, id)
     pdf = BytesIO()
     pdf_canvas = canvas.Canvas(pdf, pagesize=A4)
     pdf_canvas.setFont("Helvetica-Bold", 14)
@@ -413,7 +457,26 @@ def report_detention_risk(
     if dept:
         query = query.where(Student.department.ilike(f"%{dept}%"))
     students = db.scalars(query).all()
-    rows = [[s.name, s.roll_no, s.course, s.semester, s.department, "-", "-", "-", s.attendance_percent, risk_level or "auto", "No", "No"] for s in students]
+    rows = []
+    for student in students:
+        mentor_id = db.scalar(select(MentorMapping.mentor_id).where(MentorMapping.student_id == student.id).limit(1))
+        parent_contact = db.scalar(select(func.count(ParentCommunication.id)).where(ParentCommunication.student_id == student.id)) or 0
+        counselling_done = db.scalar(select(func.count(CounsellingNote.id)).where(CounsellingNote.student_id == student.id)) or 0
+        warning_issued = db.scalar(select(func.count(WarningLetter.id)).where(WarningLetter.student_id == student.id)) or 0
+        rows.append([
+            student.name,
+            student.roll_no,
+            student.course,
+            student.semester,
+            student.department,
+            str(mentor_id) if mentor_id else "",
+            "Yes" if parent_contact else "No",
+            "N/A",
+            student.attendance_percent,
+            risk_level or ("Safe" if student.attendance_percent >= 75 else "Detention Risk"),
+            "Yes" if counselling_done else "No",
+            "Yes" if warning_issued else "No",
+        ])
     if format == "pdf":
         lines = [f"{r[0]} | {r[1]} | {r[8]}%" for r in rows]
         return _pdf_response("detention-risk.pdf", "Detention Risk Report", lines)
@@ -472,7 +535,7 @@ def report_course_completion(
 
 
 @soet_router.get("/reports/parent-summary/{student_id}")
-def report_parent_summary(student_id: str, format: str = Query("pdf", pattern="^(pdf|xlsx)$"), auth: AuthContext = Depends(RequireRole(["MENTOR", "HOD", "DEAN", "ADMIN"])), db: Session = Depends(get_db)):
+def report_parent_summary(student_id: str, format: str = Query("pdf", pattern="^(pdf|xlsx)$"), auth: AuthContext = Depends(RequireRole(["MENTOR", "TEACHER", "HOD", "DEAN", "ADMIN"])), db: Session = Depends(get_db)):
     student = db.scalar(select(Student).where(Student.id == student_id))
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")

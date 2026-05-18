@@ -10,6 +10,7 @@ export default function Topbar() {
     const { toggle } = useSidebar();
     const { user } = useAuth();
     const [notifications, setNotifications] = useState<Array<{ id: string; message: string; read: boolean }>>([]);
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         apiGet<Array<{ id: string; message: string; read: boolean }>>("/notifications?unread=true")
@@ -31,13 +32,23 @@ export default function Topbar() {
 
             <div className="flex items-center gap-3">
                 <div className="group relative">
-                    <button className="relative flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--border)] text-slate-600">
+                    <button
+                        aria-haspopup="menu"
+                        aria-expanded={isOpen}
+                        onClick={() => setIsOpen((value) => !value)}
+                        onBlur={() => setTimeout(() => setIsOpen(false), 100)}
+                        className="relative flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--border)] text-slate-600"
+                    >
                         <Bell className="h-5 w-5" />
                         {notifications.length > 0 && <span className="absolute right-1 top-1 rounded-full bg-[var(--red)] px-1 text-[10px] text-white">{notifications.length}</span>}
                     </button>
-                    <div className="invisible absolute right-0 top-12 z-50 w-72 rounded-xl border border-[var(--border)] bg-white p-3 opacity-0 shadow-lg transition group-hover:visible group-hover:opacity-100">
+                    <div className={`${isOpen ? "visible opacity-100" : "invisible opacity-0"} absolute right-0 top-12 z-50 w-72 rounded-xl border border-[var(--border)] bg-white p-3 shadow-lg transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100`}>
                         <p className="mb-2 text-xs font-semibold text-[var(--navy)]">Notifications</p>
-                        {notifications.slice(0, 5).map((item) => <p key={item.id} className="mb-1 rounded-md bg-[var(--surface)] p-2 text-xs text-slate-700">{item.message}</p>)}
+                        {notifications.slice(0, 5).map((item) => (
+                            <button key={item.id} className="mb-1 w-full rounded-md bg-[var(--surface)] p-2 text-left text-xs text-slate-700 hover:bg-slate-100">
+                                {item.message}
+                            </button>
+                        ))}
                         {notifications.length === 0 && <p className="text-xs text-slate-500">No unread notifications</p>}
                         <button className="mt-2 text-xs font-semibold text-[var(--accent-blue)]">View All →</button>
                     </div>

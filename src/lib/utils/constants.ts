@@ -38,7 +38,7 @@ export function getNavItemsForRole(role: UserRole, coordType?: CoordinatorType):
 }
 
 // Legacy exports for backward compatibility
-export const TEACHER_NAV_ITEMS = ALL_NAV_ITEMS.map(({ roles, coordTypes, ...item }) => item);
+export const TEACHER_NAV_ITEMS = ALL_NAV_ITEMS.map((item) => ({ label: item.label, icon: item.icon, href: item.href }));
 export const NAV_ITEMS = TEACHER_NAV_ITEMS;
 
 export const SYSTEM_NAV_ITEMS = [

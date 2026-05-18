@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { jwtVerify } from "jose";
 
 const roleMap: Record<string, string[]> = {
     "/dashboard": ["TEACHER", "MENTOR", "HOD", "DEAN", "ADMIN"],
@@ -9,7 +10,7 @@ const roleMap: Record<string, string[]> = {
     "/monitoring": ["HOD", "DEAN", "ADMIN"],
 };
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname;
     const protectedRoute = Object.keys(roleMap).find((prefix) => path === prefix || path.startsWith(`${prefix}/`));
     if (!protectedRoute) {
@@ -23,10 +24,27 @@ export function middleware(request: NextRequest) {
     }
 
     const required = roleMap[protectedRoute];
-    const rolesCookie = request.cookies.get("edupulse_roles")?.value || "";
-    const roles = decodeURIComponent(rolesCookie).split(",").filter(Boolean).map((value) => value.toUpperCase());
-    if (required.length && roles.length && !roles.some((role) => required.includes(role))) {
-        return NextResponse.redirect(new URL("/dashboard", request.url));
+    const token = accessCookie.value;
+    const jwtSecret = process.env.JWT_ACCESS_SECRET;
+    if (!jwtSecret) {
+        if (process.env.NODE_ENV === "production") {
+            return NextResponse.redirect(new URL("/login", request.url));
+        }
+        return NextResponse.next();
+    }
+    try {
+        const verified = await jwtVerify(token, new TextEncoder().encode(jwtSecret), {
+            algorithms: ["HS256"],
+            issuer: process.env.JWT_ISSUER || "attendance-backend",
+        });
+        const roles = Array.isArray(verified.payload.roles)
+            ? verified.payload.roles.map((value) => String(value).toUpperCase())
+            : [];
+        if (required.length && roles.length && !roles.some((role) => required.includes(role))) {
+            return NextResponse.redirect(new URL("/dashboard", request.url));
+        }
+    } catch {
+        return NextResponse.redirect(new URL("/login", request.url));
     }
 
     return NextResponse.next();

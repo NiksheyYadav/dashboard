@@ -33,7 +33,7 @@ def verify_password(raw_password: str, password_hash: str) -> bool:
         return False
 
 
-def create_access_token(*, user_id: str, session_id: str) -> str:
+def create_access_token(*, user_id: str, session_id: str, roles: list[str] | None = None) -> str:
     issued_at = now_utc()
     expires_at = issued_at + timedelta(minutes=settings.access_token_ttl_minutes)
     payload = {
@@ -42,6 +42,7 @@ def create_access_token(*, user_id: str, session_id: str) -> str:
         "iat": int(issued_at.timestamp()),
         "exp": int(expires_at.timestamp()),
         "iss": settings.jwt_issuer,
+        "roles": roles or [],
     }
     return jwt.encode(payload, settings.jwt_access_secret, algorithm="HS256")
 

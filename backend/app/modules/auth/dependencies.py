@@ -51,7 +51,7 @@ def get_auth_context(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User is not active")
 
     auth = AuthContext(user=user, session=user_session)
-    actor_role = auth.roles[0] if auth.roles else None
+    actor_role = ",".join(auth.roles) if auth.roles else None
     set_actor(str(user.id), actor_role)
     return auth
 

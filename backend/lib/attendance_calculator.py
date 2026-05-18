@@ -1,4 +1,4 @@
-import math
+from math import ceil
 from typing import Any
 
 from sqlalchemy import and_, func, or_, select
@@ -49,7 +49,7 @@ def calculate_student_attendance(db: Session, student_id: str, subject_id: str) 
     ) or 0
 
     percentage = round((attended / valid_held) * 100, 1) if valid_held else 0.0
-    shortage = max(0, math.ceil(0.75 * valid_held) - attended)
+    shortage = max(0, ceil(0.75 * valid_held) - attended)
 
     return {
         "attended": attended,

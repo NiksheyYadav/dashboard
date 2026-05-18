@@ -1,13 +1,14 @@
 "use client";
 
-import { getAssignedSubjects } from "@/lib/api/soet";
-import { useEffect, useMemo, useState } from "react";
+import { getAssignedSubjects, getAttendanceStudents } from "@/lib/api/soet";
+import { useEffect, useState } from "react";
 
 type MarkState = Record<string, { status?: "present" | "absent"; remarks?: string }>;
 
 export default function SubjectAttendancePage() {
     const [subjects, setSubjects] = useState<Array<{ id: string; code: string; name: string }>>([]);
     const [selectedSubject, setSelectedSubject] = useState("");
+    const [students, setStudents] = useState<Array<{ id: string; roll_no: string; name: string }>>([]);
     const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
     const [marks, setMarks] = useState<MarkState>({});
     const [noClass, setNoClass] = useState(false);
@@ -16,7 +17,11 @@ export default function SubjectAttendancePage() {
         getAssignedSubjects().then(setSubjects).catch(() => setSubjects([]));
     }, []);
 
-    const mockStudents = useMemo(() => Array.from({ length: 8 }).map((_, i) => ({ id: `st-${i + 1}`, roll: `SOET250${i + 1}`, name: `Student ${i + 1}` })), []);
+    useEffect(() => {
+        if (!selectedSubject) return;
+        getAttendanceStudents(selectedSubject).then(setStudents).catch(() => setStudents([]));
+    }, [selectedSubject]);
+
     const presentCount = Object.values(marks).filter((m) => m.status === "present").length;
     const absentCount = Object.values(marks).filter((m) => m.status === "absent").length;
 
@@ -24,7 +29,11 @@ export default function SubjectAttendancePage() {
         <div className="space-y-5">
             <h1 className="text-2xl font-bold text-[var(--navy)]">Subject Attendance</h1>
             <section className="soet-card grid gap-3 p-4 md:grid-cols-6">
-                <select className="rounded-lg border border-[var(--border)] bg-white p-2 text-sm" value={selectedSubject} onChange={(e) => setSelectedSubject(e.target.value)}>
+                <select className="rounded-lg border border-[var(--border)] bg-white p-2 text-sm" value={selectedSubject} onChange={(e) => {
+                    const value = e.target.value;
+                    setSelectedSubject(value);
+                    if (!value) setStudents([]);
+                }}>
                     <option value="">Subject*</option>
                     {subjects.map((subject) => <option key={subject.id} value={subject.id}>{subject.code} - {subject.name}</option>)}
                 </select>
@@ -45,9 +54,9 @@ export default function SubjectAttendancePage() {
                             <table className="soet-table w-full text-sm">
                                 <thead><tr className="text-left text-slate-500"><th>Roll No.</th><th>Student Name</th><th>Present</th><th>Absent</th><th>Remarks</th></tr></thead>
                                 <tbody>
-                                    {mockStudents.map((student) => (
+                                    {students.map((student) => (
                                         <tr key={student.id}>
-                                            <td className="py-2">{student.roll}</td>
+                                            <td className="py-2">{student.roll_no}</td>
                                             <td>{student.name}</td>
                                             <td><input type="radio" name={student.id} checked={marks[student.id]?.status === "present"} onChange={() => setMarks((prev) => ({ ...prev, [student.id]: { ...prev[student.id], status: "present" } }))} /></td>
                                             <td><input type="radio" name={student.id} checked={marks[student.id]?.status === "absent"} onChange={() => setMarks((prev) => ({ ...prev, [student.id]: { ...prev[student.id], status: "absent" } }))} /></td>
@@ -56,7 +65,7 @@ export default function SubjectAttendancePage() {
                                     ))}
                                 </tbody>
                             </table>
-                            <footer className="mt-3 text-sm">Total Students: {mockStudents.length} | <span className="text-green-600">Present: {presentCount}</span> | <span className="text-red-600">Absent: {absentCount}</span> | Not Marked: {mockStudents.length - presentCount - absentCount}</footer>
+                            <footer className="mt-3 text-sm">Total Students: {students.length} | <span className="text-green-600">Present: {presentCount}</span> | <span className="text-red-600">Absent: {absentCount}</span> | Not Marked: {students.length - presentCount - absentCount}</footer>
                         </>
                     ) : <p className="text-sm text-slate-500">Student table hidden because this slot is marked as No Class Conducted.</p>}
                 </article>
@@ -69,7 +78,7 @@ export default function SubjectAttendancePage() {
                         <p>Semester: 4</p>
                         <p>Section: A</p>
                         <p>Time Slot: 09:00 - 09:50</p>
-                        <p>Total Students: {mockStudents.length}</p>
+                        <p>Total Students: {students.length}</p>
                         <p>Attendance Deadline: 18:00</p>
                         <button className="rounded-lg bg-[var(--navy)] px-3 py-1.5 text-xs font-semibold text-white">Regular Class</button>
                         <label className="mt-2 flex items-center gap-2 rounded-lg bg-amber-100 p-2 text-amber-800"><input type="checkbox" checked={noClass} onChange={(e) => setNoClass(e.target.checked)} /> No Class Conducted</label>

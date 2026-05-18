@@ -31,7 +31,7 @@ export default function MonitoringPage() {
                     <h2 className="mb-3 text-lg font-semibold text-[var(--navy)]">Pending Approvals</h2>
                     <table className="soet-table w-full text-sm">
                         <thead><tr className="text-left text-slate-500"><th>Type</th><th>Details</th><th>Requested By</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
-                        <tbody><tr><td className="py-2">Regularization</td><td>CS402 - Student #12</td><td>Mentor A</td><td>2026-05-18</td><td><span className="status-pill bg-orange-100 text-orange-700">Pending</span></td><td><button className="rounded bg-[var(--navy)] px-2 py-1 text-xs text-white">Review</button></td></tr></tbody>
+                        <tbody><tr><td className="py-2">Regularization</td><td>CS402 - Student #12</td><td>Mentor A</td><td>2026-05-18</td><td><span className="status-pill bg-orange-100 text-orange-700">Pending</span></td><td><button aria-label="Review regularization request for CS402 Student 12" className="rounded bg-[var(--navy)] px-2 py-1 text-xs text-white">Review</button></td></tr></tbody>
                     </table>
                 </article>
             </section>

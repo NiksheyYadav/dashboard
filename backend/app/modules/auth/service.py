@@ -91,7 +91,11 @@ class AuthService:
         )
         db.add(refresh_token_record)
 
-        access_token = create_access_token(user_id=str(user.id), session_id=str(user_session.id))
+        access_token = create_access_token(
+            user_id=str(user.id),
+            session_id=str(user_session.id),
+            roles=user.roles or [],
+        )
 
         db.commit()
 
@@ -162,6 +166,7 @@ class AuthService:
         access_token = create_access_token(
             user_id=str(token_record.user_id),
             session_id=str(token_record.session_id),
+            roles=user.roles or [],
         )
 
         db.commit()
