@@ -8,6 +8,7 @@ class RegisterRequest(BaseModel):
     email: EmailStr
     password: str = Field(min_length=8, max_length=128)
     department: Optional[str] = None
+    roles: list[str] = Field(default_factory=lambda: ["TEACHER"])
 
 
 class LoginRequest(BaseModel):
@@ -27,12 +28,14 @@ class MeResponse(BaseModel):
     email: EmailStr
     status: str
     department: Optional[str] = None
+    roles: list[str] = Field(default_factory=list)
 
 
 class RegisterResponse(BaseModel):
     id: str
     email: EmailStr
     status: str
+    roles: list[str] = Field(default_factory=list)
 
 
 class ForgotPasswordRequest(BaseModel):

@@ -12,7 +12,7 @@ users_router = APIRouter(prefix="/users", tags=["users"])
 
 @users_router.get("", response_model=list[UserResponse])
 def list_users(
-    auth: AuthContext = Depends(RequireRole(["admin"])),
+    auth: AuthContext = Depends(RequireRole(["ADMIN"])),
     db: Session = Depends(get_db),
 ) -> list[User]:
     """Retrieve all users. Restricted to Admin."""
@@ -22,7 +22,7 @@ def list_users(
 @users_router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_user(
     user_id: str,
-    auth: AuthContext = Depends(RequireRole(["admin"])),
+    auth: AuthContext = Depends(RequireRole(["ADMIN"])),
     db: Session = Depends(get_db),
 ) -> None:
     """Delete a user. Restricted to Admin."""

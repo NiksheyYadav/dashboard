@@ -18,6 +18,7 @@ export interface MeResponse {
     email: string;
     status: string;
     department?: string | null;
+    roles?: string[];
 }
 
 export interface HealthResponse {

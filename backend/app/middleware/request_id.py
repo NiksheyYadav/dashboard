@@ -4,7 +4,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
 
-from app.utils.request_context import set_request_id
+from app.utils.request_context import set_actor, set_ip_address, set_request_id
 
 
 class RequestIdMiddleware(BaseHTTPMiddleware):
@@ -15,6 +15,8 @@ class RequestIdMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         request_id = request.headers.get(self.header_name) or str(uuid.uuid4())
         set_request_id(request_id)
+        set_ip_address(request.client.host if request.client else None)
+        set_actor(None, None)
 
         response: Response = await call_next(request)
         response.headers[self.header_name] = request_id

@@ -23,11 +23,11 @@ export default function DashboardLayout({
     }, [isLoading, router, user]);
 
     if (isLoading || !user) {
-        return <div className="min-h-screen bg-[#f4f6fa] dark:bg-gray-950" />;
+        return <div className="min-h-screen bg-white" />;
     }
 
     return (
-        <div className="min-h-screen bg-[#f4f6fa] dark:bg-gray-950">
+        <div className="min-h-screen bg-white">
             {/* Desktop Sidebar */}
             <div className="hidden lg:block">
                 <Sidebar />
@@ -49,7 +49,7 @@ export default function DashboardLayout({
             {/* Main Content */}
             <div className="lg:ml-[220px]">
                 <Topbar />
-                <main className="p-4 sm:p-6 animate-fade-in">{children}</main>
+                <main className="bg-white p-4 sm:p-6 animate-fade-in">{children}</main>
             </div>
         </div>
     );

@@ -5,7 +5,7 @@ import { useAuth, UserRole } from "@/lib/auth/auth-context";
 import { useSidebar } from "@/lib/hooks/useSidebar";
 import { cn } from "@/lib/utils";
 import { getNavItemsForRole, SYSTEM_NAV_ITEMS } from "@/lib/utils/constants";
-import { GraduationCap, LogOut, X } from "lucide-react";
+import { ChevronLeft, GraduationCap, LogOut, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -33,24 +33,24 @@ export default function Sidebar() {
     const navItems = role ? getNavItemsForRole(role, user?.coordinatorType) : [];
 
     return (
-        <aside className="fixed left-0 top-0 z-50 flex h-screen w-[220px] flex-col border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+        <aside className="fixed left-0 top-0 z-50 flex h-screen w-[220px] flex-col border-r border-[var(--border)] bg-[var(--navy)] text-white">
             {/* Header: Logo + Close button on mobile */}
             <div className="flex items-center justify-between px-5 py-5">
                 <div className="flex items-center gap-2.5">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#1a6fdb]">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/20">
                         <GraduationCap className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                        <span className="text-lg font-bold text-gray-900 dark:text-gray-100">EduPulse</span>
-                        <p className="text-[10px] text-gray-400 dark:text-gray-500">
-                            E-Block Admin
+                        <span className="text-lg font-bold text-white">SGT University</span>
+                        <p className="text-[10px] text-white/75">
+                            EduPulse SOET
                         </p>
                     </div>
                 </div>
                 {/* Close button (mobile only) */}
                 <button
                     onClick={close}
-                    className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 lg:hidden"
+                    className="flex h-8 w-8 items-center justify-center rounded-lg text-white/70 hover:bg-white/10 lg:hidden"
                 >
                     <X className="h-5 w-5" />
                 </button>
@@ -58,9 +58,6 @@ export default function Sidebar() {
 
             {/* Main Menu */}
             <nav className="flex-1 overflow-y-auto px-3 pt-4">
-                <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">
-                    Main Menu
-                </p>
                 <ul className="space-y-0.5">
                     {navItems.map((item) => {
                         const isActive = pathname.startsWith(item.href);
@@ -70,13 +67,13 @@ export default function Sidebar() {
                                     href={item.href}
                                     onClick={close}
                                     className={cn(
-                                        "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                                        isActive
-                                            ? "bg-[#e8f0fd] text-[#1a6fdb] dark:bg-blue-950/50 dark:text-blue-400"
-                                            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                                    )}
-                                >
-                                    <item.icon className={cn("h-[18px] w-[18px]", isActive ? "text-[#1a6fdb] dark:text-blue-400" : "text-gray-400 dark:text-gray-500")} />
+                                         "flex items-center gap-3 rounded-full px-3 py-2.5 text-sm font-medium transition-colors",
+                                         isActive
+                                            ? "bg-white text-[var(--navy)]"
+                                            : "text-white/85 hover:bg-[var(--navy-dark)] hover:text-white"
+                                     )}
+                                 >
+                                    <item.icon className={cn("h-[18px] w-[18px]", isActive ? "text-[var(--navy)]" : "text-white/70")} />
                                     {item.label}
                                 </Link>
                             </li>
@@ -84,10 +81,7 @@ export default function Sidebar() {
                     })}
                 </ul>
 
-                {/* System */}
-                <p className="mb-2 mt-8 px-3 text-[11px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">
-                    System
-                </p>
+                <p className="mb-2 mt-8 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/60">System</p>
                 <ul className="space-y-0.5">
                     {SYSTEM_NAV_ITEMS.map((item) => {
                         const isActive = pathname.startsWith(item.href);
@@ -97,13 +91,13 @@ export default function Sidebar() {
                                     href={item.href}
                                     onClick={close}
                                     className={cn(
-                                        "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                                        "flex items-center gap-3 rounded-full px-3 py-2.5 text-sm font-medium transition-colors",
                                         isActive
-                                            ? "bg-[#e8f0fd] text-[#1a6fdb] dark:bg-blue-950/50 dark:text-blue-400"
-                                            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                                            ? "bg-white text-[var(--navy)]"
+                                            : "text-white/85 hover:bg-[var(--navy-dark)] hover:text-white"
                                     )}
                                 >
-                                    <item.icon className={cn("h-[18px] w-[18px]", isActive ? "text-[#1a6fdb] dark:text-blue-400" : "text-gray-400 dark:text-gray-500")} />
+                                    <item.icon className={cn("h-[18px] w-[18px]", isActive ? "text-[var(--navy)]" : "text-white/70")} />
                                     {item.label}
                                 </Link>
                             </li>
@@ -114,10 +108,15 @@ export default function Sidebar() {
 
             <div className="px-4 pb-4">
                 <SendAnonymousMessageButton />
+                <p className="mt-4 text-xs text-white/70">School of Engineering & Technology</p>
+                <button className="mt-3 inline-flex items-center gap-1 text-xs text-white/80">
+                    <ChevronLeft className="h-3 w-3" />
+                    Collapse
+                </button>
             </div>
 
             {/* User Profile */}
-            <div className="border-t border-gray-200 px-4 py-4 dark:border-gray-800">
+            <div className="border-t border-white/15 px-4 py-4">
                 <div className="flex items-center gap-3">
                     <div className={cn(
                         "flex h-9 w-9 items-center justify-center rounded-full text-xs font-semibold",
@@ -126,7 +125,7 @@ export default function Sidebar() {
                         {user?.avatarInitials ?? "??"}
                     </div>
                     <div className="flex-1 min-w-0">
-                        <p className="truncate text-sm font-semibold text-gray-900 dark:text-gray-100">
+                        <p className="truncate text-sm font-semibold text-white">
                             {user?.name ?? "Guest"}
                         </p>
                         <div className="flex items-center gap-1.5">
@@ -141,7 +140,7 @@ export default function Sidebar() {
                 </div>
                 <button
                     onClick={logout}
-                    className="mt-3 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                    className="mt-3 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-white/85 transition-colors hover:bg-[var(--navy-dark)] hover:text-white"
                 >
                     <LogOut className="h-4 w-4" />
                     Logout

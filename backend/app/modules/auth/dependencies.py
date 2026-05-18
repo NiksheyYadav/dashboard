@@ -11,6 +11,7 @@ from app.core.security import decode_access_token
 from app.db.session import get_db
 from app.models.session import Session as UserSession
 from app.models.user import User
+from app.utils.request_context import set_actor
 
 bearer_scheme = HTTPBearer(auto_error=False)
 
@@ -19,6 +20,7 @@ class AuthContext:
     def __init__(self, *, user: User, session: UserSession) -> None:
         self.user = user
         self.session = session
+        self.roles = user.roles or []
 
 def get_auth_context(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(bearer_scheme),
@@ -48,7 +50,10 @@ def get_auth_context(
     if user.status != "ACTIVE":
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User is not active")
 
-    return AuthContext(user=user, session=user_session)
+    auth = AuthContext(user=user, session=user_session)
+    actor_role = auth.roles[0] if auth.roles else None
+    set_actor(str(user.id), actor_role)
+    return auth
 
 
 def get_current_user(auth: AuthContext = Depends(get_auth_context)) -> User:
@@ -57,21 +62,11 @@ def get_current_user(auth: AuthContext = Depends(get_auth_context)) -> User:
 
 class RequireRole:
     def __init__(self, allowed_roles: list[str]) -> None:
-        self.allowed_roles = allowed_roles
+        self.allowed_roles = [role.upper() for role in allowed_roles]
 
     def __call__(self, auth: AuthContext = Depends(get_auth_context)) -> AuthContext:
-        email = auth.user.email.lower()
-        role = "faculty"
-        if "admin" in email:
-            role = "admin"
-        elif "dean" in email:
-            role = "dean"
-        elif "hod" in email:
-            role = "hod"
-        elif "coord" in email:
-            role = "coordinator"
-
-        if role not in self.allowed_roles:
+        user_roles = {role.upper() for role in (auth.user.roles or [])}
+        if not user_roles.intersection(set(self.allowed_roles)):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail=f"Access denied. Requires one of: {', '.join(self.allowed_roles)}",

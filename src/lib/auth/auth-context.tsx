@@ -12,6 +12,7 @@ export interface AuthUser {
     name: string;
     email: string;
     role: UserRole;
+    roles: string[];
     coordinatorType: CoordinatorType;
     department: string;
     designation: string;
@@ -92,6 +93,7 @@ function buildAuthUser(id: string, email: string, role: UserRole, department?: s
         name: email.split("@")[0],
         email,
         role,
+        roles: [],
         coordinatorType: coordType,
         department: department || "N/A",
         designation: roleToDesignation(role, coordType),
@@ -117,12 +119,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem(AUTH_USER_KEY);
         localStorage.removeItem(AUTH_TOKEN_KEY);
         localStorage.removeItem("edupulse_auth");
+        document.cookie = "edupulse_roles=; path=/; max-age=0";
     }, []);
 
     const setAuthState = useCallback((authUser: AuthUser, token: string) => {
         setUser(authUser);
         localStorage.setItem(AUTH_USER_KEY, JSON.stringify(authUser));
         localStorage.setItem(AUTH_TOKEN_KEY, token);
+        document.cookie = `edupulse_roles=${encodeURIComponent((authUser.roles || []).join(","))}; path=/; max-age=604800`;
     }, []);
 
     useEffect(() => {
@@ -138,6 +142,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 try {
                     const me = await getCurrentUser(storedToken);
                     const syncedUser = buildAuthUser(me.id, me.email, storedUser.role ?? roleFromEmail(me.email), me.department);
+                    syncedUser.roles = me.roles ?? storedUser.roles ?? [];
                     setAuthState(syncedUser, storedToken);
                     return;
                 } catch (error) {
@@ -154,6 +159,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     storedUser.role ?? roleFromEmail(meAfterRefresh.email),
                     meAfterRefresh.department
                 );
+                refreshedUser.roles = meAfterRefresh.roles ?? storedUser.roles ?? [];
                 setAuthState(refreshedUser, refreshed.access_token);
             } catch {
                 clearAuthState();
@@ -173,6 +179,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 const actualRole = roleFromEmail(me.email);
 
                 const authUser = buildAuthUser(me.id, me.email, actualRole, me.department);
+                authUser.roles = me.roles ?? [];
                 setAuthState(authUser, tokenResponse.access_token);
                 router.push("/dashboard");
                 return { ok: true };
