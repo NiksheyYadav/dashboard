@@ -488,6 +488,36 @@ def calculate_teacher_course_completion(teacher_id, subject_id):
     Completion % = Completed / Planned Lectures × 100
     """
 
+## Open Questions
+- Do you have a preferred library for Excel generation in Python (e.g., `openpyxl`, `pandas`), or should I use `pandas` since it handles data frames natively?
+- Should PDF reports be generated using `WeasyPrint` (HTML to PDF) or `ReportLab`? `ReportLab` is lighter but requires manual layout coding.
+
+## Proposed Changes
+
+---
+
+### Reports API Backend
+Develop the backend logic to generate required CSV/Excel exports for attendance and leave data.
+
+#### [NEW] [schemas.py](file:///c:/eblock/backend/app/modules/reports/schemas.py)
+- Input schemas for filtering reports (e.g., date ranges, section ID, programme ID).
+
+#### [NEW] [service.py](file:///c:/eblock/backend/app/modules/reports/service.py)
+- Service logic to query `Student`, `AttendanceTransaction`, and `LeaveRequest` data and construct the report data.
+- Logic to export data using `pandas` (Excel/CSV).
+
+#### [NEW] [router.py](file:///c:/eblock/backend/app/modules/reports/router.py)
+- Endpoint `GET /api/v1/reports/attendance/export` returning a downloadable file.
+- Endpoint `GET /api/v1/reports/leaves/export`.
+
+---
+
+### Reports UI Integration
+Connect the existing Reports page to the new backend API.
+
+#### [MODIFY] [page.tsx](file:///c:/eblock/src/app/(dashboard)/reports/page.tsx)
+- Wire the "Export to Excel" buttons to trigger the backend API and handle file blob downloads.
+
 def calculate_mentor_compliance(mentor_id):
     """
     Weighted score: counselling timeliness, parent contact, 

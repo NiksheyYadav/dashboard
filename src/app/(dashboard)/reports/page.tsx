@@ -108,8 +108,36 @@ export default function ReportsPage() {
                             <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
                                 <Printer className="h-4 w-4" /> Print
                             </button>
-                            <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-emerald-300 text-sm font-medium text-emerald-700 hover:bg-emerald-50 transition-colors">
-                                <FileSpreadsheet className="h-4 w-4" /> Export Excel
+                            <button 
+                                onClick={async () => {
+                                    try {
+                                        const token = localStorage.getItem("edupulse_auth_token");
+                                        let rtype = "attendance_summary";
+                                        if (selectedReport === "leave-summary") rtype = "leave_summary";
+                                        else if (selectedReport === "detention-risk") rtype = "low_attendance";
+                                        else if (selectedReport === "mentor-wise") rtype = "mentor_report";
+
+                                        const res = await fetch("http://localhost:8000/api/v1/reports/export", {
+                                            method: "POST",
+                                            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                                            body: JSON.stringify({ report_type: rtype })
+                                        });
+                                        if (!res.ok) throw new Error("Export failed");
+                                        const blob = await res.blob();
+                                        const url = window.URL.createObjectURL(blob);
+                                        const a = document.createElement("a");
+                                        a.href = url;
+                                        a.download = `${rtype}_export.csv`;
+                                        document.body.appendChild(a);
+                                        a.click();
+                                        window.URL.revokeObjectURL(url);
+                                    } catch (error) {
+                                        alert("Failed to export report.");
+                                    }
+                                }}
+                                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-emerald-300 text-sm font-medium text-emerald-700 hover:bg-emerald-50 transition-colors"
+                            >
+                                <FileSpreadsheet className="h-4 w-4" /> Export CSV
                             </button>
                             <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1a56db] text-sm font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm">
                                 <Download className="h-4 w-4" /> Download PDF
