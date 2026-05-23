@@ -52,6 +52,32 @@ export default function ExtraClassesPage() {
         pending: MOCK_EXTRA_CLASSES.filter((c) => c.status === "Pending Approval").length,
     };
 
+    const scheduleExtraClass = async () => {
+        try {
+            const token = localStorage.getItem("edupulse_auth_token");
+            const res = await fetch("http://localhost:8000/api/v1/leaves/extra-class", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                body: JSON.stringify({
+                    subject_id: "00000000-0000-0000-0000-000000000000",
+                    section_id: "00000000-0000-0000-0000-000000000000",
+                    date: "2025-05-20",
+                    start_time: "17:00:00",
+                    end_time: "18:00:00",
+                    class_type: "extra",
+                    reason: "Pending syllabus",
+                    topic_covered: "BFS, DFS",
+                    room: "LT-201"
+                })
+            });
+            if (!res.ok) throw new Error("API failed");
+            alert("Extra class scheduled successfully!");
+        } catch (error) {
+            console.error(error);
+            alert("Failed to schedule extra class.");
+        }
+    };
+
     return (
         <div className="space-y-6">
             {/* Summary Cards */}
@@ -130,7 +156,7 @@ export default function ExtraClassesPage() {
                             <Filter className="h-3.5 w-3.5" /> Filters
                         </button>
                     </div>
-                    <button className="flex items-center gap-2 h-9 px-4 rounded-lg bg-[#1a56db] text-sm font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm">
+                    <button onClick={scheduleExtraClass} className="flex items-center gap-2 h-9 px-4 rounded-lg bg-[#1a56db] text-sm font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm">
                         <Plus className="h-4 w-4" /> Schedule Extra Class
                     </button>
                 </div>

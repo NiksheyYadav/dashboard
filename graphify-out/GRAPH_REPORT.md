@@ -1,7 +1,7 @@
 # Graph Report - C:\eblock  (2026-05-23)
 
 ## Corpus Check
-- 218 files · ~132,854 words
+- 218 files · ~132,930 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
