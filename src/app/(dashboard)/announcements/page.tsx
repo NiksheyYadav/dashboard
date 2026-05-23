@@ -59,7 +59,7 @@ export default function AnnouncementsPage() {
                     title: newTitle,
                     message: newMessage,
                     author: user?.name ?? "Unknown",
-                    author_role: role ?? "faculty",
+                    author_role: role ?? "teacher",
                     target_course: newCourse,
                     target_semester: String(newSemester),
                     priority: newPriority,

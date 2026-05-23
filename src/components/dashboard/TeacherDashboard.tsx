@@ -20,7 +20,7 @@ export default function TeacherDashboard() {
         role === "admin" ||
         role === "dean" ||
         role === "hod" ||
-        (role === "coordinator" && user?.coordinatorType === "attendance");
+        role === "teacher";
 
     const [stats, setStats] = useState<DashboardStats | null>(null);
     const [weeklyTrend, setWeeklyTrend] = useState<WeeklyTrendData[]>([]);

@@ -1,73 +1,53 @@
-import { CoordinatorType, UserRole } from "@/lib/auth/auth-context";
 import {
-    BarChart3,
-    Briefcase,
-    CalendarCheck,
-    ClipboardList,
-    CreditCard,
-    FileText,
-    FolderKanban,
-    LayoutGrid,
-    MapPin,
-    Megaphone,
-    MessageSquare,
+    BookOpen,
+    CalendarOff,
+    CalendarPlus,
+    ClipboardCheck,
+    FileBarChart,
+    LayoutDashboard,
     Settings,
     Users
 } from "lucide-react";
 
+export type UserRole = "admin" | "dean" | "hod" | "teacher" | "activity_coordinator";
+
 interface NavItem {
     label: string;
-    icon: typeof LayoutGrid;
+    icon: typeof LayoutDashboard;
     href: string;
 }
 
-// All possible nav items with role + coordinator subtype access
-const ALL_NAV_ITEMS: (NavItem & { roles: UserRole[]; coordTypes?: CoordinatorType[] })[] = [
-    { label: "Dashboard", icon: LayoutGrid, href: "/dashboard", roles: ["admin", "dean", "hod", "coordinator", "faculty"] },
-    { label: "Staff Management", icon: Users, href: "/staff", roles: ["admin"] },
-    { label: "Students", icon: Users, href: "/students", roles: ["admin", "dean", "hod", "coordinator", "faculty"] },
-    { label: "Attendance", icon: CalendarCheck, href: "/attendance", roles: ["dean", "hod", "coordinator"], coordTypes: ["attendance"] },
-    { label: "Events", icon: MapPin, href: "/events", roles: ["admin", "dean", "hod", "coordinator", "faculty"], coordTypes: ["events"] },
-    { label: "Forms", icon: ClipboardList, href: "/forms", roles: ["admin", "dean", "hod", "coordinator"] },
-    { label: "Announcements", icon: Megaphone, href: "/announcements", roles: ["admin", "dean", "hod"] },
-    { label: "Analytics", icon: BarChart3, href: "/analytics", roles: ["admin", "dean", "hod"] },
-    { label: "Projects", icon: FolderKanban, href: "/projects", roles: ["admin", "dean", "hod", "coordinator", "faculty"] },
-    { label: "Placement", icon: Briefcase, href: "/placement", roles: ["admin", "dean", "hod", "coordinator"], coordTypes: ["placement"] },
-    { label: "Fees", icon: CreditCard, href: "/fees", roles: ["admin", "dean", "hod"] },
-    { label: "Changelog", icon: FileText, href: "/changelog", roles: ["admin", "dean", "hod", "coordinator", "faculty"] },
-    { label: "Reports", icon: FileText, href: "/reports", roles: ["admin", "dean", "hod", "coordinator"] },
-    { label: "Messages", icon: MessageSquare, href: "/anonymous-messages", roles: ["dean", "hod"] },
+// SOET navigation items with role-based visibility
+const ALL_NAV_ITEMS: (NavItem & { roles: UserRole[] })[] = [
+    { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard", roles: ["admin", "dean", "hod", "teacher", "activity_coordinator"] },
+    { label: "Subject Attendance", icon: BookOpen, href: "/subject-attendance", roles: ["teacher", "hod", "dean", "admin"] },
+    { label: "Mentee Monitor", icon: Users, href: "/mentee-monitor", roles: ["teacher", "hod", "dean"] },
+    { label: "Leave & Arrangement", icon: CalendarOff, href: "/leave-arrangement", roles: ["teacher", "hod", "dean", "admin"] },
+    { label: "Extra Classes", icon: CalendarPlus, href: "/extra-classes", roles: ["teacher", "hod", "dean", "admin"] },
+    { label: "Activity Attendance", icon: ClipboardCheck, href: "/activity-attendance", roles: ["activity_coordinator", "hod", "dean", "admin"] },
+    { label: "Reports", icon: FileBarChart, href: "/reports", roles: ["admin", "dean", "hod", "teacher", "activity_coordinator"] },
 ];
 
-export function getNavItemsForRole(role: UserRole, coordType?: CoordinatorType): NavItem[] {
-    return ALL_NAV_ITEMS.filter((item) => {
-        if (!item.roles.includes(role)) return false;
-        // For coordinators, filter by subtype if the page specifies coordTypes
-        if (role === "coordinator" && item.coordTypes) {
-            return coordType != null && item.coordTypes.includes(coordType);
-        }
-        return true;
-    });
+export function getNavItemsForRole(role: UserRole): NavItem[] {
+    return ALL_NAV_ITEMS.filter((item) => item.roles.includes(role));
 }
 
 // Legacy exports for backward compatibility
-export const TEACHER_NAV_ITEMS = ALL_NAV_ITEMS.map(({ roles: _roles, coordTypes: _ct, ...item }) => item);
-export const NAV_ITEMS = TEACHER_NAV_ITEMS;
+export const NAV_ITEMS = ALL_NAV_ITEMS.map(({ roles: _roles, ...item }) => item);
 
 export const SYSTEM_NAV_ITEMS = [
     { label: "Settings", icon: Settings, href: "/settings" },
 ] as const;
 
+// Programmes/courses — legacy static list for backward compatibility
+// Will be replaced with API-driven data in Phase 1
 export const COURSES = [
-    { value: "all", label: "All Courses" },
-    { value: "btech-cs", label: "B.Tech CS" },
+    { value: "all", label: "Course: All" },
+    { value: "btech-cse", label: "B.Tech CSE" },
     { value: "btech-it", label: "B.Tech IT" },
-    { value: "btech-ece", label: "B.Tech ECE" },
     { value: "btech-me", label: "B.Tech ME" },
+    { value: "bca", label: "BCA" },
     { value: "mca", label: "MCA" },
-    { value: "be-mech", label: "B.E. Mech" },
-    { value: "be-elec", label: "B.E. Elec" },
-    { value: "bba", label: "B.B.A." },
 ] as const;
 
 export const SEMESTERS = [

@@ -45,7 +45,7 @@ export default function ProjectsPage() {
   });
 
   // Determine if user can create projects
-  const canCreateProject = role === "admin" || role === "dean" || role === "hod" || role === "faculty" || role === "coordinator";
+  const canCreateProject = role === "admin" || role === "dean" || role === "hod" || role === "teacher" || role === "activity_coordinator";
 
   const handleCreateProject = useCallback(
     async (data: ProjectFormData) => {

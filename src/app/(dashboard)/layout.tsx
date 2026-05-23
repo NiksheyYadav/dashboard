@@ -47,7 +47,7 @@ export default function DashboardLayout({
             )}
 
             {/* Main Content */}
-            <div className="lg:ml-[220px]">
+            <div className="lg:ml-[260px]">
                 <Topbar />
                 <main className="p-4 sm:p-6 animate-fade-in">{children}</main>
             </div>

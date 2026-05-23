@@ -1,21 +1,42 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/auth/auth-context";
 import { useSidebar } from "@/lib/hooks/useSidebar";
-import { useTheme } from "@/lib/theme/theme-context";
-import { Bell, Menu, Moon, Plus, Search, Sun } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Bell, ChevronDown, Menu } from "lucide-react";
+import { usePathname } from "next/navigation";
+
+const PAGE_TITLES: Record<string, { title: string; subtitle: string }> = {
+    "/dashboard": { title: "Dashboard", subtitle: "Overview and quick actions" },
+    "/subject-attendance": { title: "Subject Attendance", subtitle: "Mark and manage class attendance" },
+    "/mentee-monitor": { title: "Mentee Monitor", subtitle: "Only assigned mentees are visible" },
+    "/leave-arrangement": { title: "Leave & Class Arrangement", subtitle: "Apply leave and arrange replacement classes" },
+    "/extra-classes": { title: "Extra Classes / Make-Up Classes", subtitle: "Schedule extra classes for course completion" },
+    "/activity-attendance": { title: "Activity Attendance", subtitle: "Manage academic activity participation" },
+    "/reports": { title: "Reports", subtitle: "Generate and export reports" },
+    "/settings": { title: "Settings", subtitle: "System configuration and preferences" },
+    "/students": { title: "Students", subtitle: "Student directory and management" },
+    "/academic-data": { title: "Academic Data Management", subtitle: "Import and manage academic structure" },
+};
+
+function getPageInfo(pathname: string) {
+    // Try exact match first, then prefix match
+    if (PAGE_TITLES[pathname]) return PAGE_TITLES[pathname];
+    const prefix = Object.keys(PAGE_TITLES).find((key) => pathname.startsWith(key));
+    if (prefix) return PAGE_TITLES[prefix];
+    return { title: "SOET Attendance & Mentorship Monitoring App", subtitle: "Teacher Dashboard" };
+}
 
 export default function Topbar() {
     const { toggle } = useSidebar();
-    const { resolvedTheme, setTheme, theme } = useTheme();
-    const router = useRouter();
+    const { user } = useAuth();
+    const pathname = usePathname();
+    const pageInfo = getPageInfo(pathname);
 
-    const cycleTheme = () => {
-        if (theme === "light") setTheme("dark");
-        else if (theme === "dark") setTheme("system");
-        else setTheme("light");
-    };
+    const displayRole = user?.isMentor
+        ? "Teacher & Mentor"
+        : user?.role
+            ? user.role.charAt(0).toUpperCase() + user.role.slice(1).replace("_", " ")
+            : "";
 
     return (
         <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-gray-200 bg-white px-4 sm:px-6 dark:border-gray-800 dark:bg-gray-900">
@@ -23,55 +44,47 @@ export default function Topbar() {
                 {/* Hamburger (mobile only) */}
                 <button
                     onClick={toggle}
-                    className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-500 transition-colors hover:bg-gray-50 lg:hidden dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800"
+                    className="flex h-10 w-10 items-center justify-center rounded-lg text-gray-500 transition-colors hover:bg-gray-100 lg:hidden dark:text-gray-400 dark:hover:bg-gray-800"
                 >
                     <Menu className="h-5 w-5" />
                 </button>
 
-                {/* Search */}
-                <div className="relative hidden sm:block">
-                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                    <input
-                        type="text"
-                        placeholder="Search students, courses or IDs..."
-                        className="h-10 w-[240px] rounded-lg border border-gray-200 bg-gray-50/50 pl-10 pr-4 text-sm text-gray-700 placeholder:text-gray-400 outline-none transition-colors focus:border-[#1a6fdb] focus:bg-white focus:ring-2 focus:ring-[#1a6fdb]/10 md:w-[320px] dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:placeholder:text-gray-500 dark:focus:bg-gray-800"
-                    />
+                {/* Page Title */}
+                <div className="hidden sm:block">
+                    <h1 className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                        {pageInfo.title}
+                    </h1>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {pageInfo.subtitle}
+                    </p>
                 </div>
-                {/* Mobile search icon */}
-                <button className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-500 transition-colors hover:bg-gray-50 sm:hidden dark:border-gray-700 dark:text-gray-400">
-                    <Search className="h-[18px] w-[18px]" />
-                </button>
             </div>
 
-            {/* Actions */}
-            <div className="flex items-center gap-2 sm:gap-3">
-                {/* Theme toggle */}
-                <button
-                    onClick={cycleTheme}
-                    title={`Theme: ${theme}`}
-                    className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-500 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800"
-                >
-                    {resolvedTheme === "dark" ? (
-                        <Moon className="h-[18px] w-[18px]" />
-                    ) : (
-                        <Sun className="h-[18px] w-[18px]" />
-                    )}
+            {/* Right side: Notifications + User */}
+            <div className="flex items-center gap-3">
+                {/* Notification Bell */}
+                <button className="relative flex h-10 w-10 items-center justify-center rounded-lg text-gray-500 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800">
+                    <Bell className="h-5 w-5" />
+                    <span className="absolute right-1.5 top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                        3
+                    </span>
                 </button>
 
-                {/* Notifications */}
-                <button className="relative flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800">
-                    <Bell className="h-[18px] w-[18px]" />
-                    <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500" />
+                {/* User Profile */}
+                <button className="flex items-center gap-3 rounded-lg px-3 py-1.5 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1a56db] text-xs font-semibold text-white">
+                        {user?.avatarInitials ?? "??"}
+                    </div>
+                    <div className="hidden text-left sm:block">
+                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                            {user?.name ?? "Guest"}
+                        </p>
+                        <p className="text-[10px] text-gray-500 dark:text-gray-400">
+                            {displayRole}
+                        </p>
+                    </div>
+                    <ChevronDown className="hidden h-4 w-4 text-gray-400 sm:block" />
                 </button>
-
-                {/* New Entry */}
-                <Button
-                    className="hidden h-10 gap-2 bg-[#1a6fdb] px-4 text-sm font-semibold text-white shadow-sm hover:bg-[#1560c2] sm:flex"
-                    onClick={() => router.push("/students")}
-                >
-                    <Plus className="h-4 w-4" />
-                    New Entry
-                </Button>
             </div>
         </header>
     );
