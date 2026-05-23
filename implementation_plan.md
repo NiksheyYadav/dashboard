@@ -518,6 +518,28 @@ Connect the existing Reports page to the new backend API.
 #### [MODIFY] [page.tsx](file:///c:/eblock/src/app/(dashboard)/reports/page.tsx)
 - Wire the "Export to Excel" buttons to trigger the backend API and handle file blob downloads.
 
+---
+
+### Activity Attendance API Backend (Phase 7)
+Develop the backend logic to manage non-academic activity attendance (like sports, cultural events) and systemic notifications.
+
+#### [NEW] [schemas.py](file:///c:/eblock/backend/app/modules/activity/schemas.py)
+- Schemas for `ActivityCreate`, `ParticipantList`, and `AttendanceCreditUpdate`.
+
+#### [NEW] [service.py](file:///c:/eblock/backend/app/modules/activity/service.py)
+- Service logic to create activities, register participants, and credit attendance.
+
+#### [NEW] [router.py](file:///c:/eblock/backend/app/modules/activity/router.py)
+- Endpoints for `POST /api/v1/activities`, `POST /api/v1/activities/{id}/participants`, and `PUT /api/v1/activities/{id}/credit`.
+
+---
+
+### Activity Attendance UI Integration (Phase 7)
+Connect the existing Activity Attendance page to the new backend API.
+
+#### [MODIFY] [page.tsx](file:///c:/eblock/src/app/(dashboard)/activity-attendance/page.tsx)
+- Wire the "Create Activity" and "Mark Participants" buttons to trigger the backend API.
+
 def calculate_mentor_compliance(mentor_id):
     """
     Weighted score: counselling timeliness, parent contact, 

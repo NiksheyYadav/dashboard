@@ -44,6 +44,43 @@ export default function ActivityAttendancePage() {
         pending: MOCK_ACTIVITIES.filter((a) => !a.approved).length,
     };
 
+    const createActivity = async () => {
+        try {
+            const token = localStorage.getItem("edupulse_auth_token");
+            const res = await fetch("http://localhost:8000/api/v1/activities", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                body: JSON.stringify({
+                    name: "New Activity",
+                    activity_type: "Workshop",
+                    date: new Date().toISOString().split("T")[0],
+                    description: "Activity created from dashboard"
+                })
+            });
+            if (!res.ok) throw new Error("API failed");
+            alert("Activity created successfully!");
+        } catch (error) {
+            console.error(error);
+            alert("Failed to create activity.");
+        }
+    };
+
+    const creditAttendance = async (activityId: string) => {
+        try {
+            const token = localStorage.getItem("edupulse_auth_token");
+            const res = await fetch(`http://localhost:8000/api/v1/activities/${activityId}/credit`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+            });
+            if (!res.ok) throw new Error("API failed");
+            const data = await res.json();
+            alert(`Attendance credited for ${data.credited} participants!`);
+        } catch (error) {
+            console.error(error);
+            alert("Failed to credit attendance.");
+        }
+    };
+
     return (
         <div className="space-y-6">
             {/* Summary Cards */}
@@ -109,7 +146,7 @@ export default function ActivityAttendancePage() {
                             <option value="Competition">Competition</option>
                         </select>
                     </div>
-                    <button className="flex items-center gap-2 h-9 px-4 rounded-lg bg-[#1a56db] text-sm font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm">
+                    <button onClick={createActivity} className="flex items-center gap-2 h-9 px-4 rounded-lg bg-[#1a56db] text-sm font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm">
                         <Plus className="h-4 w-4" /> Add Activity
                     </button>
                 </div>

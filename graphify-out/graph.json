@@ -9,7 +9,7 @@
       "source_file": "C:\\eblock\\add_git_path.py",
       "source_location": "L1",
       "id": "c_eblock_add_git_path_py",
-      "community": 80,
+      "community": 81,
       "norm_label": "add_git_path.py"
     },
     {
@@ -18,7 +18,7 @@
       "source_file": "C:\\eblock\\dump_path.py",
       "source_location": "L1",
       "id": "c_eblock_dump_path_py",
-      "community": 81,
+      "community": 82,
       "norm_label": "dump_path.py"
     },
     {
@@ -27,7 +27,7 @@
       "source_file": "C:\\eblock\\eslint.config.mjs",
       "source_location": "L1",
       "id": "c_eblock_eslint_config_mjs",
-      "community": 82,
+      "community": 83,
       "norm_label": "eslint.config.mjs"
     },
     {
@@ -36,7 +36,7 @@
       "source_file": "C:\\eblock\\extract_pdfs.py",
       "source_location": "L1",
       "id": "c_eblock_extract_pdfs_py",
-      "community": 83,
+      "community": 84,
       "norm_label": "extract_pdfs.py"
     },
     {
@@ -45,7 +45,7 @@
       "source_file": "C:\\eblock\\next-env.d.ts",
       "source_location": "L1",
       "id": "c_eblock_next_env_d_ts",
-      "community": 84,
+      "community": 85,
       "norm_label": "next-env.d.ts"
     },
     {
@@ -54,7 +54,7 @@
       "source_file": "C:\\eblock\\next.config.ts",
       "source_location": "L1",
       "id": "c_eblock_next_config_ts",
-      "community": 85,
+      "community": 86,
       "norm_label": "next.config.ts"
     },
     {
@@ -63,7 +63,7 @@
       "source_file": "C:\\eblock\\postcss.config.mjs",
       "source_location": "L1",
       "id": "c_eblock_postcss_config_mjs",
-      "community": 86,
+      "community": 87,
       "norm_label": "postcss.config.mjs"
     },
     {
@@ -90,7 +90,7 @@
       "source_file": "C:\\eblock\\backend\\run.py",
       "source_location": "L1",
       "id": "c_eblock_backend_run_py",
-      "community": 87,
+      "community": 88,
       "norm_label": "run.py"
     },
     {
@@ -466,7 +466,7 @@
       "label": "app_exception_handler()",
       "file_type": "code",
       "source_file": "C:\\eblock\\backend\\app\\main.py",
-      "source_location": "L72",
+      "source_location": "L74",
       "id": "main_app_exception_handler",
       "community": 0,
       "norm_label": "app_exception_handler()"
@@ -475,7 +475,7 @@
       "label": "unhandled_exception_handler()",
       "file_type": "code",
       "source_file": "C:\\eblock\\backend\\app\\main.py",
-      "source_location": "L77",
+      "source_location": "L79",
       "id": "main_unhandled_exception_handler",
       "community": 0,
       "norm_label": "unhandled_exception_handler()"
@@ -484,7 +484,7 @@
       "label": "health_check()",
       "file_type": "code",
       "source_file": "C:\\eblock\\backend\\app\\main.py",
-      "source_location": "L83",
+      "source_location": "L85",
       "id": "main_health_check",
       "community": 0,
       "norm_label": "health_check()"
@@ -493,7 +493,7 @@
       "label": "create_tables()",
       "file_type": "code",
       "source_file": "C:\\eblock\\backend\\app\\main.py",
-      "source_location": "L88",
+      "source_location": "L90",
       "id": "main_create_tables",
       "community": 0,
       "norm_label": "create_tables()"
@@ -502,10 +502,10 @@
       "label": "Ensure all database tables exist on startup.     Uses create_all with checkfirst",
       "file_type": "rationale",
       "source_file": "C:\\eblock\\backend\\app\\main.py",
-      "source_location": "L89",
+      "source_location": "L91",
       "community": 0,
       "norm_label": "ensure all database tables exist on startup.     uses create_all with checkfirst",
-      "id": "main_rationale_89"
+      "id": "main_rationale_91"
     },
     {
       "label": "__init__.py",
@@ -513,7 +513,7 @@
       "source_file": "C:\\eblock\\backend\\app\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_init_py",
-      "community": 88,
+      "community": 89,
       "norm_label": "__init__.py"
     },
     {
@@ -576,7 +576,7 @@
       "source_file": "C:\\eblock\\backend\\app\\core\\constants.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_core_constants_py",
-      "community": 89,
+      "community": 90,
       "norm_label": "constants.py"
     },
     {
@@ -747,7 +747,7 @@
       "source_file": "C:\\eblock\\backend\\app\\core\\security.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_core_security_py",
-      "community": 3,
+      "community": 1,
       "norm_label": "security.py"
     },
     {
@@ -756,7 +756,7 @@
       "source_file": "C:\\eblock\\backend\\app\\core\\security.py",
       "source_location": "L17",
       "id": "security_now_utc",
-      "community": 3,
+      "community": 1,
       "norm_label": "now_utc()"
     },
     {
@@ -765,7 +765,7 @@
       "source_file": "C:\\eblock\\backend\\app\\core\\security.py",
       "source_location": "L21",
       "id": "security_normalize_email",
-      "community": 3,
+      "community": 1,
       "norm_label": "normalize_email()"
     },
     {
@@ -774,7 +774,7 @@
       "source_file": "C:\\eblock\\backend\\app\\core\\security.py",
       "source_location": "L25",
       "id": "security_hash_password",
-      "community": 3,
+      "community": 1,
       "norm_label": "hash_password()"
     },
     {
@@ -783,7 +783,7 @@
       "source_file": "C:\\eblock\\backend\\app\\core\\security.py",
       "source_location": "L29",
       "id": "security_verify_password",
-      "community": 3,
+      "community": 1,
       "norm_label": "verify_password()"
     },
     {
@@ -792,7 +792,7 @@
       "source_file": "C:\\eblock\\backend\\app\\core\\security.py",
       "source_location": "L36",
       "id": "security_create_access_token",
-      "community": 3,
+      "community": 1,
       "norm_label": "create_access_token()"
     },
     {
@@ -810,7 +810,7 @@
       "source_file": "C:\\eblock\\backend\\app\\core\\security.py",
       "source_location": "L58",
       "id": "security_generate_refresh_token",
-      "community": 3,
+      "community": 1,
       "norm_label": "generate_refresh_token()"
     },
     {
@@ -819,7 +819,7 @@
       "source_file": "C:\\eblock\\backend\\app\\core\\security.py",
       "source_location": "L62",
       "id": "security_hash_refresh_token",
-      "community": 3,
+      "community": 1,
       "norm_label": "hash_refresh_token()"
     },
     {
@@ -828,7 +828,7 @@
       "source_file": "C:\\eblock\\backend\\app\\core\\security.py",
       "source_location": "L70",
       "id": "security_constant_time_compare",
-      "community": 3,
+      "community": 1,
       "norm_label": "constant_time_compare()"
     },
     {
@@ -837,7 +837,7 @@
       "source_file": "C:\\eblock\\backend\\app\\core\\security.py",
       "source_location": "L74",
       "id": "security_is_jwt_error",
-      "community": 3,
+      "community": 1,
       "norm_label": "is_jwt_error()"
     },
     {
@@ -846,7 +846,7 @@
       "source_file": "C:\\eblock\\backend\\app\\core\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_core_init_py",
-      "community": 90,
+      "community": 91,
       "norm_label": "__init__.py"
     },
     {
@@ -882,7 +882,7 @@
       "source_file": "C:\\eblock\\backend\\app\\db\\session.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_db_session_py",
-      "community": 47,
+      "community": 48,
       "norm_label": "session.py"
     },
     {
@@ -891,7 +891,7 @@
       "source_file": "C:\\eblock\\backend\\app\\db\\session.py",
       "source_location": "L16",
       "id": "session_get_db",
-      "community": 47,
+      "community": 48,
       "norm_label": "get_db()"
     },
     {
@@ -900,7 +900,7 @@
       "source_file": "C:\\eblock\\backend\\app\\db\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_db_init_py",
-      "community": 91,
+      "community": 92,
       "norm_label": "__init__.py"
     },
     {
@@ -954,7 +954,7 @@
       "source_file": "C:\\eblock\\backend\\app\\middleware\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_middleware_init_py",
-      "community": 92,
+      "community": 93,
       "norm_label": "__init__.py"
     },
     {
@@ -1008,7 +1008,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\activity_participant.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_models_activity_participant_py",
-      "community": 0,
+      "community": 2,
       "norm_label": "activity_participant.py"
     },
     {
@@ -1017,7 +1017,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\activity_participant.py",
       "source_location": "L12",
       "id": "activity_participant_activityparticipant",
-      "community": 0,
+      "community": 2,
       "norm_label": "activityparticipant"
     },
     {
@@ -1026,7 +1026,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\announcement.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_models_announcement_py",
-      "community": 1,
+      "community": 3,
       "norm_label": "announcement.py"
     },
     {
@@ -1035,7 +1035,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\announcement.py",
       "source_location": "L8",
       "id": "announcement_announcement",
-      "community": 1,
+      "community": 3,
       "norm_label": "announcement"
     },
     {
@@ -1044,7 +1044,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\anonymous_message.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_models_anonymous_message_py",
-      "community": 0,
+      "community": 1,
       "norm_label": "anonymous_message.py"
     },
     {
@@ -1053,7 +1053,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\anonymous_message.py",
       "source_location": "L11",
       "id": "anonymous_message_anonymousmessage",
-      "community": 0,
+      "community": 1,
       "norm_label": "anonymousmessage"
     },
     {
@@ -1143,7 +1143,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\event.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_models_event_py",
-      "community": 1,
+      "community": 3,
       "norm_label": "event.py"
     },
     {
@@ -1152,7 +1152,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\event.py",
       "source_location": "L8",
       "id": "event_event",
-      "community": 1,
+      "community": 3,
       "norm_label": "event"
     },
     {
@@ -1188,7 +1188,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\form.py",
       "source_location": "L9",
       "id": "form_formdefinition",
-      "community": 1,
+      "community": 3,
       "norm_label": "formdefinition"
     },
     {
@@ -1332,7 +1332,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\project.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_models_project_py",
-      "community": 1,
+      "community": 3,
       "norm_label": "project.py"
     },
     {
@@ -1341,7 +1341,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\project.py",
       "source_location": "L7",
       "id": "project_project",
-      "community": 1,
+      "community": 3,
       "norm_label": "project"
     },
     {
@@ -1422,7 +1422,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\student.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_models_student_py",
-      "community": 3,
+      "community": 0,
       "norm_label": "student.py"
     },
     {
@@ -1431,7 +1431,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\student.py",
       "source_location": "L12",
       "id": "student_student",
-      "community": 3,
+      "community": 0,
       "norm_label": "student"
     },
     {
@@ -1476,7 +1476,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\user.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_models_user_py",
-      "community": 1,
+      "community": 3,
       "norm_label": "user.py"
     },
     {
@@ -1485,7 +1485,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\user.py",
       "source_location": "L12",
       "id": "user_user",
-      "community": 1,
+      "community": 3,
       "norm_label": "user"
     },
     {
@@ -1512,7 +1512,7 @@
       "source_file": "C:\\eblock\\backend\\app\\models\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_models_init_py",
-      "community": 93,
+      "community": 94,
       "norm_label": "__init__.py"
     },
     {
@@ -1521,7 +1521,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_init_py",
-      "community": 94,
+      "community": 95,
       "norm_label": "__init__.py"
     },
     {
@@ -1611,7 +1611,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\router.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_academic_router_py",
-      "community": 3,
+      "community": 1,
       "norm_label": "router.py"
     },
     {
@@ -1629,7 +1629,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\router.py",
       "source_location": "L43",
       "id": "router_import_preview",
-      "community": 3,
+      "community": 1,
       "norm_label": "import_preview()"
     },
     {
@@ -1638,7 +1638,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\router.py",
       "source_location": "L52",
       "id": "router_import_commit",
-      "community": 3,
+      "community": 1,
       "norm_label": "import_commit()"
     },
     {
@@ -1647,7 +1647,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\router.py",
       "source_location": "L61",
       "id": "router_import_history",
-      "community": 3,
+      "community": 1,
       "norm_label": "import_history()"
     },
     {
@@ -1656,7 +1656,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\router.py",
       "source_location": "L68",
       "id": "router_rollback_import",
-      "community": 3,
+      "community": 1,
       "norm_label": "rollback_import()"
     },
     {
@@ -1665,7 +1665,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\router.py",
       "source_location": "L79",
       "id": "router_list_programmes",
-      "community": 3,
+      "community": 1,
       "norm_label": "list_programmes()"
     },
     {
@@ -1674,7 +1674,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\router.py",
       "source_location": "L84",
       "id": "router_list_semesters",
-      "community": 3,
+      "community": 1,
       "norm_label": "list_semesters()"
     },
     {
@@ -1683,7 +1683,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\router.py",
       "source_location": "L89",
       "id": "router_list_sections",
-      "community": 3,
+      "community": 1,
       "norm_label": "list_sections()"
     },
     {
@@ -1692,7 +1692,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\router.py",
       "source_location": "L94",
       "id": "router_list_subjects",
-      "community": 3,
+      "community": 1,
       "norm_label": "list_subjects()"
     },
     {
@@ -1701,7 +1701,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\router.py",
       "source_location": "L99",
       "id": "router_list_timetable",
-      "community": 3,
+      "community": 1,
       "norm_label": "list_timetable()"
     },
     {
@@ -1863,7 +1863,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\service.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_academic_service_py",
-      "community": 3,
+      "community": 1,
       "norm_label": "service.py"
     },
     {
@@ -1881,7 +1881,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\service.py",
       "source_location": "L21",
       "id": "service_get_template",
-      "community": 3,
+      "community": 1,
       "norm_label": "get_template()"
     },
     {
@@ -1899,7 +1899,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\service.py",
       "source_location": "L89",
       "id": "service_commit_import",
-      "community": 3,
+      "community": 1,
       "norm_label": "commit_import()"
     },
     {
@@ -1908,7 +1908,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\service.py",
       "source_location": "L104",
       "id": "service_rollback_import",
-      "community": 3,
+      "community": 1,
       "norm_label": "rollback_import()"
     },
     {
@@ -1917,7 +1917,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\service.py",
       "source_location": "L118",
       "id": "service_get_import_history",
-      "community": 3,
+      "community": 1,
       "norm_label": "get_import_history()"
     },
     {
@@ -1935,7 +1935,250 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\academic\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_academic_init_py",
-      "community": 95,
+      "community": 96,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "router.py",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L1",
+      "id": "c_eblock_backend_app_modules_activity_router_py",
+      "community": 4,
+      "norm_label": "router.py"
+    },
+    {
+      "label": "create_activity()",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L21",
+      "id": "router_create_activity",
+      "community": 4,
+      "norm_label": "create_activity()"
+    },
+    {
+      "label": "list_activities()",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L32",
+      "id": "router_list_activities",
+      "community": 4,
+      "norm_label": "list_activities()"
+    },
+    {
+      "label": "add_participants()",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L44",
+      "id": "router_add_participants",
+      "community": 4,
+      "norm_label": "add_participants()"
+    },
+    {
+      "label": "get_participants()",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L56",
+      "id": "router_get_participants",
+      "community": 4,
+      "norm_label": "get_participants()"
+    },
+    {
+      "label": "credit_attendance()",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L67",
+      "id": "router_credit_attendance",
+      "community": 4,
+      "norm_label": "credit_attendance()"
+    },
+    {
+      "label": "approve_activity()",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L81",
+      "id": "router_approve_activity",
+      "community": 4,
+      "norm_label": "approve_activity()"
+    },
+    {
+      "label": "schemas.py",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L1",
+      "id": "c_eblock_backend_app_modules_activity_schemas_py",
+      "community": 2,
+      "norm_label": "schemas.py"
+    },
+    {
+      "label": "ActivityCreate",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L7",
+      "id": "schemas_activitycreate",
+      "community": 2,
+      "norm_label": "activitycreate"
+    },
+    {
+      "label": "ActivityOut",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L17",
+      "id": "schemas_activityout",
+      "community": 2,
+      "norm_label": "activityout"
+    },
+    {
+      "label": "ParticipantAdd",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L36",
+      "id": "schemas_participantadd",
+      "community": 2,
+      "norm_label": "participantadd"
+    },
+    {
+      "label": "ParticipantBulkAdd",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L41",
+      "id": "schemas_participantbulkadd",
+      "community": 2,
+      "norm_label": "participantbulkadd"
+    },
+    {
+      "label": "ParticipantOut",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L45",
+      "id": "schemas_participantout",
+      "community": 2,
+      "norm_label": "participantout"
+    },
+    {
+      "label": "CreditAttendanceRequest",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L56",
+      "id": "schemas_creditattendancerequest",
+      "community": 2,
+      "norm_label": "creditattendancerequest"
+    },
+    {
+      "label": "ActivityApprovalRequest",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L61",
+      "id": "schemas_activityapprovalrequest",
+      "community": 2,
+      "norm_label": "activityapprovalrequest"
+    },
+    {
+      "label": "Request to credit attendance for all participants of an activity.",
+      "file_type": "rationale",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L57",
+      "community": 2,
+      "norm_label": "request to credit attendance for all participants of an activity.",
+      "id": "schemas_rationale_57"
+    },
+    {
+      "label": "HoD/Dean approval or rejection of an activity.",
+      "file_type": "rationale",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L62",
+      "community": 2,
+      "norm_label": "hod/dean approval or rejection of an activity.",
+      "id": "schemas_rationale_62"
+    },
+    {
+      "label": "service.py",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L1",
+      "id": "c_eblock_backend_app_modules_activity_service_py",
+      "community": 1,
+      "norm_label": "service.py"
+    },
+    {
+      "label": "ActivityService",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L20",
+      "id": "service_activityservice",
+      "community": 2,
+      "norm_label": "activityservice"
+    },
+    {
+      "label": "create_activity()",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L23",
+      "id": "service_create_activity",
+      "community": 0,
+      "norm_label": "create_activity()"
+    },
+    {
+      "label": "list_activities()",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L41",
+      "id": "service_list_activities",
+      "community": 1,
+      "norm_label": "list_activities()"
+    },
+    {
+      "label": "add_participants()",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L49",
+      "id": "service_add_participants",
+      "community": 1,
+      "norm_label": "add_participants()"
+    },
+    {
+      "label": "get_participants()",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L68",
+      "id": "service_get_participants",
+      "community": 1,
+      "norm_label": "get_participants()"
+    },
+    {
+      "label": "credit_attendance()",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L77",
+      "id": "service_credit_attendance",
+      "community": 1,
+      "norm_label": "credit_attendance()"
+    },
+    {
+      "label": "approve_activity()",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L114",
+      "id": "service_approve_activity",
+      "community": 1,
+      "norm_label": "approve_activity()"
+    },
+    {
+      "label": "Credit attendance for all participants of an approved activity.",
+      "file_type": "rationale",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L78",
+      "community": 2,
+      "norm_label": "credit attendance for all participants of an approved activity.",
+      "id": "service_rationale_78"
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\__init__.py",
+      "source_location": "L1",
+      "id": "c_eblock_backend_app_modules_activity_init_py",
+      "community": 97,
       "norm_label": "__init__.py"
     },
     {
@@ -1944,7 +2187,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\announcements\\router.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_announcements_router_py",
-      "community": 1,
+      "community": 3,
       "norm_label": "router.py"
     },
     {
@@ -1953,7 +2196,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\announcements\\router.py",
       "source_location": "L17",
       "id": "router_announcementcreate",
-      "community": 1,
+      "community": 3,
       "norm_label": "announcementcreate"
     },
     {
@@ -1962,7 +2205,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\announcements\\router.py",
       "source_location": "L27",
       "id": "router_announcementout",
-      "community": 1,
+      "community": 3,
       "norm_label": "announcementout"
     },
     {
@@ -1971,7 +2214,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L82",
       "id": "router_config",
-      "community": 1,
+      "community": 3,
       "norm_label": "config"
     },
     {
@@ -1980,7 +2223,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L86",
       "id": "router_to_out",
-      "community": 1,
+      "community": 3,
       "norm_label": "_to_out()"
     },
     {
@@ -1989,7 +2232,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\announcements\\router.py",
       "source_location": "L63",
       "id": "router_list_announcements",
-      "community": 1,
+      "community": 3,
       "norm_label": "list_announcements()"
     },
     {
@@ -1998,7 +2241,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\announcements\\router.py",
       "source_location": "L81",
       "id": "router_create_announcement",
-      "community": 1,
+      "community": 3,
       "norm_label": "create_announcement()"
     },
     {
@@ -2007,7 +2250,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\announcements\\router.py",
       "source_location": "L100",
       "id": "router_delete_announcement",
-      "community": 1,
+      "community": 3,
       "norm_label": "delete_announcement()"
     },
     {
@@ -2015,7 +2258,7 @@
       "file_type": "rationale",
       "source_file": "C:\\eblock\\backend\\app\\modules\\announcements\\router.py",
       "source_location": "L43",
-      "community": 1,
+      "community": 3,
       "norm_label": "convert db model to frontend-compatible dict.",
       "id": "router_rationale_43"
     },
@@ -2025,7 +2268,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\announcements\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_announcements_init_py",
-      "community": 96,
+      "community": 98,
       "norm_label": "__init__.py"
     },
     {
@@ -2250,7 +2493,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\attendance\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_attendance_init_py",
-      "community": 97,
+      "community": 99,
       "norm_label": "__init__.py"
     },
     {
@@ -2376,7 +2619,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\auth\\router.py",
       "source_location": "L87",
       "id": "router_refresh",
-      "community": 1,
+      "community": 3,
       "norm_label": "refresh()"
     },
     {
@@ -2502,7 +2745,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\auth\\service.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_auth_service_py",
-      "community": 3,
+      "community": 1,
       "norm_label": "service.py"
     },
     {
@@ -2511,7 +2754,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\auth\\service.py",
       "source_location": "L29",
       "id": "service_authservice",
-      "community": 3,
+      "community": 1,
       "norm_label": "authservice"
     },
     {
@@ -2520,7 +2763,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\auth\\service.py",
       "source_location": "L31",
       "id": "service_get_user_by_id",
-      "community": 3,
+      "community": 1,
       "norm_label": "_get_user_by_id()"
     },
     {
@@ -2529,7 +2772,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\auth\\service.py",
       "source_location": "L35",
       "id": "service_get_session_by_id",
-      "community": 3,
+      "community": 1,
       "norm_label": "_get_session_by_id()"
     },
     {
@@ -2538,7 +2781,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\auth\\service.py",
       "source_location": "L39",
       "id": "service_register_user",
-      "community": 3,
+      "community": 1,
       "norm_label": "register_user()"
     },
     {
@@ -2547,7 +2790,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\auth\\service.py",
       "source_location": "L51",
       "id": "service_login_user",
-      "community": 3,
+      "community": 1,
       "norm_label": "login_user()"
     },
     {
@@ -2556,7 +2799,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\auth\\service.py",
       "source_location": "L89",
       "id": "service_refresh_tokens",
-      "community": 3,
+      "community": 1,
       "norm_label": "refresh_tokens()"
     },
     {
@@ -2565,7 +2808,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\auth\\service.py",
       "source_location": "L159",
       "id": "service_revoke_session",
-      "community": 3,
+      "community": 1,
       "norm_label": "revoke_session()"
     },
     {
@@ -2574,7 +2817,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\auth\\service.py",
       "source_location": "L173",
       "id": "service_logout",
-      "community": 3,
+      "community": 1,
       "norm_label": "logout()"
     },
     {
@@ -2583,7 +2826,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\auth\\service.py",
       "source_location": "L196",
       "id": "service_request_password_reset",
-      "community": 3,
+      "community": 1,
       "norm_label": "request_password_reset()"
     },
     {
@@ -2592,7 +2835,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\auth\\service.py",
       "source_location": "L221",
       "id": "service_reset_password",
-      "community": 3,
+      "community": 1,
       "norm_label": "reset_password()"
     },
     {
@@ -2601,7 +2844,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\auth\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_auth_init_py",
-      "community": 98,
+      "community": 100,
       "norm_label": "__init__.py"
     },
     {
@@ -2619,7 +2862,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\dashboard\\router.py",
       "source_location": "L13",
       "id": "router_get_dashboard_metrics",
-      "community": 13,
+      "community": 4,
       "norm_label": "get_dashboard_metrics()"
     },
     {
@@ -2646,7 +2889,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\dashboard\\schemas.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_dashboard_schemas_py",
-      "community": 13,
+      "community": 14,
       "norm_label": "schemas.py"
     },
     {
@@ -2655,7 +2898,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\dashboard\\schemas.py",
       "source_location": "L5",
       "id": "schemas_dashboardmetricsout",
-      "community": 13,
+      "community": 14,
       "norm_label": "dashboardmetricsout"
     },
     {
@@ -2664,7 +2907,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\dashboard\\schemas.py",
       "source_location": "L12",
       "id": "schemas_notificationout",
-      "community": 13,
+      "community": 14,
       "norm_label": "notificationout"
     },
     {
@@ -2673,7 +2916,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\dashboard\\schemas.py",
       "source_location": "L22",
       "id": "schemas_actionitemout",
-      "community": 13,
+      "community": 14,
       "norm_label": "actionitemout"
     },
     {
@@ -2682,7 +2925,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\dashboard\\service.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_dashboard_service_py",
-      "community": 13,
+      "community": 14,
       "norm_label": "service.py"
     },
     {
@@ -2691,7 +2934,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\dashboard\\service.py",
       "source_location": "L9",
       "id": "service_dashboardservice",
-      "community": 13,
+      "community": 14,
       "norm_label": "dashboardservice"
     },
     {
@@ -2700,7 +2943,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\dashboard\\service.py",
       "source_location": "L11",
       "id": "service_get_hod_metrics",
-      "community": 13,
+      "community": 14,
       "norm_label": "get_hod_metrics()"
     },
     {
@@ -2709,7 +2952,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\dashboard\\service.py",
       "source_location": "L23",
       "id": "service_get_notifications",
-      "community": 13,
+      "community": 14,
       "norm_label": "get_notifications()"
     },
     {
@@ -2718,7 +2961,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\dashboard\\service.py",
       "source_location": "L33",
       "id": "service_get_action_items",
-      "community": 13,
+      "community": 14,
       "norm_label": "get_action_items()"
     },
     {
@@ -2727,7 +2970,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\dashboard\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_dashboard_init_py",
-      "community": 99,
+      "community": 101,
       "norm_label": "__init__.py"
     },
     {
@@ -2736,7 +2979,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\events\\router.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_events_router_py",
-      "community": 1,
+      "community": 3,
       "norm_label": "router.py"
     },
     {
@@ -2745,7 +2988,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\events\\router.py",
       "source_location": "L17",
       "id": "router_eventcreate",
-      "community": 1,
+      "community": 3,
       "norm_label": "eventcreate"
     },
     {
@@ -2754,7 +2997,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\events\\router.py",
       "source_location": "L24",
       "id": "router_eventout",
-      "community": 1,
+      "community": 3,
       "norm_label": "eventout"
     },
     {
@@ -2763,7 +3006,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\events\\router.py",
       "source_location": "L47",
       "id": "router_list_events",
-      "community": 1,
+      "community": 3,
       "norm_label": "list_events()"
     },
     {
@@ -2772,7 +3015,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\events\\router.py",
       "source_location": "L62",
       "id": "router_create_event",
-      "community": 1,
+      "community": 3,
       "norm_label": "create_event()"
     },
     {
@@ -2781,7 +3024,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\events\\router.py",
       "source_location": "L84",
       "id": "router_delete_event",
-      "community": 1,
+      "community": 3,
       "norm_label": "delete_event()"
     },
     {
@@ -2790,7 +3033,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\events\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_events_init_py",
-      "community": 100,
+      "community": 102,
       "norm_label": "__init__.py"
     },
     {
@@ -2799,7 +3042,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\forms\\router.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_forms_router_py",
-      "community": 1,
+      "community": 3,
       "norm_label": "router.py"
     },
     {
@@ -2808,7 +3051,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\forms\\router.py",
       "source_location": "L19",
       "id": "router_formfield",
-      "community": 1,
+      "community": 3,
       "norm_label": "formfield"
     },
     {
@@ -2817,7 +3060,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\forms\\router.py",
       "source_location": "L29",
       "id": "router_formcreate",
-      "community": 1,
+      "community": 3,
       "norm_label": "formcreate"
     },
     {
@@ -2826,7 +3069,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\forms\\router.py",
       "source_location": "L39",
       "id": "router_formout",
-      "community": 1,
+      "community": 3,
       "norm_label": "formout"
     },
     {
@@ -2835,7 +3078,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\forms\\router.py",
       "source_location": "L76",
       "id": "router_parse_deadline",
-      "community": 1,
+      "community": 3,
       "norm_label": "_parse_deadline()"
     },
     {
@@ -2844,7 +3087,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\forms\\router.py",
       "source_location": "L87",
       "id": "router_list_forms",
-      "community": 1,
+      "community": 3,
       "norm_label": "list_forms()"
     },
     {
@@ -2853,7 +3096,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\forms\\router.py",
       "source_location": "L93",
       "id": "router_create_form",
-      "community": 1,
+      "community": 3,
       "norm_label": "create_form()"
     },
     {
@@ -2862,7 +3105,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\forms\\router.py",
       "source_location": "L117",
       "id": "router_get_form",
-      "community": 1,
+      "community": 3,
       "norm_label": "get_form()"
     },
     {
@@ -2871,7 +3114,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\forms\\router.py",
       "source_location": "L125",
       "id": "router_toggle_form",
-      "community": 1,
+      "community": 3,
       "norm_label": "toggle_form()"
     },
     {
@@ -2880,7 +3123,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\forms\\router.py",
       "source_location": "L137",
       "id": "router_delete_form",
-      "community": 1,
+      "community": 3,
       "norm_label": "delete_form()"
     },
     {
@@ -2889,7 +3132,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\forms\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_forms_init_py",
-      "community": 101,
+      "community": 103,
       "norm_label": "__init__.py"
     },
     {
@@ -3042,7 +3285,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\insights\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_insights_init_py",
-      "community": 102,
+      "community": 104,
       "norm_label": "__init__.py"
     },
     {
@@ -3242,6 +3485,15 @@
       "id": "service_schedule_extra_class",
       "community": 0,
       "norm_label": "schedule_extra_class()"
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\leaves\\__init__.py",
+      "source_location": "L1",
+      "id": "c_eblock_backend_app_modules_leaves_init_py",
+      "community": 105,
+      "norm_label": "__init__.py"
     },
     {
       "label": "router.py",
@@ -3460,12 +3712,21 @@
       "norm_label": "generate_warning_letter()"
     },
     {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\mentor\\__init__.py",
+      "source_location": "L1",
+      "id": "c_eblock_backend_app_modules_mentor_init_py",
+      "community": 106,
+      "norm_label": "__init__.py"
+    },
+    {
       "label": "router.py",
       "file_type": "code",
       "source_file": "C:\\eblock\\backend\\app\\modules\\messages\\router.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_messages_router_py",
-      "community": 3,
+      "community": 1,
       "norm_label": "router.py"
     },
     {
@@ -3474,7 +3735,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\students\\router.py",
       "source_location": "L18",
       "id": "router_to_response",
-      "community": 3,
+      "community": 1,
       "norm_label": "_to_response()"
     },
     {
@@ -3483,7 +3744,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\messages\\router.py",
       "source_location": "L27",
       "id": "router_create_anonymous_message",
-      "community": 3,
+      "community": 1,
       "norm_label": "create_anonymous_message()"
     },
     {
@@ -3492,7 +3753,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\messages\\router.py",
       "source_location": "L42",
       "id": "router_list_anonymous_messages",
-      "community": 3,
+      "community": 1,
       "norm_label": "list_anonymous_messages()"
     },
     {
@@ -3501,7 +3762,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\messages\\schemas.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_messages_schemas_py",
-      "community": 2,
+      "community": 1,
       "norm_label": "schemas.py"
     },
     {
@@ -3510,7 +3771,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\messages\\schemas.py",
       "source_location": "L6",
       "id": "schemas_anonymousmessagecreate",
-      "community": 2,
+      "community": 1,
       "norm_label": "anonymousmessagecreate"
     },
     {
@@ -3519,7 +3780,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\messages\\schemas.py",
       "source_location": "L10",
       "id": "schemas_anonymousmessageresponse",
-      "community": 2,
+      "community": 1,
       "norm_label": "anonymousmessageresponse"
     },
     {
@@ -3528,7 +3789,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\messages\\schemas.py",
       "source_location": "L17",
       "id": "schemas_paginatedanonymousmessagesresponse",
-      "community": 2,
+      "community": 1,
       "norm_label": "paginatedanonymousmessagesresponse"
     },
     {
@@ -3645,7 +3906,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\placement\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_placement_init_py",
-      "community": 103,
+      "community": 107,
       "norm_label": "__init__.py"
     },
     {
@@ -3654,7 +3915,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_projects_router_py",
-      "community": 1,
+      "community": 3,
       "norm_label": "router.py"
     },
     {
@@ -3663,7 +3924,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L21",
       "id": "router_facultyinfo",
-      "community": 1,
+      "community": 3,
       "norm_label": "facultyinfo"
     },
     {
@@ -3672,7 +3933,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L29",
       "id": "router_assignedstudent",
-      "community": 1,
+      "community": 3,
       "norm_label": "assignedstudent"
     },
     {
@@ -3681,7 +3942,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L37",
       "id": "router_pptfile",
-      "community": 1,
+      "community": 3,
       "norm_label": "pptfile"
     },
     {
@@ -3690,7 +3951,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L43",
       "id": "router_projectcreate",
-      "community": 1,
+      "community": 3,
       "norm_label": "projectcreate"
     },
     {
@@ -3699,7 +3960,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L53",
       "id": "router_projectupdate",
-      "community": 1,
+      "community": 3,
       "norm_label": "projectupdate"
     },
     {
@@ -3708,7 +3969,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L64",
       "id": "router_projectout",
-      "community": 1,
+      "community": 3,
       "norm_label": "projectout"
     },
     {
@@ -3717,7 +3978,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L111",
       "id": "router_list_projects",
-      "community": 1,
+      "community": 3,
       "norm_label": "list_projects()"
     },
     {
@@ -3726,7 +3987,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L136",
       "id": "router_get_project",
-      "community": 1,
+      "community": 3,
       "norm_label": "get_project()"
     },
     {
@@ -3735,7 +3996,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L145",
       "id": "router_create_project",
-      "community": 1,
+      "community": 3,
       "norm_label": "create_project()"
     },
     {
@@ -3744,7 +4005,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L181",
       "id": "router_update_project",
-      "community": 1,
+      "community": 3,
       "norm_label": "update_project()"
     },
     {
@@ -3753,7 +4014,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L212",
       "id": "router_delete_project",
-      "community": 1,
+      "community": 3,
       "norm_label": "delete_project()"
     },
     {
@@ -3762,7 +4023,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L225",
       "id": "router_approve_project",
-      "community": 1,
+      "community": 3,
       "norm_label": "approve_project()"
     },
     {
@@ -3771,7 +4032,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L243",
       "id": "router_reject_project",
-      "community": 1,
+      "community": 3,
       "norm_label": "reject_project()"
     },
     {
@@ -3780,7 +4041,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L262",
       "id": "router_add_student_to_project",
-      "community": 1,
+      "community": 3,
       "norm_label": "add_student_to_project()"
     },
     {
@@ -3789,7 +4050,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L288",
       "id": "router_remove_student_from_project",
-      "community": 1,
+      "community": 3,
       "norm_label": "remove_student_from_project()"
     },
     {
@@ -3798,7 +4059,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L313",
       "id": "router_complete_project",
-      "community": 1,
+      "community": 3,
       "norm_label": "complete_project()"
     },
     {
@@ -3806,7 +4067,7 @@
       "file_type": "rationale",
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L87",
-      "community": 1,
+      "community": 3,
       "norm_label": "convert db model to frontend-compatible dict.",
       "id": "router_rationale_87"
     },
@@ -3815,7 +4076,7 @@
       "file_type": "rationale",
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L117",
-      "community": 1,
+      "community": 3,
       "norm_label": "list all projects with optional filtering.",
       "id": "router_rationale_117"
     },
@@ -3824,7 +4085,7 @@
       "file_type": "rationale",
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L137",
-      "community": 1,
+      "community": 3,
       "norm_label": "get a single project by id.",
       "id": "router_rationale_137"
     },
@@ -3833,7 +4094,7 @@
       "file_type": "rationale",
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L150",
-      "community": 1,
+      "community": 3,
       "norm_label": "create a new project.",
       "id": "router_rationale_150"
     },
@@ -3842,7 +4103,7 @@
       "file_type": "rationale",
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L226",
-      "community": 1,
+      "community": 3,
       "norm_label": "approve a pending project.",
       "id": "router_rationale_226"
     },
@@ -3851,7 +4112,7 @@
       "file_type": "rationale",
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L244",
-      "community": 1,
+      "community": 3,
       "norm_label": "reject a pending project.",
       "id": "router_rationale_244"
     },
@@ -3860,7 +4121,7 @@
       "file_type": "rationale",
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L267",
-      "community": 1,
+      "community": 3,
       "norm_label": "add a student to a project.",
       "id": "router_rationale_267"
     },
@@ -3869,7 +4130,7 @@
       "file_type": "rationale",
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L293",
-      "community": 1,
+      "community": 3,
       "norm_label": "remove a student from a project.",
       "id": "router_rationale_293"
     },
@@ -3878,7 +4139,7 @@
       "file_type": "rationale",
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\router.py",
       "source_location": "L314",
-      "community": 1,
+      "community": 3,
       "norm_label": "mark a project as completed.",
       "id": "router_rationale_314"
     },
@@ -3888,7 +4149,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\projects\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_projects_init_py",
-      "community": 104,
+      "community": 108,
       "norm_label": "__init__.py"
     },
     {
@@ -3964,12 +4225,21 @@
       "norm_label": "generate_report()"
     },
     {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\reports\\__init__.py",
+      "source_location": "L1",
+      "id": "c_eblock_backend_app_modules_reports_init_py",
+      "community": 109,
+      "norm_label": "__init__.py"
+    },
+    {
       "label": "router.py",
       "file_type": "code",
       "source_file": "C:\\eblock\\backend\\app\\modules\\students\\router.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_students_router_py",
-      "community": 3,
+      "community": 1,
       "norm_label": "router.py"
     },
     {
@@ -3978,7 +4248,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\students\\router.py",
       "source_location": "L35",
       "id": "router_list_students",
-      "community": 2,
+      "community": 1,
       "norm_label": "list_students()"
     },
     {
@@ -3987,7 +4257,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\students\\router.py",
       "source_location": "L69",
       "id": "router_create_student",
-      "community": 3,
+      "community": 1,
       "norm_label": "create_student()"
     },
     {
@@ -3996,7 +4266,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\students\\router.py",
       "source_location": "L94",
       "id": "router_get_student",
-      "community": 3,
+      "community": 1,
       "norm_label": "get_student()"
     },
     {
@@ -4005,7 +4275,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\students\\router.py",
       "source_location": "L106",
       "id": "router_update_student",
-      "community": 3,
+      "community": 1,
       "norm_label": "update_student()"
     },
     {
@@ -4014,7 +4284,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\students\\router.py",
       "source_location": "L128",
       "id": "router_delete_student",
-      "community": 3,
+      "community": 1,
       "norm_label": "delete_student()"
     },
     {
@@ -4050,7 +4320,7 @@
       "source_file": "C:\\eblock\\backend\\app\\modules\\students\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_modules_students_init_py",
-      "community": 105,
+      "community": 110,
       "norm_label": "__init__.py"
     },
     {
@@ -4212,7 +4482,7 @@
       "source_file": "C:\\eblock\\backend\\app\\utils\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_app_utils_init_py",
-      "community": 106,
+      "community": 111,
       "norm_label": "__init__.py"
     },
     {
@@ -4221,7 +4491,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\check_admin.py",
       "source_location": "L1",
       "id": "c_eblock_backend_scripts_check_admin_py",
-      "community": 48,
+      "community": 49,
       "norm_label": "check_admin.py"
     },
     {
@@ -4230,7 +4500,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\check_admin.py",
       "source_location": "L9",
       "id": "check_admin_main",
-      "community": 48,
+      "community": 49,
       "norm_label": "main()"
     },
     {
@@ -4239,7 +4509,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\check_db.py",
       "source_location": "L1",
       "id": "c_eblock_backend_scripts_check_db_py",
-      "community": 49,
+      "community": 50,
       "norm_label": "check_db.py"
     },
     {
@@ -4248,7 +4518,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\check_db.py",
       "source_location": "L10",
       "id": "check_db_main",
-      "community": 49,
+      "community": 50,
       "norm_label": "main()"
     },
     {
@@ -4257,7 +4527,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\create_admin.py",
       "source_location": "L1",
       "id": "c_eblock_backend_scripts_create_admin_py",
-      "community": 3,
+      "community": 1,
       "norm_label": "create_admin.py"
     },
     {
@@ -4266,7 +4536,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\create_admin.py",
       "source_location": "L10",
       "id": "create_admin_main",
-      "community": 3,
+      "community": 1,
       "norm_label": "main()"
     },
     {
@@ -4275,7 +4545,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\create_demo_users.py",
       "source_location": "L1",
       "id": "c_eblock_backend_scripts_create_demo_users_py",
-      "community": 3,
+      "community": 1,
       "norm_label": "create_demo_users.py"
     },
     {
@@ -4284,7 +4554,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\create_demo_users.py",
       "source_location": "L17",
       "id": "create_demo_users_main",
-      "community": 3,
+      "community": 1,
       "norm_label": "main()"
     },
     {
@@ -4293,7 +4563,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\create_messages_table.py",
       "source_location": "L1",
       "id": "c_eblock_backend_scripts_create_messages_table_py",
-      "community": 50,
+      "community": 51,
       "norm_label": "create_messages_table.py"
     },
     {
@@ -4301,7 +4571,7 @@
       "file_type": "rationale",
       "source_file": "C:\\eblock\\backend\\scripts\\create_messages_table.py",
       "source_location": "L1",
-      "community": 50,
+      "community": 51,
       "norm_label": "quick script to create anonymous_messages table if it doesn't exist.",
       "id": "create_messages_table_rationale_1"
     },
@@ -4311,7 +4581,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\force_admin.py",
       "source_location": "L1",
       "id": "c_eblock_backend_scripts_force_admin_py",
-      "community": 3,
+      "community": 1,
       "norm_label": "force_admin.py"
     },
     {
@@ -4320,7 +4590,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\force_admin.py",
       "source_location": "L10",
       "id": "force_admin_main",
-      "community": 3,
+      "community": 1,
       "norm_label": "main()"
     },
     {
@@ -4329,7 +4599,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\force_db_update.py",
       "source_location": "L1",
       "id": "c_eblock_backend_scripts_force_db_update_py",
-      "community": 51,
+      "community": 52,
       "norm_label": "force_db_update.py"
     },
     {
@@ -4338,7 +4608,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\force_db_update.py",
       "source_location": "L10",
       "id": "force_db_update_main",
-      "community": 51,
+      "community": 52,
       "norm_label": "main()"
     },
     {
@@ -4347,7 +4617,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\force_db_update2.py",
       "source_location": "L1",
       "id": "c_eblock_backend_scripts_force_db_update2_py",
-      "community": 52,
+      "community": 53,
       "norm_label": "force_db_update2.py"
     },
     {
@@ -4356,7 +4626,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\force_db_update2.py",
       "source_location": "L9",
       "id": "force_db_update2_main",
-      "community": 52,
+      "community": 53,
       "norm_label": "main()"
     },
     {
@@ -4365,7 +4635,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\run_alembic.py",
       "source_location": "L1",
       "id": "c_eblock_backend_scripts_run_alembic_py",
-      "community": 53,
+      "community": 54,
       "norm_label": "run_alembic.py"
     },
     {
@@ -4374,7 +4644,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\run_alembic.py",
       "source_location": "L9",
       "id": "run_alembic_main",
-      "community": 53,
+      "community": 54,
       "norm_label": "main()"
     },
     {
@@ -4419,7 +4689,7 @@
       "source_file": "C:\\eblock\\backend\\scripts\\__init__.py",
       "source_location": "L1",
       "id": "c_eblock_backend_scripts_init_py",
-      "community": 107,
+      "community": 112,
       "norm_label": "__init__.py"
     },
     {
@@ -4428,7 +4698,7 @@
       "source_file": "C:\\eblock\\src\\app\\layout.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_app_layout_tsx",
-      "community": 54,
+      "community": 55,
       "norm_label": "layout.tsx"
     },
     {
@@ -4437,7 +4707,7 @@
       "source_file": "C:\\eblock\\src\\app\\layout.tsx",
       "source_location": "L18",
       "id": "layout_rootlayout",
-      "community": 54,
+      "community": 55,
       "norm_label": "rootlayout()"
     },
     {
@@ -4446,7 +4716,7 @@
       "source_file": "C:\\eblock\\src\\app\\page.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_app_page_tsx",
-      "community": 55,
+      "community": 56,
       "norm_label": "page.tsx"
     },
     {
@@ -4455,7 +4725,7 @@
       "source_file": "C:\\eblock\\src\\app\\page.tsx",
       "source_location": "L3",
       "id": "page_home",
-      "community": 55,
+      "community": 56,
       "norm_label": "home()"
     },
     {
@@ -4509,7 +4779,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\academic-data\\page.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_app_dashboard_academic_data_page_tsx",
-      "community": 108,
+      "community": 113,
       "norm_label": "page.tsx"
     },
     {
@@ -4518,8 +4788,26 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\activity-attendance\\page.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_app_dashboard_activity_attendance_page_tsx",
-      "community": 109,
+      "community": 42,
       "norm_label": "page.tsx"
+    },
+    {
+      "label": "createActivity()",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\src\\app\\(dashboard)\\activity-attendance\\page.tsx",
+      "source_location": "L47",
+      "id": "page_createactivity",
+      "community": 42,
+      "norm_label": "createactivity()"
+    },
+    {
+      "label": "creditAttendance()",
+      "file_type": "code",
+      "source_file": "C:\\eblock\\src\\app\\(dashboard)\\activity-attendance\\page.tsx",
+      "source_location": "L68",
+      "id": "page_creditattendance",
+      "community": 42,
+      "norm_label": "creditattendance()"
     },
     {
       "label": "page.tsx",
@@ -4527,7 +4815,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\analytics\\page.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_app_dashboard_analytics_page_tsx",
-      "community": 56,
+      "community": 57,
       "norm_label": "page.tsx"
     },
     {
@@ -4536,7 +4824,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\analytics\\page.tsx",
       "source_location": "L3",
       "id": "page_analyticspage",
-      "community": 56,
+      "community": 57,
       "norm_label": "analyticspage()"
     },
     {
@@ -4572,7 +4860,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\anonymous-messages\\page.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_app_dashboard_anonymous_messages_page_tsx",
-      "community": 42,
+      "community": 43,
       "norm_label": "page.tsx"
     },
     {
@@ -4581,7 +4869,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\anonymous-messages\\page.tsx",
       "source_location": "L17",
       "id": "page_anonymousmessagespage",
-      "community": 42,
+      "community": 43,
       "norm_label": "anonymousmessagespage()"
     },
     {
@@ -4590,7 +4878,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\anonymous-messages\\page.tsx",
       "source_location": "L37",
       "id": "page_fetchmessages",
-      "community": 42,
+      "community": 43,
       "norm_label": "fetchmessages()"
     },
     {
@@ -4635,7 +4923,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\changelog\\page.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_app_dashboard_changelog_page_tsx",
-      "community": 57,
+      "community": 58,
       "norm_label": "page.tsx"
     },
     {
@@ -4644,7 +4932,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\changelog\\page.tsx",
       "source_location": "L7",
       "id": "page_changelogpage",
-      "community": 57,
+      "community": 58,
       "norm_label": "changelogpage()"
     },
     {
@@ -4698,7 +4986,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\extra-classes\\page.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_app_dashboard_extra_classes_page_tsx",
-      "community": 58,
+      "community": 59,
       "norm_label": "page.tsx"
     },
     {
@@ -4707,7 +4995,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\extra-classes\\page.tsx",
       "source_location": "L38",
       "id": "page_extraclassespage",
-      "community": 58,
+      "community": 59,
       "norm_label": "extraclassespage()"
     },
     {
@@ -4716,7 +5004,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\fees\\page.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_app_dashboard_fees_page_tsx",
-      "community": 59,
+      "community": 60,
       "norm_label": "page.tsx"
     },
     {
@@ -4725,7 +5013,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\fees\\page.tsx",
       "source_location": "L3",
       "id": "page_feespage",
-      "community": 59,
+      "community": 60,
       "norm_label": "feespage()"
     },
     {
@@ -4815,7 +5103,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\leave-arrangement\\page.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_app_dashboard_leave_arrangement_page_tsx",
-      "community": 60,
+      "community": 61,
       "norm_label": "page.tsx"
     },
     {
@@ -4824,7 +5112,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\leave-arrangement\\page.tsx",
       "source_location": "L37",
       "id": "page_submitleave",
-      "community": 60,
+      "community": 61,
       "norm_label": "submitleave()"
     },
     {
@@ -5022,7 +5310,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\reports\\page.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_app_dashboard_reports_page_tsx",
-      "community": 61,
+      "community": 62,
       "norm_label": "page.tsx"
     },
     {
@@ -5031,7 +5319,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\reports\\page.tsx",
       "source_location": "L112",
       "id": "page_async",
-      "community": 61,
+      "community": 62,
       "norm_label": "async()"
     },
     {
@@ -5040,7 +5328,7 @@
       "source_file": "C:\\eblock\\src\\app\\(dashboard)\\settings\\page.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_app_dashboard_settings_page_tsx",
-      "community": 110,
+      "community": 114,
       "norm_label": "page.tsx"
     },
     {
@@ -5175,7 +5463,7 @@
       "source_file": "C:\\eblock\\src\\components\\announcements\\AnnouncementCard.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_announcements_announcementcard_tsx",
-      "community": 62,
+      "community": 63,
       "norm_label": "announcementcard.tsx"
     },
     {
@@ -5184,7 +5472,7 @@
       "source_file": "C:\\eblock\\src\\components\\announcements\\AnnouncementCard.tsx",
       "source_location": "L11",
       "id": "announcementcard_formatdate",
-      "community": 62,
+      "community": 63,
       "norm_label": "formatdate()"
     },
     {
@@ -5193,7 +5481,7 @@
       "source_file": "C:\\eblock\\src\\components\\attendance\\FileDropZone.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_attendance_filedropzone_tsx",
-      "community": 63,
+      "community": 64,
       "norm_label": "filedropzone.tsx"
     },
     {
@@ -5202,7 +5490,7 @@
       "source_file": "C:\\eblock\\src\\components\\attendance\\FileDropZone.tsx",
       "source_location": "L12",
       "id": "filedropzone_filedropzone",
-      "community": 63,
+      "community": 64,
       "norm_label": "filedropzone()"
     },
     {
@@ -5211,7 +5499,7 @@
       "source_file": "C:\\eblock\\src\\components\\attendance\\FileQueueItem.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_attendance_filequeueitem_tsx",
-      "community": 43,
+      "community": 44,
       "norm_label": "filequeueitem.tsx"
     },
     {
@@ -5220,7 +5508,7 @@
       "source_file": "C:\\eblock\\src\\components\\attendance\\FileQueueItem.tsx",
       "source_location": "L9",
       "id": "filequeueitem_formatfilesize",
-      "community": 43,
+      "community": 44,
       "norm_label": "formatfilesize()"
     },
     {
@@ -5229,7 +5517,7 @@
       "source_file": "C:\\eblock\\src\\components\\attendance\\FileQueueItem.tsx",
       "source_location": "L22",
       "id": "filequeueitem_filequeueitem",
-      "community": 43,
+      "community": 44,
       "norm_label": "filequeueitem()"
     },
     {
@@ -5238,7 +5526,7 @@
       "source_file": "C:\\eblock\\src\\components\\attendance\\ValidationInfoCard.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_attendance_validationinfocard_tsx",
-      "community": 64,
+      "community": 65,
       "norm_label": "validationinfocard.tsx"
     },
     {
@@ -5247,7 +5535,7 @@
       "source_file": "C:\\eblock\\src\\components\\attendance\\ValidationInfoCard.tsx",
       "source_location": "L11",
       "id": "validationinfocard_validationinfocard",
-      "community": 64,
+      "community": 65,
       "norm_label": "validationinfocard()"
     },
     {
@@ -5256,7 +5544,7 @@
       "source_file": "C:\\eblock\\src\\components\\dashboard\\DeanDashboard.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_dashboard_deandashboard_tsx",
-      "community": 65,
+      "community": 66,
       "norm_label": "deandashboard.tsx"
     },
     {
@@ -5265,7 +5553,7 @@
       "source_file": "C:\\eblock\\src\\components\\dashboard\\DeanDashboard.tsx",
       "source_location": "L6",
       "id": "deandashboard_deandashboard",
-      "community": 65,
+      "community": 66,
       "norm_label": "deandashboard()"
     },
     {
@@ -5274,7 +5562,7 @@
       "source_file": "C:\\eblock\\src\\components\\dashboard\\DistributionDonut.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_dashboard_distributiondonut_tsx",
-      "community": 111,
+      "community": 115,
       "norm_label": "distributiondonut.tsx"
     },
     {
@@ -5283,7 +5571,7 @@
       "source_file": "C:\\eblock\\src\\components\\dashboard\\HodDashboard.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_dashboard_hoddashboard_tsx",
-      "community": 66,
+      "community": 67,
       "norm_label": "hoddashboard.tsx"
     },
     {
@@ -5292,7 +5580,7 @@
       "source_file": "C:\\eblock\\src\\components\\dashboard\\HodDashboard.tsx",
       "source_location": "L6",
       "id": "hoddashboard_hoddashboard",
-      "community": 66,
+      "community": 67,
       "norm_label": "hoddashboard()"
     },
     {
@@ -5301,7 +5589,7 @@
       "source_file": "C:\\eblock\\src\\components\\dashboard\\StatCard.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_dashboard_statcard_tsx",
-      "community": 112,
+      "community": 116,
       "norm_label": "statcard.tsx"
     },
     {
@@ -5328,7 +5616,7 @@
       "source_file": "C:\\eblock\\src\\components\\dashboard\\StudentDirectoryTable.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_dashboard_studentdirectorytable_tsx",
-      "community": 44,
+      "community": 45,
       "norm_label": "studentdirectorytable.tsx"
     },
     {
@@ -5337,7 +5625,7 @@
       "source_file": "C:\\eblock\\src\\components\\dashboard\\StudentDirectoryTable.tsx",
       "source_location": "L41",
       "id": "studentdirectorytable_getavatarcolor",
-      "community": 44,
+      "community": 45,
       "norm_label": "getavatarcolor()"
     },
     {
@@ -5346,7 +5634,7 @@
       "source_file": "C:\\eblock\\src\\components\\dashboard\\StudentDirectoryTable.tsx",
       "source_location": "L49",
       "id": "studentdirectorytable_handledownload",
-      "community": 44,
+      "community": 45,
       "norm_label": "handledownload()"
     },
     {
@@ -5373,7 +5661,7 @@
       "source_file": "C:\\eblock\\src\\components\\dashboard\\WeeklyTrendChart.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_dashboard_weeklytrendchart_tsx",
-      "community": 113,
+      "community": 117,
       "norm_label": "weeklytrendchart.tsx"
     },
     {
@@ -5454,7 +5742,7 @@
       "source_file": "C:\\eblock\\src\\components\\forms\\FormPreview.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_forms_formpreview_tsx",
-      "community": 67,
+      "community": 68,
       "norm_label": "formpreview.tsx"
     },
     {
@@ -5463,7 +5751,7 @@
       "source_file": "C:\\eblock\\src\\components\\forms\\FormPreview.tsx",
       "source_location": "L18",
       "id": "formpreview_getfieldicon",
-      "community": 67,
+      "community": 68,
       "norm_label": "getfieldicon()"
     },
     {
@@ -5472,7 +5760,7 @@
       "source_file": "C:\\eblock\\src\\components\\layout\\Sidebar.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_layout_sidebar_tsx",
-      "community": 114,
+      "community": 118,
       "norm_label": "sidebar.tsx"
     },
     {
@@ -5508,7 +5796,7 @@
       "source_file": "C:\\eblock\\src\\components\\messages\\SendAnonymousMessageButton.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_messages_sendanonymousmessagebutton_tsx",
-      "community": 68,
+      "community": 69,
       "norm_label": "sendanonymousmessagebutton.tsx"
     },
     {
@@ -5517,7 +5805,7 @@
       "source_file": "C:\\eblock\\src\\components\\messages\\SendAnonymousMessageButton.tsx",
       "source_location": "L21",
       "id": "sendanonymousmessagebutton_handlesubmit",
-      "community": 68,
+      "community": 69,
       "norm_label": "handlesubmit()"
     },
     {
@@ -5544,7 +5832,7 @@
       "source_file": "C:\\eblock\\src\\components\\projects\\ProjectDetailModal.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_projects_projectdetailmodal_tsx",
-      "community": 115,
+      "community": 119,
       "norm_label": "projectdetailmodal.tsx"
     },
     {
@@ -5553,7 +5841,7 @@
       "source_file": "C:\\eblock\\src\\components\\projects\\ProjectFilters.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_projects_projectfilters_tsx",
-      "community": 116,
+      "community": 120,
       "norm_label": "projectfilters.tsx"
     },
     {
@@ -5562,7 +5850,7 @@
       "source_file": "C:\\eblock\\src\\components\\projects\\ProjectForm.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_projects_projectform_tsx",
-      "community": 14,
+      "community": 13,
       "norm_label": "projectform.tsx"
     },
     {
@@ -5571,7 +5859,7 @@
       "source_file": "C:\\eblock\\src\\components\\projects\\ProjectForm.tsx",
       "source_location": "L37",
       "id": "projectform_handlefilechange",
-      "community": 14,
+      "community": 13,
       "norm_label": "handlefilechange()"
     },
     {
@@ -5580,7 +5868,7 @@
       "source_file": "C:\\eblock\\src\\components\\projects\\ProjectForm.tsx",
       "source_location": "L45",
       "id": "projectform_handlesubmit",
-      "community": 14,
+      "community": 13,
       "norm_label": "handlesubmit()"
     },
     {
@@ -5589,7 +5877,7 @@
       "source_file": "C:\\eblock\\src\\components\\projects\\ProjectStatusBadge.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_projects_projectstatusbadge_tsx",
-      "community": 117,
+      "community": 121,
       "norm_label": "projectstatusbadge.tsx"
     },
     {
@@ -5598,7 +5886,7 @@
       "source_file": "C:\\eblock\\src\\components\\projects\\ProjectTypeBadge.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_projects_projecttypebadge_tsx",
-      "community": 69,
+      "community": 70,
       "norm_label": "projecttypebadge.tsx"
     },
     {
@@ -5607,7 +5895,7 @@
       "source_file": "C:\\eblock\\src\\components\\projects\\ProjectTypeBadge.tsx",
       "source_location": "L11",
       "id": "projecttypebadge_projecttypebadge",
-      "community": 69,
+      "community": 70,
       "norm_label": "projecttypebadge()"
     },
     {
@@ -5616,7 +5904,7 @@
       "source_file": "C:\\eblock\\src\\components\\projects\\StudentAssignmentDialog.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_projects_studentassignmentdialog_tsx",
-      "community": 70,
+      "community": 71,
       "norm_label": "studentassignmentdialog.tsx"
     },
     {
@@ -5625,7 +5913,7 @@
       "source_file": "C:\\eblock\\src\\components\\projects\\StudentAssignmentDialog.tsx",
       "source_location": "L48",
       "id": "studentassignmentdialog_handleaddstudent",
-      "community": 70,
+      "community": 71,
       "norm_label": "handleaddstudent()"
     },
     {
@@ -5634,7 +5922,7 @@
       "source_file": "C:\\eblock\\src\\components\\providers\\Providers.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_providers_providers_tsx",
-      "community": 71,
+      "community": 72,
       "norm_label": "providers.tsx"
     },
     {
@@ -5643,7 +5931,7 @@
       "source_file": "C:\\eblock\\src\\components\\providers\\Providers.tsx",
       "source_location": "L7",
       "id": "providers_providers",
-      "community": 71,
+      "community": 72,
       "norm_label": "providers()"
     },
     {
@@ -5670,7 +5958,7 @@
       "source_file": "C:\\eblock\\src\\components\\students\\AddStudentDialog.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_students_addstudentdialog_tsx",
-      "community": 45,
+      "community": 46,
       "norm_label": "addstudentdialog.tsx"
     },
     {
@@ -5679,7 +5967,7 @@
       "source_file": "C:\\eblock\\src\\components\\students\\AddStudentDialog.tsx",
       "source_location": "L38",
       "id": "addstudentdialog_handlechange",
-      "community": 45,
+      "community": 46,
       "norm_label": "handlechange()"
     },
     {
@@ -5688,7 +5976,7 @@
       "source_file": "C:\\eblock\\src\\components\\students\\AddStudentDialog.tsx",
       "source_location": "L48",
       "id": "addstudentdialog_handlesubmit",
-      "community": 45,
+      "community": 46,
       "norm_label": "handlesubmit()"
     },
     {
@@ -5697,7 +5985,7 @@
       "source_file": "C:\\eblock\\src\\components\\students\\CVStatusBadge.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_students_cvstatusbadge_tsx",
-      "community": 72,
+      "community": 73,
       "norm_label": "cvstatusbadge.tsx"
     },
     {
@@ -5706,7 +5994,7 @@
       "source_file": "C:\\eblock\\src\\components\\students\\CVStatusBadge.tsx",
       "source_location": "L23",
       "id": "cvstatusbadge_cvstatusbadge",
-      "community": 72,
+      "community": 73,
       "norm_label": "cvstatusbadge()"
     },
     {
@@ -5715,7 +6003,7 @@
       "source_file": "C:\\eblock\\src\\components\\students\\StatusBadge.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_students_statusbadge_tsx",
-      "community": 73,
+      "community": 74,
       "norm_label": "statusbadge.tsx"
     },
     {
@@ -5724,7 +6012,7 @@
       "source_file": "C:\\eblock\\src\\components\\students\\StatusBadge.tsx",
       "source_location": "L31",
       "id": "statusbadge_statusbadge",
-      "community": 73,
+      "community": 74,
       "norm_label": "statusbadge()"
     },
     {
@@ -5733,7 +6021,7 @@
       "source_file": "C:\\eblock\\src\\components\\students\\StudentDirectoryFilters.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_students_studentdirectoryfilters_tsx",
-      "community": 74,
+      "community": 75,
       "norm_label": "studentdirectoryfilters.tsx"
     },
     {
@@ -5742,7 +6030,7 @@
       "source_file": "C:\\eblock\\src\\components\\students\\StudentDirectoryFilters.tsx",
       "source_location": "L16",
       "id": "studentdirectoryfilters_studentdirectoryfilters",
-      "community": 74,
+      "community": 75,
       "norm_label": "studentdirectoryfilters()"
     },
     {
@@ -5787,7 +6075,7 @@
       "source_file": "C:\\eblock\\src\\components\\ui\\badge.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_ui_badge_tsx",
-      "community": 75,
+      "community": 76,
       "norm_label": "badge.tsx"
     },
     {
@@ -5796,7 +6084,7 @@
       "source_file": "C:\\eblock\\src\\components\\ui\\badge.tsx",
       "source_location": "L29",
       "id": "badge_badge",
-      "community": 75,
+      "community": 76,
       "norm_label": "badge()"
     },
     {
@@ -5805,7 +6093,7 @@
       "source_file": "C:\\eblock\\src\\components\\ui\\button.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_ui_button_tsx",
-      "community": 76,
+      "community": 77,
       "norm_label": "button.tsx"
     },
     {
@@ -5814,7 +6102,7 @@
       "source_file": "C:\\eblock\\src\\components\\ui\\button.tsx",
       "source_location": "L58",
       "id": "button_cn",
-      "community": 76,
+      "community": 77,
       "norm_label": "cn()"
     },
     {
@@ -5913,7 +6201,7 @@
       "source_file": "C:\\eblock\\src\\components\\ui\\modal.tsx",
       "source_location": "L1",
       "id": "c_eblock_src_components_ui_modal_tsx",
-      "community": 77,
+      "community": 78,
       "norm_label": "modal.tsx"
     },
     {
@@ -5922,7 +6210,7 @@
       "source_file": "C:\\eblock\\src\\components\\ui\\modal.tsx",
       "source_location": "L14",
       "id": "modal_simpledialog",
-      "community": 77,
+      "community": 78,
       "norm_label": "simpledialog()"
     },
     {
@@ -5940,7 +6228,7 @@
       "source_file": "C:\\eblock\\src\\components\\ui\\select.tsx",
       "source_location": "L9",
       "id": "select_select",
-      "community": 3,
+      "community": 1,
       "norm_label": "select()"
     },
     {
@@ -6066,7 +6354,7 @@
       "source_file": "C:\\eblock\\src\\lib\\utils.ts",
       "source_location": "L1",
       "id": "c_eblock_src_lib_utils_ts",
-      "community": 78,
+      "community": 79,
       "norm_label": "utils.ts"
     },
     {
@@ -6075,7 +6363,7 @@
       "source_file": "C:\\eblock\\src\\lib\\utils.ts",
       "source_location": "L4",
       "id": "utils_cn",
-      "community": 78,
+      "community": 79,
       "norm_label": "cn()"
     },
     {
@@ -6102,7 +6390,7 @@
       "source_file": "C:\\eblock\\src\\lib\\api\\attendance-upload.ts",
       "source_location": "L1",
       "id": "c_eblock_src_lib_api_attendance_upload_ts",
-      "community": 46,
+      "community": 47,
       "norm_label": "attendance-upload.ts"
     },
     {
@@ -6111,7 +6399,7 @@
       "source_file": "C:\\eblock\\src\\lib\\api\\attendance-upload.ts",
       "source_location": "L9",
       "id": "attendance_upload_uploadattendancecsv",
-      "community": 46,
+      "community": 47,
       "norm_label": "uploadattendancecsv()"
     },
     {
@@ -6120,7 +6408,7 @@
       "source_file": "C:\\eblock\\src\\lib\\api\\attendance-upload.ts",
       "source_location": "L30",
       "id": "attendance_upload_downloadsamplecsv",
-      "community": 46,
+      "community": 47,
       "norm_label": "downloadsamplecsv()"
     },
     {
@@ -6615,7 +6903,7 @@
       "source_file": "C:\\eblock\\src\\lib\\stores\\projectStore.ts",
       "source_location": "L1",
       "id": "c_eblock_src_lib_stores_projectstore_ts",
-      "community": 118,
+      "community": 122,
       "norm_label": "projectstore.ts"
     },
     {
@@ -6669,7 +6957,7 @@
       "source_file": "C:\\eblock\\src\\lib\\types\\announcement.ts",
       "source_location": "L1",
       "id": "c_eblock_src_lib_types_announcement_ts",
-      "community": 119,
+      "community": 123,
       "norm_label": "announcement.ts"
     },
     {
@@ -6678,7 +6966,7 @@
       "source_file": "C:\\eblock\\src\\lib\\types\\api.ts",
       "source_location": "L1",
       "id": "c_eblock_src_lib_types_api_ts",
-      "community": 120,
+      "community": 124,
       "norm_label": "api.ts"
     },
     {
@@ -6687,7 +6975,7 @@
       "source_file": "C:\\eblock\\src\\lib\\types\\attendance-upload.ts",
       "source_location": "L1",
       "id": "c_eblock_src_lib_types_attendance_upload_ts",
-      "community": 121,
+      "community": 125,
       "norm_label": "attendance-upload.ts"
     },
     {
@@ -6696,7 +6984,7 @@
       "source_file": "C:\\eblock\\src\\lib\\types\\attendance.ts",
       "source_location": "L1",
       "id": "c_eblock_src_lib_types_attendance_ts",
-      "community": 122,
+      "community": 126,
       "norm_label": "attendance.ts"
     },
     {
@@ -6705,7 +6993,7 @@
       "source_file": "C:\\eblock\\src\\lib\\types\\form.ts",
       "source_location": "L1",
       "id": "c_eblock_src_lib_types_form_ts",
-      "community": 123,
+      "community": 127,
       "norm_label": "form.ts"
     },
     {
@@ -6714,7 +7002,7 @@
       "source_file": "C:\\eblock\\src\\lib\\types\\placement-upload.ts",
       "source_location": "L1",
       "id": "c_eblock_src_lib_types_placement_upload_ts",
-      "community": 124,
+      "community": 128,
       "norm_label": "placement-upload.ts"
     },
     {
@@ -6723,7 +7011,7 @@
       "source_file": "C:\\eblock\\src\\lib\\types\\project.ts",
       "source_location": "L1",
       "id": "c_eblock_src_lib_types_project_ts",
-      "community": 125,
+      "community": 129,
       "norm_label": "project.ts"
     },
     {
@@ -6732,7 +7020,7 @@
       "source_file": "C:\\eblock\\src\\lib\\types\\student.ts",
       "source_location": "L1",
       "id": "c_eblock_src_lib_types_student_ts",
-      "community": 126,
+      "community": 130,
       "norm_label": "student.ts"
     },
     {
@@ -6741,7 +7029,7 @@
       "source_file": "C:\\eblock\\src\\lib\\utils\\constants.ts",
       "source_location": "L1",
       "id": "c_eblock_src_lib_utils_constants_ts",
-      "community": 79,
+      "community": 80,
       "norm_label": "constants.ts"
     },
     {
@@ -6750,7 +7038,7 @@
       "source_file": "C:\\eblock\\src\\lib\\utils\\constants.ts",
       "source_location": "L31",
       "id": "constants_getnavitemsforrole",
-      "community": 79,
+      "community": 80,
       "norm_label": "getnavitemsforrole()"
     },
     {
@@ -6813,7 +7101,7 @@
       "source_file": "C:\\eblock\\src\\lib\\utils\\projectValidation.ts",
       "source_location": "L1",
       "id": "c_eblock_src_lib_utils_projectvalidation_ts",
-      "community": 14,
+      "community": 13,
       "norm_label": "projectvalidation.ts"
     },
     {
@@ -6822,7 +7110,7 @@
       "source_file": "C:\\eblock\\src\\lib\\utils\\projectValidation.ts",
       "source_location": "L27",
       "id": "projectvalidation_validateprojectform",
-      "community": 14,
+      "community": 13,
       "norm_label": "validateprojectform()"
     },
     {
@@ -6831,7 +7119,7 @@
       "source_file": "C:\\eblock\\src\\lib\\utils\\projectValidation.ts",
       "source_location": "L44",
       "id": "projectvalidation_validatepptfile",
-      "community": 14,
+      "community": 13,
       "norm_label": "validatepptfile()"
     },
     {
@@ -6840,7 +7128,7 @@
       "source_file": "C:\\eblock\\src\\lib\\utils\\projectValidation.ts",
       "source_location": "L58",
       "id": "projectvalidation_formatprojecttype",
-      "community": 14,
+      "community": 13,
       "norm_label": "formatprojecttype()"
     },
     {
@@ -6849,7 +7137,7 @@
       "source_file": "C:\\eblock\\src\\lib\\utils\\projectValidation.ts",
       "source_location": "L68",
       "id": "projectvalidation_formatprojectstatus",
-      "community": 14,
+      "community": 13,
       "norm_label": "formatprojectstatus()"
     },
     {
@@ -6858,7 +7146,7 @@
       "source_file": "C:\\eblock\\src\\lib\\utils\\projectValidation.ts",
       "source_location": "L78",
       "id": "projectvalidation_getstatusbadgecolor",
-      "community": 14,
+      "community": 13,
       "norm_label": "getstatusbadgecolor()"
     },
     {
@@ -6867,8 +7155,17 @@
       "source_file": "C:\\eblock\\src\\lib\\utils\\projectValidation.ts",
       "source_location": "L88",
       "id": "projectvalidation_gettypebadgecolor",
-      "community": 14,
+      "community": 13,
       "norm_label": "gettypebadgecolor()"
+    },
+    {
+      "label": "Ensure all database tables exist on startup.     Uses create_all with checkfirst",
+      "file_type": "rationale",
+      "source_file": "C:\\eblock\\backend\\app\\main.py",
+      "source_location": "L89",
+      "community": 0,
+      "norm_label": "ensure all database tables exist on startup.     uses create_all with checkfirst",
+      "id": "main_rationale_89"
     },
     {
       "label": "Ensure all database tables exist on startup.     Uses create_all with checkfirst",
@@ -7356,7 +7653,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\eblock\\backend\\app\\main.py",
-      "source_location": "L72",
+      "source_location": "L74",
       "weight": 1.0,
       "_src": "c_eblock_backend_app_main_py",
       "_tgt": "main_app_exception_handler",
@@ -7368,7 +7665,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\eblock\\backend\\app\\main.py",
-      "source_location": "L77",
+      "source_location": "L79",
       "weight": 1.0,
       "_src": "c_eblock_backend_app_main_py",
       "_tgt": "main_unhandled_exception_handler",
@@ -7380,7 +7677,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\eblock\\backend\\app\\main.py",
-      "source_location": "L83",
+      "source_location": "L85",
       "weight": 1.0,
       "_src": "c_eblock_backend_app_main_py",
       "_tgt": "main_health_check",
@@ -7392,7 +7689,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\eblock\\backend\\app\\main.py",
-      "source_location": "L88",
+      "source_location": "L90",
       "weight": 1.0,
       "_src": "c_eblock_backend_app_main_py",
       "_tgt": "main_create_tables",
@@ -7416,12 +7713,12 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "C:\\eblock\\backend\\app\\main.py",
-      "source_location": "L89",
+      "source_location": "L91",
       "weight": 1.0,
-      "_src": "main_rationale_89",
+      "_src": "main_rationale_91",
       "_tgt": "main_create_tables",
       "source": "main_create_tables",
-      "target": "main_rationale_89",
+      "target": "main_rationale_91",
       "confidence_score": 1.0
     },
     {
@@ -7430,10 +7727,10 @@
       "source_file": "C:\\eblock\\backend\\app\\main.py",
       "source_location": "L9",
       "weight": 0.8,
-      "_src": "main_rationale_89",
+      "_src": "main_rationale_91",
       "_tgt": "base_base",
       "confidence_score": 0.5,
-      "source": "main_rationale_89",
+      "source": "main_rationale_91",
       "target": "base_base"
     },
     {
@@ -7442,22 +7739,22 @@
       "source_file": "C:\\eblock\\backend\\app\\main.py",
       "source_location": "L11",
       "weight": 0.8,
-      "_src": "main_rationale_89",
+      "_src": "main_rationale_91",
       "_tgt": "request_id_requestidmiddleware",
       "confidence_score": 0.5,
-      "source": "main_rationale_89",
+      "source": "main_rationale_91",
       "target": "request_id_requestidmiddleware"
     },
     {
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "C:\\eblock\\backend\\app\\main.py",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 0.8,
-      "_src": "main_rationale_89",
+      "_src": "main_rationale_91",
       "_tgt": "exceptions_appexception",
       "confidence_score": 0.5,
-      "source": "main_rationale_89",
+      "source": "main_rationale_91",
       "target": "exceptions_appexception"
     },
     {
@@ -7939,6 +8236,54 @@
       "_tgt": "service_process_import",
       "source": "str",
       "target": "service_process_import"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_src": "str",
+      "_tgt": "router_create_activity",
+      "source": "str",
+      "target": "router_create_activity"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_src": "str",
+      "_tgt": "router_list_activities",
+      "source": "str",
+      "target": "router_list_activities"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L75",
+      "weight": 1.0,
+      "_src": "str",
+      "_tgt": "router_credit_attendance",
+      "source": "str",
+      "target": "router_credit_attendance"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L89",
+      "weight": 1.0,
+      "_src": "str",
+      "_tgt": "router_approve_activity",
+      "source": "str",
+      "target": "router_approve_activity"
     },
     {
       "relation": "calls",
@@ -9423,6 +9768,18 @@
       "source_location": "L9",
       "weight": 0.8,
       "_src": "base_base",
+      "_tgt": "main_rationale_89",
+      "confidence_score": 0.5,
+      "source": "base_base",
+      "target": "main_rationale_89"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\main.py",
+      "source_location": "L9",
+      "weight": 0.8,
+      "_src": "base_base",
       "_tgt": "main_rationale_88",
       "confidence_score": 0.5,
       "source": "base_base",
@@ -9619,6 +9976,18 @@
       "source": "request_id_requestidmiddleware",
       "target": "request_id_requestidmiddleware_dispatch",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\main.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "request_id_requestidmiddleware",
+      "_tgt": "main_rationale_89",
+      "confidence_score": 0.5,
+      "source": "request_id_requestidmiddleware",
+      "target": "main_rationale_89"
     },
     {
       "relation": "uses",
@@ -10161,6 +10530,42 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L8",
+      "weight": 0.8,
+      "_src": "activity_activity",
+      "_tgt": "service_activityservice",
+      "confidence_score": 0.5,
+      "source": "activity_activity",
+      "target": "service_activityservice"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L8",
+      "weight": 0.8,
+      "_src": "activity_activity",
+      "_tgt": "service_rationale_78",
+      "confidence_score": 0.5,
+      "source": "activity_activity",
+      "target": "service_rationale_78"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_src": "activity_activity",
+      "_tgt": "service_create_activity",
+      "source": "activity_activity",
+      "target": "service_create_activity"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\eblock\\backend\\app\\models\\activity_participant.py",
@@ -10171,6 +10576,42 @@
       "source": "c_eblock_backend_app_models_activity_participant_py",
       "target": "activity_participant_activityparticipant",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L9",
+      "weight": 0.8,
+      "_src": "activity_participant_activityparticipant",
+      "_tgt": "service_activityservice",
+      "confidence_score": 0.5,
+      "source": "activity_participant_activityparticipant",
+      "target": "service_activityservice"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L9",
+      "weight": 0.8,
+      "_src": "activity_participant_activityparticipant",
+      "_tgt": "service_rationale_78",
+      "confidence_score": 0.5,
+      "source": "activity_participant_activityparticipant",
+      "target": "service_rationale_78"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L54",
+      "weight": 1.0,
+      "_src": "activity_participant_activityparticipant",
+      "_tgt": "service_add_participants",
+      "source": "activity_participant_activityparticipant",
+      "target": "service_add_participants"
     },
     {
       "relation": "contains",
@@ -10319,6 +10760,30 @@
     {
       "relation": "uses",
       "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L10",
+      "weight": 0.8,
+      "_src": "attendance_transaction_attendancetransaction",
+      "_tgt": "service_activityservice",
+      "confidence_score": 0.5,
+      "source": "attendance_transaction_attendancetransaction",
+      "target": "service_activityservice"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L10",
+      "weight": 0.8,
+      "_src": "attendance_transaction_attendancetransaction",
+      "_tgt": "service_rationale_78",
+      "confidence_score": 0.5,
+      "source": "attendance_transaction_attendancetransaction",
+      "target": "service_rationale_78"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
       "source_file": "C:\\eblock\\backend\\app\\modules\\attendance\\engine.py",
       "source_location": "L4",
       "weight": 0.8,
@@ -10375,6 +10840,18 @@
       "confidence_score": 0.5,
       "source": "attendance_transaction_attendancetransaction",
       "target": "service_reportservice"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L94",
+      "weight": 1.0,
+      "_src": "attendance_transaction_attendancetransaction",
+      "_tgt": "service_credit_attendance",
+      "source": "attendance_transaction_attendancetransaction",
+      "target": "service_credit_attendance"
     },
     {
       "relation": "calls",
@@ -12443,6 +12920,90 @@
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_src": "schemas_activitycreate",
+      "_tgt": "basemodel",
+      "source": "basemodel",
+      "target": "schemas_activitycreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "schemas_activityout",
+      "_tgt": "basemodel",
+      "source": "basemodel",
+      "target": "schemas_activityout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_src": "schemas_participantadd",
+      "_tgt": "basemodel",
+      "source": "basemodel",
+      "target": "schemas_participantadd",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_src": "schemas_participantbulkadd",
+      "_tgt": "basemodel",
+      "source": "basemodel",
+      "target": "schemas_participantbulkadd",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_src": "schemas_participantout",
+      "_tgt": "basemodel",
+      "source": "basemodel",
+      "target": "schemas_participantout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_src": "schemas_creditattendancerequest",
+      "_tgt": "basemodel",
+      "source": "basemodel",
+      "target": "schemas_creditattendancerequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L61",
+      "weight": 1.0,
+      "_src": "schemas_activityapprovalrequest",
+      "_tgt": "basemodel",
+      "source": "basemodel",
+      "target": "schemas_activityapprovalrequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
       "source_file": "C:\\eblock\\backend\\app\\modules\\announcements\\router.py",
       "source_location": "L17",
       "weight": 1.0,
@@ -13387,6 +13948,462 @@
       "_tgt": "select_select",
       "source": "service_get_import_history",
       "target": "select_select"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_router_py",
+      "_tgt": "router_create_activity",
+      "source": "c_eblock_backend_app_modules_activity_router_py",
+      "target": "router_create_activity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_router_py",
+      "_tgt": "router_list_activities",
+      "source": "c_eblock_backend_app_modules_activity_router_py",
+      "target": "router_list_activities",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_router_py",
+      "_tgt": "router_add_participants",
+      "source": "c_eblock_backend_app_modules_activity_router_py",
+      "target": "router_add_participants",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_router_py",
+      "_tgt": "router_get_participants",
+      "source": "c_eblock_backend_app_modules_activity_router_py",
+      "target": "router_get_participants",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L67",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_router_py",
+      "_tgt": "router_credit_attendance",
+      "source": "c_eblock_backend_app_modules_activity_router_py",
+      "target": "router_credit_attendance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\router.py",
+      "source_location": "L81",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_router_py",
+      "_tgt": "router_approve_activity",
+      "source": "c_eblock_backend_app_modules_activity_router_py",
+      "target": "router_approve_activity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_schemas_py",
+      "_tgt": "schemas_activitycreate",
+      "source": "c_eblock_backend_app_modules_activity_schemas_py",
+      "target": "schemas_activitycreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_schemas_py",
+      "_tgt": "schemas_activityout",
+      "source": "c_eblock_backend_app_modules_activity_schemas_py",
+      "target": "schemas_activityout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_schemas_py",
+      "_tgt": "schemas_participantadd",
+      "source": "c_eblock_backend_app_modules_activity_schemas_py",
+      "target": "schemas_participantadd",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_schemas_py",
+      "_tgt": "schemas_participantbulkadd",
+      "source": "c_eblock_backend_app_modules_activity_schemas_py",
+      "target": "schemas_participantbulkadd",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_schemas_py",
+      "_tgt": "schemas_participantout",
+      "source": "c_eblock_backend_app_modules_activity_schemas_py",
+      "target": "schemas_participantout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_schemas_py",
+      "_tgt": "schemas_creditattendancerequest",
+      "source": "c_eblock_backend_app_modules_activity_schemas_py",
+      "target": "schemas_creditattendancerequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L61",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_schemas_py",
+      "_tgt": "schemas_activityapprovalrequest",
+      "source": "c_eblock_backend_app_modules_activity_schemas_py",
+      "target": "schemas_activityapprovalrequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "schemas_activitycreate",
+      "_tgt": "service_activityservice",
+      "confidence_score": 0.5,
+      "source": "schemas_activitycreate",
+      "target": "service_activityservice"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "schemas_activitycreate",
+      "_tgt": "service_rationale_78",
+      "confidence_score": 0.5,
+      "source": "schemas_activitycreate",
+      "target": "service_rationale_78"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "schemas_activityout",
+      "_tgt": "service_activityservice",
+      "confidence_score": 0.5,
+      "source": "schemas_activityout",
+      "target": "service_activityservice"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "schemas_activityout",
+      "_tgt": "service_rationale_78",
+      "confidence_score": 0.5,
+      "source": "schemas_activityout",
+      "target": "service_rationale_78"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "schemas_participantbulkadd",
+      "_tgt": "service_activityservice",
+      "confidence_score": 0.5,
+      "source": "schemas_participantbulkadd",
+      "target": "service_activityservice"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "schemas_participantbulkadd",
+      "_tgt": "service_rationale_78",
+      "confidence_score": 0.5,
+      "source": "schemas_participantbulkadd",
+      "target": "service_rationale_78"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "schemas_participantout",
+      "_tgt": "service_activityservice",
+      "confidence_score": 0.5,
+      "source": "schemas_participantout",
+      "target": "service_activityservice"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "schemas_participantout",
+      "_tgt": "service_rationale_78",
+      "confidence_score": 0.5,
+      "source": "schemas_participantout",
+      "target": "service_rationale_78"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L57",
+      "weight": 1.0,
+      "_src": "schemas_rationale_57",
+      "_tgt": "schemas_creditattendancerequest",
+      "source": "schemas_creditattendancerequest",
+      "target": "schemas_rationale_57",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\schemas.py",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_src": "schemas_rationale_62",
+      "_tgt": "schemas_activityapprovalrequest",
+      "source": "schemas_activityapprovalrequest",
+      "target": "schemas_rationale_62",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "schemas_activityapprovalrequest",
+      "_tgt": "service_activityservice",
+      "confidence_score": 0.5,
+      "source": "schemas_activityapprovalrequest",
+      "target": "service_activityservice"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "schemas_activityapprovalrequest",
+      "_tgt": "service_rationale_78",
+      "confidence_score": 0.5,
+      "source": "schemas_activityapprovalrequest",
+      "target": "service_rationale_78"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_service_py",
+      "_tgt": "service_activityservice",
+      "source": "c_eblock_backend_app_modules_activity_service_py",
+      "target": "service_activityservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_service_py",
+      "_tgt": "service_create_activity",
+      "source": "c_eblock_backend_app_modules_activity_service_py",
+      "target": "service_create_activity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_service_py",
+      "_tgt": "service_list_activities",
+      "source": "c_eblock_backend_app_modules_activity_service_py",
+      "target": "service_list_activities",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L49",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_service_py",
+      "_tgt": "service_add_participants",
+      "source": "c_eblock_backend_app_modules_activity_service_py",
+      "target": "service_add_participants",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_service_py",
+      "_tgt": "service_get_participants",
+      "source": "c_eblock_backend_app_modules_activity_service_py",
+      "target": "service_get_participants",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L77",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_service_py",
+      "_tgt": "service_credit_attendance",
+      "source": "c_eblock_backend_app_modules_activity_service_py",
+      "target": "service_credit_attendance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L114",
+      "weight": 1.0,
+      "_src": "c_eblock_backend_app_modules_activity_service_py",
+      "_tgt": "service_approve_activity",
+      "source": "c_eblock_backend_app_modules_activity_service_py",
+      "target": "service_approve_activity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_src": "service_create_activity",
+      "_tgt": "router_refresh",
+      "source": "service_create_activity",
+      "target": "router_refresh"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_src": "service_list_activities",
+      "_tgt": "select_select",
+      "source": "service_list_activities",
+      "target": "select_select"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_src": "service_add_participants",
+      "_tgt": "router_refresh",
+      "source": "service_add_participants",
+      "target": "router_refresh"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L70",
+      "weight": 1.0,
+      "_src": "service_get_participants",
+      "_tgt": "select_select",
+      "source": "service_get_participants",
+      "target": "select_select"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L86",
+      "weight": 1.0,
+      "_src": "service_credit_attendance",
+      "_tgt": "select_select",
+      "source": "service_credit_attendance",
+      "target": "select_select"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "C:\\eblock\\backend\\app\\modules\\activity\\service.py",
+      "source_location": "L125",
+      "weight": 1.0,
+      "_src": "service_approve_activity",
+      "_tgt": "router_refresh",
+      "source": "service_approve_activity",
+      "target": "router_refresh"
     },
     {
       "relation": "contains",
@@ -18327,6 +19344,18 @@
       "source_location": "L28",
       "weight": 0.8,
       "_src": "exceptions_appexception",
+      "_tgt": "main_rationale_89",
+      "confidence_score": 0.5,
+      "source": "exceptions_appexception",
+      "target": "main_rationale_89"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\eblock\\backend\\app\\main.py",
+      "source_location": "L28",
+      "weight": 0.8,
+      "_src": "exceptions_appexception",
       "_tgt": "main_rationale_88",
       "confidence_score": 0.5,
       "source": "exceptions_appexception",
@@ -18739,6 +19768,30 @@
       "_tgt": "usesidebar_usesidebar",
       "source": "layout_dashboardlayout",
       "target": "usesidebar_usesidebar"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\src\\app\\(dashboard)\\activity-attendance\\page.tsx",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_src": "c_eblock_src_app_dashboard_activity_attendance_page_tsx",
+      "_tgt": "page_createactivity",
+      "source": "c_eblock_src_app_dashboard_activity_attendance_page_tsx",
+      "target": "page_createactivity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\eblock\\src\\app\\(dashboard)\\activity-attendance\\page.tsx",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_src": "c_eblock_src_app_dashboard_activity_attendance_page_tsx",
+      "_tgt": "page_creditattendance",
+      "source": "c_eblock_src_app_dashboard_activity_attendance_page_tsx",
+      "target": "page_creditattendance",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
