@@ -1,10 +1,12 @@
 "use client";
 
 import TeacherDashboard from "@/components/dashboard/TeacherDashboard";
+import HodDashboard from "@/components/dashboard/HodDashboard";
+import DeanDashboard from "@/components/dashboard/DeanDashboard";
 import { useAuth } from "@/lib/auth/auth-context";
 
 export default function DashboardPage() {
-    const { isLoading } = useAuth();
+    const { user, isLoading } = useAuth();
 
     if (isLoading) {
         return (
@@ -14,5 +16,9 @@ export default function DashboardPage() {
         );
     }
 
+    if (!user) return null;
+
+    if (user.roles?.includes("dean")) return <DeanDashboard />;
+    if (user.roles?.includes("hod")) return <HodDashboard />;
     return <TeacherDashboard />;
 }
