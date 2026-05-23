@@ -19,6 +19,11 @@ from app.modules.projects.router import projects_router
 from app.modules.students.router import students_router
 from app.modules.users.router import users_router
 from app.modules.forms.router import forms_router
+from app.modules.academic.router import academic_router
+from app.modules.attendance.router import attendance_router
+from app.modules.mentor.router import mentor_router
+from app.modules.leaves.router import leaves_router
+from app.modules.dashboard.router import dashboard_router
 from app.utils.exceptions import AppException
 
 # Import all models so SQLAlchemy knows about them before create_all()
@@ -54,6 +59,11 @@ app.include_router(announcements_router, prefix=settings.api_v1_prefix)
 app.include_router(events_router, prefix=settings.api_v1_prefix)
 app.include_router(projects_router, prefix=settings.api_v1_prefix)
 app.include_router(forms_router, prefix=settings.api_v1_prefix)
+app.include_router(academic_router, prefix=settings.api_v1_prefix)
+app.include_router(attendance_router, prefix=settings.api_v1_prefix)
+app.include_router(mentor_router, prefix=settings.api_v1_prefix)
+app.include_router(leaves_router, prefix=settings.api_v1_prefix)
+app.include_router(dashboard_router, prefix=settings.api_v1_prefix)
 
 
 @app.exception_handler(AppException)

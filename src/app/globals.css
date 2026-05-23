@@ -247,3 +247,107 @@
 .stagger-children>*:nth-child(6) {
   animation-delay: 400ms;
 }
+
+/* ─── SOET Design System ────────────────────────────── */
+:root {
+  --soet-navy: #0a1628;
+  --soet-navy-light: #0d1f3c;
+  --soet-blue: #1a56db;
+  --soet-blue-light: #3b82f6;
+  --soet-gold: #d4a843;
+  --soet-gold-light: #f0c75e;
+  --soet-green: #059669;
+  --soet-amber: #d97706;
+  --soet-red: #dc2626;
+  --soet-gray-bg: #f4f6fa;
+  --risk-safe: #059669;
+  --risk-warning: #d97706;
+  --risk-critical: #dc2626;
+  --risk-pending: #6b7280;
+}
+
+/* SOET Card styles */
+.soet-card {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+  padding: 1.25rem;
+}
+
+.soet-card-header {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* SOET Stat cards with colored top border */
+.stat-card {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+  padding: 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.stat-card-blue::before { background: #3b82f6; }
+.stat-card-green::before { background: #059669; }
+.stat-card-amber::before { background: #d97706; }
+.stat-card-red::before { background: #dc2626; }
+
+/* SOET Status badges */
+.badge-safe {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-warning {
+  background: #fffbeb;
+  color: #d97706;
+  border: 1px solid #fcd34d;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-critical {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-pending {
+  background: #f9fafb;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}

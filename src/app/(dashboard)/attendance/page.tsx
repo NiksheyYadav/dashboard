@@ -586,7 +586,7 @@ export default function AttendancePage() {
     const { role } = useAuth();
 
     return (
-        <RequireRole allowedRoles={["dean", "hod", "coordinator"]}>
+        <RequireRole allowedRoles={["dean", "hod", "teacher", "admin"]}>
             {role === "dean" ? <DeanAttendanceView /> : <UploadAttendanceView />}
         </RequireRole>
     );

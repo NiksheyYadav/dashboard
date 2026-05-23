@@ -4,15 +4,15 @@ import { ApiError, getCurrentUser, loginWithPassword, logoutSession, refreshAcce
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
-export type UserRole = "admin" | "dean" | "hod" | "coordinator" | "faculty";
-export type CoordinatorType = "placement" | "attendance" | "events" | null;
+export type UserRole = "admin" | "dean" | "hod" | "teacher" | "activity_coordinator";
 
 export interface AuthUser {
     id: string;
     name: string;
     email: string;
     role: UserRole;
-    coordinatorType: CoordinatorType;
+    roles: string[];
+    isMentor: boolean;
     department: string;
     designation: string;
     avatarInitials: string;
@@ -31,70 +31,59 @@ const AUTH_TOKEN_KEY = "edupulse_auth_token";
 
 function roleFromEmail(email: string): UserRole {
     const value = email.toLowerCase();
-    if (value.includes("admin")) {
-        return "admin";
-    }
-    if (value.includes("dean")) {
-        return "dean";
-    }
-    if (value.includes("hod")) {
-        return "hod";
-    }
-    if (value.includes("coord")) {
-        return "coordinator";
-    }
-    return "faculty";
+    if (value.includes("admin")) return "admin";
+    if (value.includes("dean")) return "dean";
+    if (value.includes("hod")) return "hod";
+    if (value.includes("coord")) return "activity_coordinator";
+    return "teacher";
 }
 
-function coordinatorTypeFromEmail(email: string): CoordinatorType {
-    const value = email.toLowerCase();
-    if (value.includes("placement")) return "placement";
-    if (value.includes("attendance") || value.includes("attend")) return "attendance";
-    if (value.includes("event")) return "events";
-    return null;
+function isMentorFromData(roles: string[] | null | undefined, email: string): boolean {
+    if (roles && Array.isArray(roles) && roles.includes("mentor")) return true;
+    return email.toLowerCase().includes("mentor");
 }
 
 function initialsFromEmail(email: string): string {
     const local = email.split("@")[0] || "U";
     const cleaned = local.replace(/[^a-zA-Z]/g, " ").trim();
-    if (!cleaned) {
-        return "US";
-    }
+    if (!cleaned) return "US";
     const parts = cleaned.split(/\s+/).filter(Boolean);
-    if (parts.length === 1) {
-        return parts[0].slice(0, 2).toUpperCase();
-    }
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
     return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
 }
 
-function roleToDesignation(role: UserRole, coordType?: CoordinatorType): string {
+function roleToDesignation(role: UserRole, isMentor: boolean): string {
+    if (role === "teacher" && isMentor) return "Teacher & Mentor";
     switch (role) {
-        case "admin":
-            return "System Administrator";
-        case "dean":
-            return "Dean";
-        case "hod":
-            return "Head of Department";
-        case "coordinator":
-            if (coordType === "placement") return "Placement Coordinator";
-            if (coordType === "attendance") return "Attendance Coordinator";
-            if (coordType === "events") return "Events Coordinator";
-            return "Program Coordinator";
-        default:
-            return "Faculty";
+        case "admin": return "System Administrator";
+        case "dean": return "Dean";
+        case "hod": return "Head of Department";
+        case "activity_coordinator": return "Activity Coordinator";
+        case "teacher": return "Faculty";
+        default: return "Faculty";
     }
 }
 
-function buildAuthUser(id: string, email: string, role: UserRole, department?: string | null): AuthUser {
-    const coordType = role === "coordinator" ? coordinatorTypeFromEmail(email) : null;
+function buildAuthUser(
+    id: string,
+    email: string,
+    role: UserRole,
+    department?: string | null,
+    serverRoles?: string[] | null,
+    serverName?: string | null,
+): AuthUser {
+    const roles = serverRoles && Array.isArray(serverRoles) ? serverRoles : [role];
+    const mentor = isMentorFromData(roles, email);
+    const name = serverName || email.split("@")[0];
     return {
         id,
-        name: email.split("@")[0],
+        name,
         email,
         role,
-        coordinatorType: coordType,
+        roles,
+        isMentor: mentor,
         department: department || "N/A",
-        designation: roleToDesignation(role, coordType),
+        designation: roleToDesignation(role, mentor),
         avatarInitials: initialsFromEmail(email),
     };
 }
@@ -130,29 +119,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             try {
                 const storedUserRaw = localStorage.getItem(AUTH_USER_KEY) ?? localStorage.getItem("edupulse_auth");
                 const storedToken = localStorage.getItem(AUTH_TOKEN_KEY);
-                if (!storedUserRaw || !storedToken) {
-                    return;
-                }
+                if (!storedUserRaw || !storedToken) return;
 
                 const storedUser = JSON.parse(storedUserRaw) as AuthUser;
                 try {
                     const me = await getCurrentUser(storedToken);
-                    const syncedUser = buildAuthUser(me.id, me.email, storedUser.role ?? roleFromEmail(me.email), me.department);
+                    const meAny = me as unknown as Record<string, unknown>;
+                    const serverRole = meAny.primary_role as UserRole | undefined;
+                    const serverRoles = meAny.roles as string[] | undefined;
+                    const serverName = meAny.name as string | undefined;
+                    const syncedUser = buildAuthUser(
+                        me.id,
+                        me.email,
+                        serverRole || storedUser.role || roleFromEmail(me.email),
+                        me.department,
+                        serverRoles,
+                        serverName,
+                    );
                     setAuthState(syncedUser, storedToken);
                     return;
                 } catch (error) {
-                    if (!(error instanceof ApiError) || error.status !== 401) {
-                        throw error;
-                    }
+                    if (!(error instanceof ApiError) || error.status !== 401) throw error;
                 }
 
                 const refreshed = await refreshAccessToken();
                 const meAfterRefresh = await getCurrentUser(refreshed.access_token);
+                const meAny2 = meAfterRefresh as unknown as Record<string, unknown>;
+                const serverRole2 = meAny2.primary_role as UserRole | undefined;
+                const serverRoles2 = meAny2.roles as string[] | undefined;
+                const serverName2 = meAny2.name as string | undefined;
                 const refreshedUser = buildAuthUser(
                     meAfterRefresh.id,
                     meAfterRefresh.email,
-                    storedUser.role ?? roleFromEmail(meAfterRefresh.email),
-                    meAfterRefresh.department
+                    serverRole2 || storedUser.role || roleFromEmail(meAfterRefresh.email),
+                    meAfterRefresh.department,
+                    serverRoles2,
+                    serverName2,
                 );
                 setAuthState(refreshedUser, refreshed.access_token);
             } catch {
@@ -170,16 +172,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             try {
                 const tokenResponse = await loginWithPassword({ email, password });
                 const me = await getCurrentUser(tokenResponse.access_token);
-                const actualRole = roleFromEmail(me.email);
-
-                const authUser = buildAuthUser(me.id, me.email, actualRole, me.department);
+                const meAny3 = me as unknown as Record<string, unknown>;
+                const serverRole = meAny3.primary_role as UserRole | undefined;
+                const serverRoles = meAny3.roles as string[] | undefined;
+                const serverName = meAny3.name as string | undefined;
+                const actualRole = serverRole || roleFromEmail(me.email);
+                const authUser = buildAuthUser(me.id, me.email, actualRole, me.department, serverRoles, serverName);
                 setAuthState(authUser, tokenResponse.access_token);
                 router.push("/dashboard");
                 return { ok: true };
             } catch (error) {
-                if (error instanceof ApiError) {
-                    return { ok: false, error: error.message };
-                }
+                if (error instanceof ApiError) return { ok: false, error: error.message };
                 return { ok: false, error: "Unable to sign in. Please try again." };
             }
         },
@@ -190,29 +193,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const runLogout = async () => {
             const token = localStorage.getItem(AUTH_TOKEN_KEY);
             if (token) {
-                try {
-                    await logoutSession(token);
-                } catch {
-                    // ignore logout API errors and clear local state anyway
-                }
+                try { await logoutSession(token); } catch { /* ignore */ }
             }
             clearAuthState();
             router.push("/login");
         };
-
         void runLogout();
     }, [clearAuthState, router]);
 
     return (
-        <AuthContext.Provider
-            value={{
-                user,
-                role: user?.role ?? null,
-                isLoading,
-                login,
-                logout,
-            }}
-        >
+        <AuthContext.Provider value={{ user, role: user?.role ?? null, isLoading, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
@@ -220,8 +210,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function useAuth() {
     const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error("useAuth must be used within an AuthProvider");
-    }
+    if (!context) throw new Error("useAuth must be used within an AuthProvider");
     return context;
 }

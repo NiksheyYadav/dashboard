@@ -358,7 +358,7 @@ function EventsContent() {
 
 export default function EventsPage() {
     return (
-        <RequireRole allowedRoles={["admin", "dean", "hod", "coordinator", "faculty"]}>
+        <RequireRole allowedRoles={["admin", "dean", "hod", "teacher", "activity_coordinator"]}>
             <EventsContent />
         </RequireRole>
     );
