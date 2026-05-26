@@ -97,6 +97,17 @@ class LeaveService:
         return {"status": "success", "leave_status": leave.status}
 
     @staticmethod
+    def hod_approve_arrangement(db: Session, hod_id: str, arrangement_id: str, approval: HodLeaveApproval) -> dict:
+        arr = db.get(ArrangementAssignment, UUID(arrangement_id))
+        if not arr:
+            raise AppException(404, "Arrangement not found")
+        arr.status = approval.status  # approved or rejected
+        arr.response_remarks = approval.hod_remarks
+        arr.responded_at = datetime.utcnow()
+        db.commit()
+        return {"status": "success", "arrangement_status": arr.status}
+
+    @staticmethod
     def schedule_extra_class(db: Session, teacher_id: str, request: ExtraClassCreate) -> ExtraClassOut:
         # Parse time string HH:MM:SS to time object
         try:
@@ -128,3 +139,38 @@ class LeaveService:
         resp.start_time = extra.start_time.strftime("%H:%M:%S")
         resp.end_time = extra.end_time.strftime("%H:%M:%S")
         return resp
+
+    @staticmethod
+    def get_extra_classes(db: Session, teacher_id: str = None) -> List[ExtraClassOut]:
+        stmt = select(ExtraClass).order_by(ExtraClass.date.desc())
+        if teacher_id:
+            stmt = stmt.where(ExtraClass.teacher_id == UUID(teacher_id))
+        classes = db.scalars(stmt).all()
+        results = []
+        for c in classes:
+            r = ExtraClassOut.model_validate(c)
+            r.start_time = c.start_time.strftime("%H:%M:%S") if c.start_time else ""
+            r.end_time = c.end_time.strftime("%H:%M:%S") if c.end_time else ""
+            results.append(r)
+        return results
+
+    @staticmethod
+    def get_pending_arrangements(db: Session, teacher_id: str = None) -> list:
+        stmt = select(ArrangementAssignment).where(
+            ArrangementAssignment.status == "pending"
+        )
+        if teacher_id:
+            stmt = stmt.where(ArrangementAssignment.arrangement_teacher_id == UUID(teacher_id))
+        arrangements = db.scalars(stmt).all()
+        return [
+            {
+                "id": str(a.id),
+                "leave_request_id": str(a.leave_request_id),
+                "date": str(a.date),
+                "subject_id": str(a.subject_id),
+                "section_id": str(a.section_id),
+                "original_teacher_id": str(a.original_teacher_id),
+                "status": a.status,
+            }
+            for a in arrangements
+        ]

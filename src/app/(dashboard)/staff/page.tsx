@@ -79,7 +79,7 @@ function StaffContent() {
             // Remove from state without re-fetching
             setUsers(users.filter(u => u.id !== id));
         } catch (err) {
-            alert(err instanceof Error ? err.message : "Failed to delete user");
+            setError(err instanceof Error ? err.message : "Failed to delete user");
         } finally {
             setDeletingId(null);
         }

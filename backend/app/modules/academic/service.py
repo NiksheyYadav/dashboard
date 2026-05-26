@@ -6,7 +6,12 @@ from fastapi import UploadFile, HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
+import secrets
 from app.models.import_log import ImportLog
+from app.models.user import User
+from app.models.student import Student
+from app.modules.auth.service import AuthService
+from app.utils.email import send_welcome_email
 from app.modules.academic.parser import (
     parse_timetable,
     parse_faculty_mapping,
@@ -93,8 +98,55 @@ class AcademicService:
         if log.status != "preview":
             raise HTTPException(status_code=400, detail="Import is not in preview state")
 
-        # Here we would do the actual DB insertion into core tables based on log.import_type
-        # For now, just mark committed
+        # Implementation of actual DB insertion into core tables based on log.import_type
+        if log.import_type == "faculty":
+            for row in log.preview_data:
+                email = str(row.get("Email", "")).strip().lower()
+                name = str(row.get("Name", "")).strip()
+                department = str(row.get("Department", "")).strip()
+                designation = str(row.get("Designation", "")).strip()
+                
+                if not email:
+                    continue
+                
+                existing = db.scalar(select(User).where(User.email == email))
+                if not existing:
+                    raw_password = secrets.token_urlsafe(8)
+                    new_user = AuthService.register_user(
+                        db, email=email, password=raw_password, department=department
+                    )
+                    new_user.name = name
+                    new_user.designation = designation
+                    send_welcome_email(to_email=email, raw_password=raw_password, role="faculty")
+                    
+        elif log.import_type == "students":
+            for row in log.preview_data:
+                roll_no = str(row.get("Roll No", "")).strip()
+                name = str(row.get("Name", "")).strip()
+                programme = str(row.get("Programme", "")).strip()
+                semester = row.get("Semester", 1)
+                batch = str(row.get("Batch", "")).strip()
+                
+                if not roll_no:
+                    continue
+                
+                try:
+                    sem_int = int(semester)
+                except ValueError:
+                    sem_int = 1
+                
+                existing = db.scalar(select(Student).where(Student.roll_no == roll_no))
+                if not existing:
+                    new_student = Student(
+                        roll_no=roll_no,
+                        name=name,
+                        course=programme,
+                        department="Unknown", 
+                        semester=sem_int,
+                        batch=batch
+                    )
+                    db.add(new_student)
+
         log.status = "committed"
         log.committed_at = datetime.utcnow()
         db.commit()

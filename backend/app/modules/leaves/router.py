@@ -37,6 +37,15 @@ def respond_arrangement(
 ):
     return LeaveService.respond_to_arrangement(db, str(auth.user.id), arrangement_id, response)
 
+@leaves_router.put("/arrangements/{arrangement_id}/hod-approve")
+def hod_approve_arrangement(
+    arrangement_id: str,
+    approval: HodLeaveApproval,
+    auth: AuthContext = Depends(RequireRole(["hod", "dean"])),
+    db: Session = Depends(get_db),
+):
+    return LeaveService.hod_approve_arrangement(db, str(auth.user.id), arrangement_id, approval)
+
 @leaves_router.post("/request/{leave_id}/hod-approval")
 def hod_approval(
     leave_id: str,
@@ -50,6 +59,24 @@ def hod_approval(
 def schedule_extra_class(
     request: ExtraClassCreate,
     auth: AuthContext = Depends(RequireRole(["teacher", "hod", "dean"])),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     return LeaveService.schedule_extra_class(db, str(auth.user.id), request)
+
+
+@leaves_router.get("/extra-classes", response_model=List[ExtraClassOut])
+def list_extra_classes(
+    mine_only: bool = False,
+    auth: AuthContext = Depends(RequireRole(["teacher", "hod", "dean", "admin"])),
+    db: Session = Depends(get_db),
+):
+    teacher_id = str(auth.user.id) if mine_only else None
+    return LeaveService.get_extra_classes(db, teacher_id)
+
+
+@leaves_router.get("/arrangements/pending")
+def get_pending_arrangements(
+    auth: AuthContext = Depends(RequireRole(["teacher", "hod", "dean", "admin"])),
+    db: Session = Depends(get_db),
+):
+    return LeaveService.get_pending_arrangements(db, str(auth.user.id))

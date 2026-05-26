@@ -16,6 +16,13 @@ def get_dashboard_metrics(
 ):
     return DashboardService.get_hod_metrics(db, str(auth.user.id))
 
+@dashboard_router.get("/teacher-metrics")
+def get_teacher_metrics(
+    auth: AuthContext = Depends(RequireRole(["teacher", "mentor", "hod", "dean", "admin"])),
+    db: Session = Depends(get_db)
+):
+    return DashboardService.get_teacher_metrics(db, str(auth.user.id))
+
 @dashboard_router.get("/notifications", response_model=List[NotificationOut])
 def get_notifications(
     auth: AuthContext = Depends(RequireRole(["teacher", "mentor", "hod", "dean", "admin"])),

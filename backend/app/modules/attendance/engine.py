@@ -76,3 +76,45 @@ class AttendanceEngine:
             "overall_percentage": round(percentage, 2),
             "subject_breakdown": subject_breakdown
         }
+
+    @staticmethod
+    def get_risk_level(percentage: float) -> str:
+        if percentage >= 75:
+            return "safe"
+        elif percentage >= 65:
+            return "warning"
+        elif percentage >= 50:
+            return "critical"
+        else:
+            return "detention"
+
+    @staticmethod
+    def get_detention_list(db: Session, threshold: float = 75.0) -> list:
+        from app.models.student import Student
+        students = db.scalars(select(Student)).all()
+        detention_list = []
+        for s in students:
+            records = db.scalars(
+                select(AttendanceTransaction).where(
+                    and_(
+                        AttendanceTransaction.student_id == s.id,
+                        AttendanceTransaction.status != AttendanceStatusEnum.NO_CLASS_CONDUCTED.value
+                    )
+                )
+            ).all()
+            total = len(records)
+            if total == 0:
+                continue
+            attended = sum(1 for r in records if r.status == AttendanceStatusEnum.PRESENT.value)
+            pct = (attended / total * 100.0)
+            if pct < threshold:
+                risk = AttendanceEngine.get_risk_level(pct)
+                detention_list.append({
+                    "student_id": str(s.id),
+                    "name": getattr(s, 'name', '') or s.email,
+                    "total_classes": total,
+                    "attended": attended,
+                    "percentage": round(pct, 2),
+                    "risk_level": risk,
+                })
+        return sorted(detention_list, key=lambda x: x['percentage'])

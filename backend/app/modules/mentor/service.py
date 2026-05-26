@@ -9,6 +9,8 @@ from app.models.counselling_note import CounsellingNote
 from app.models.parent_communication import ParentCommunication
 from app.models.regularization_request import RegularizationRequest
 from app.models.warning_letter import WarningLetter
+from app.models.mentor_mapping import MentorMapping
+from app.models.student import Student
 
 from app.modules.mentor.schemas import (
     CounsellingNoteCreate, CounsellingNoteOut,
@@ -18,6 +20,31 @@ from app.modules.mentor.schemas import (
 )
 
 class MentorService:
+    @staticmethod
+    def get_mentees(db: Session, mentor_id: str) -> list:
+        """Return list of students assigned to this mentor."""
+        mappings = db.scalars(
+            select(MentorMapping)
+            .where(MentorMapping.mentor_id == UUID(mentor_id))
+            .where(MentorMapping.status == "active")
+        ).all()
+        student_ids = [m.student_id for m in mappings]
+        if not student_ids:
+            return []
+        students = db.scalars(
+            select(Student).where(Student.id.in_(student_ids))
+        ).all()
+        return [
+            {
+                "id": str(s.id),
+                "name": getattr(s, "name", None) or s.email,
+                "roll_no": getattr(s, "university_roll_no", None) or "",
+                "email": s.email,
+                "batch": getattr(s, "batch", None) or "",
+            }
+            for s in students
+        ]
+
     @staticmethod
     def create_counselling_note(db: Session, mentor_id: str, request: CounsellingNoteCreate) -> CounsellingNoteOut:
         note = CounsellingNote(
@@ -86,6 +113,28 @@ class MentorService:
 
     @staticmethod
     def generate_warning_letter(db: Session, mentor_id: str, request: WarningLetterGenerateRequest) -> WarningLetterOut:
+        # Validate stages
+        stages = ["advisory", "parent_intimation", "formal_warning", "critical", "detention"]
+        if request.stage not in stages:
+            from app.utils.exceptions import AppException
+            raise AppException(400, "Invalid warning stage.")
+            
+        req_stage_idx = stages.index(request.stage)
+        
+        # Check existing letters
+        existing_letters = db.scalars(
+            select(WarningLetter).where(
+                WarningLetter.student_id == UUID(request.student_id)
+            )
+        ).all()
+        
+        for el in existing_letters:
+            if el.stage in stages:
+                existing_idx = stages.index(el.stage)
+                if existing_idx >= req_stage_idx:
+                    from app.utils.exceptions import AppException
+                    raise AppException(400, f"Cannot issue a duplicate or lower stage warning. Student already has '{el.stage}'.")
+
         # Generate a unique letter number
         letter_num = f"WARN-{datetime.utcnow().strftime('%Y%m%d')}-{str(uuid.uuid4())[:8].upper()}"
         
@@ -103,3 +152,35 @@ class MentorService:
         db.commit()
         db.refresh(letter)
         return WarningLetterOut.model_validate(letter)
+
+    @staticmethod
+    def get_mentor_compliance(db: Session, mentor_id: str) -> dict:
+        from sqlalchemy import func
+        mentees = db.scalars(
+            select(MentorMapping).where(
+                MentorMapping.mentor_id == UUID(mentor_id),
+                MentorMapping.status == 'active'
+            )
+        ).all()
+        total_mentees = len(mentees)
+        if total_mentees == 0:
+            return {"total_mentees": 0, "compliance_score": 100.0, "counselling_count": 0, "parent_calls": 0}
+        
+        counselling_count = db.query(func.count(CounsellingNote.id)).filter(
+            CounsellingNote.mentor_id == UUID(mentor_id)
+        ).scalar() or 0
+        
+        parent_calls = db.query(func.count(ParentCommunication.id)).filter(
+            ParentCommunication.mentor_id == UUID(mentor_id)
+        ).scalar() or 0
+        
+        # Score: at least 1 counselling per mentee = 50%, at least 1 parent call per at-risk mentee = 50%
+        counselling_ratio = min(1.0, counselling_count / total_mentees) * 50
+        parent_ratio = min(1.0, parent_calls / max(1, total_mentees // 3)) * 50
+        
+        return {
+            "total_mentees": total_mentees,
+            "counselling_count": counselling_count,
+            "parent_calls": parent_calls,
+            "compliance_score": round(counselling_ratio + parent_ratio, 1)
+        }

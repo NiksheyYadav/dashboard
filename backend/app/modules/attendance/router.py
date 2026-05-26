@@ -49,3 +49,12 @@ def get_student_overall_summary(
 ):
     """Get overall attendance summary for a student."""
     return AttendanceEngine.calculate_student_overall_summary(db, student_id)
+
+@attendance_router.get("/detention-list")
+def get_detention_list(
+    threshold: float = 75.0,
+    _: AuthContext = Depends(RequireRole(["admin", "dean", "hod", "teacher", "mentor"])),
+    db: Session = Depends(get_db)
+):
+    """Get students below attendance threshold."""
+    return AttendanceEngine.get_detention_list(db, threshold)

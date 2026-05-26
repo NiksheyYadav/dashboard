@@ -1,11 +1,14 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useAuth } from "@/lib/auth/auth-context";
 import { cn } from "@/lib/utils";
 import {
     AlertTriangle,
     CheckCircle2,
     ChevronRight,
+    Eye,
     FileText,
     Filter,
     MessageSquare,
@@ -16,7 +19,6 @@ import {
     Users,
     XCircle,
 } from "lucide-react";
-import { useState } from "react";
 
 // Demo data matching the mockup exactly
 const MOCK_MENTEES = [
@@ -55,13 +57,47 @@ function RiskBadge({ risk }: { risk: RiskLevel }) {
 }
 
 export default function MenteeMonitorPage() {
-    const { user } = useAuth();
+    const { user, token } = useAuth();
+    const [mentees, setMentees] = useState<any[]>(MOCK_MENTEES);
     const [searchQuery, setSearchQuery] = useState("");
     const [activeFilter, setActiveFilter] = useState<"All" | RiskLevel>("All");
+    const [selectedMenteeSubjects, setSelectedMenteeSubjects] = useState<any>(null); // For drill-down
     const [selectedMentee, setSelectedMentee] = useState<typeof MOCK_MENTEES[0] | null>(MOCK_MENTEES[0]);
+    const [isActionSuccess, setIsActionSuccess] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchMentees = async () => {
+            if (!token) return;
+            try {
+                const res = await fetch("http://localhost:8000/api/v1/mentor/mentees", {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.length > 0) {
+                        const formatted = data.map((m: any) => ({
+                            id: m.id,
+                            name: m.name,
+                            rollNo: m.roll_no,
+                            batch: m.batch || "Assigned",
+                            subjects: { "Data Structures": 85, "Mathematics": 78 }, // Mock subjects
+                            overall: 82, // Mock overall
+                            risk: "Safe" as const
+                        }));
+                        setMentees(formatted);
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to fetch mentees:", err);
+            }
+            setMentees(MOCK_MENTEES); // Fallback
+        };
+        fetchMentees();
+    }, [token]);
 
     const handleAction = async (endpoint: string, payload: any, successMessage: string) => {
-        if (!selectedMentee) return alert("Select a mentee first");
+        if (!selectedMentee) return;
         try {
             const token = localStorage.getItem("edupulse_auth_token");
             const res = await fetch(`http://localhost:8000/api/v1/mentor/${endpoint}`, {
@@ -70,27 +106,27 @@ export default function MenteeMonitorPage() {
                 body: JSON.stringify({ student_id: selectedMentee.id, ...payload })
             });
             if (!res.ok) throw new Error(`API returned ${res.status}`);
-            alert(successMessage);
+            setIsActionSuccess(successMessage);
+            setTimeout(() => setIsActionSuccess(null), 3000);
         } catch (error) {
             console.error(error);
-            alert("Action failed. Check console.");
         }
     };
 
-    const filteredMentees = MOCK_MENTEES.filter((m) => {
+    const filteredMentees = mentees.filter((m) => {
         if (activeFilter !== "All" && m.risk !== activeFilter) return false;
         if (searchQuery && !m.name.toLowerCase().includes(searchQuery.toLowerCase()) && !m.rollNo.toLowerCase().includes(searchQuery.toLowerCase())) return false;
         return true;
     });
 
     const stats = {
-        total: MOCK_MENTEES.length,
-        safe: MOCK_MENTEES.filter((m) => m.risk === "Safe").length,
-        warning: MOCK_MENTEES.filter((m) => m.risk === "Warning").length,
-        critical: MOCK_MENTEES.filter((m) => m.risk === "Critical").length,
+        total: mentees.length,
+        safe: mentees.filter((m) => m.risk === "Safe").length,
+        warning: mentees.filter((m) => m.risk === "Warning").length,
+        critical: mentees.filter((m) => m.risk === "Critical").length,
     };
 
-    const subjectHeaders = Object.keys(MOCK_MENTEES[0].subjects);
+    const subjectHeaders = mentees.length > 0 && mentees[0].subjects ? Object.keys(mentees[0].subjects) : [];
 
     return (
         <div className="space-y-6">
@@ -104,7 +140,6 @@ export default function MenteeMonitorPage() {
                             <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
                         </div>
                     </div>
-                    <button className="mt-2 flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-700">View All <ChevronRight className="h-3 w-3" /></button>
                 </div>
 
                 <div className="stat-card stat-card-green">
@@ -228,99 +263,31 @@ export default function MenteeMonitorPage() {
                                         <td className="py-2.5 px-2 text-center font-semibold text-gray-900">{mentee.overall || "—"}%</td>
                                         <td className="py-2.5 px-2 text-center"><RiskBadge risk={mentee.risk} /></td>
                                         <td className="py-2.5 px-2 text-center">
-                                            <button className="p-1 rounded hover:bg-gray-100"><MoreHorizontal className="h-4 w-4 text-gray-400" /></button>
+                                            <button 
+                                                onClick={(e) => { e.stopPropagation(); setSelectedMenteeSubjects(mentee); }}
+                                                className="p-1 rounded text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors"
+                                                title="View detailed attendance"
+                                            >
+                                                <Eye className="h-4 w-4" />
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
-
-                    {/* Pagination */}
-                    <div className="flex items-center justify-between mt-4 text-xs text-gray-500">
-                        <span>Showing 1 to {filteredMentees.length} of {filteredMentees.length} mentees</span>
-                        <div className="flex gap-1">
-                            <button className="h-7 w-7 rounded border border-gray-200 flex items-center justify-center hover:bg-gray-50">&lt;</button>
-                            <button className="h-7 w-7 rounded bg-blue-600 text-white flex items-center justify-center font-semibold">1</button>
-                            <button className="h-7 w-7 rounded border border-gray-200 flex items-center justify-center hover:bg-gray-50">&gt;</button>
-                        </div>
-                    </div>
-
-                    {/* Legend */}
-                    <div className="flex items-center gap-6 mt-4 pt-4 border-t border-gray-100 text-xs text-gray-500">
-                        <span className="font-medium">Legend (Attendance %):</span>
-                        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-emerald-500" /> ≥ 75% Safe</span>
-                        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-amber-500" /> 50% - 74% Warning</span>
-                        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-red-500" /> &lt; 50% Critical</span>
-                        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-gray-400" /> — Pending Approval</span>
-                    </div>
                 </div>
 
                 {/* Right Panel - Student Detail */}
                 {selectedMentee && (
                     <div className="hidden xl:block w-[300px] space-y-4">
-                        {/* Student Profile Card */}
                         <div className="soet-card text-center">
-                            <button className="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
-                                <XCircle className="h-4 w-4" />
-                            </button>
                             <div className="flex h-16 w-16 mx-auto items-center justify-center rounded-full bg-blue-100 text-lg font-bold text-blue-700">
                                 {selectedMentee.name.split(" ").map(n => n[0]).join("")}
                             </div>
                             <h3 className="mt-3 text-lg font-bold text-gray-900">{selectedMentee.name}</h3>
                             <RiskBadge risk={selectedMentee.risk} />
                             <p className="mt-2 text-xs text-gray-500">{selectedMentee.rollNo} • {selectedMentee.batch}</p>
-                            <p className="text-xs text-gray-400">{selectedMentee.name.toLowerCase().replace(" ", ".")}@sgtuniversity.ac.in</p>
-                            <p className="flex items-center justify-center gap-1 mt-1 text-xs text-gray-400">
-                                <Phone className="h-3 w-3" /> 98765 43210
-                            </p>
-                        </div>
-
-                        {/* Overall Attendance Donut */}
-                        <div className="soet-card">
-                            <h4 className="text-sm font-semibold text-gray-900 mb-3">Overall Attendance</h4>
-                            <div className="flex items-center justify-center">
-                                <div className="relative h-28 w-28">
-                                    <svg viewBox="0 0 36 36" className="h-28 w-28 -rotate-90">
-                                        <circle cx="18" cy="18" r="14" fill="none" stroke="#e5e7eb" strokeWidth="3" />
-                                        <circle
-                                            cx="18" cy="18" r="14" fill="none"
-                                            stroke={selectedMentee.overall >= 75 ? "#059669" : selectedMentee.overall >= 50 ? "#d97706" : "#dc2626"}
-                                            strokeWidth="3"
-                                            strokeDasharray={`${(selectedMentee.overall / 100) * 88} 88`}
-                                            strokeLinecap="round"
-                                        />
-                                    </svg>
-                                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                        <span className="text-2xl font-bold text-gray-900">{selectedMentee.overall}%</span>
-                                        <span className="text-[10px] text-gray-400">{selectedMentee.risk}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-                                <div className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-emerald-500" /> Safe <span className="ml-auto font-semibold">{stats.safe}</span></div>
-                                <div className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-amber-500" /> Warning <span className="ml-auto font-semibold">{stats.warning}</span></div>
-                                <div className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-red-500" /> Critical <span className="ml-auto font-semibold">{stats.critical}</span></div>
-                                <div className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-gray-400" /> Pending <span className="ml-auto font-semibold">0</span></div>
-                            </div>
-                        </div>
-
-                        {/* Pending Approvals */}
-                        <div className="soet-card">
-                            <h4 className="text-sm font-semibold text-gray-900 mb-2">Pending Approvals (2)</h4>
-                            <div className="space-y-2">
-                                <div className="flex items-center justify-between text-xs">
-                                    <span className="text-gray-600">AI Basics - Apr 15, 2025</span>
-                                    <span className="badge-warning">Pending</span>
-                                </div>
-                                <div className="flex items-center justify-between text-xs">
-                                    <span className="text-gray-600">ME-4A (Extra Class) - Apr 22, 2025</span>
-                                    <span className="badge-warning">Pending</span>
-                                </div>
-                            </div>
-                            <button className="mt-2 text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
-                                View All <ChevronRight className="h-3 w-3" />
-                            </button>
                         </div>
                     </div>
                 )}
@@ -328,12 +295,22 @@ export default function MenteeMonitorPage() {
 
             {/* Mentorship Actions Bar */}
             <div className="soet-card">
-                <div className="flex items-center gap-2 mb-4">
-                    <span className="text-lg">⚙️</span>
+                <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-100">
                     <h3 className="text-base font-bold text-gray-900">Mentorship Actions</h3>
+                    {isActionSuccess && <span className="text-xs font-semibold text-emerald-600">{isActionSuccess}</span>}
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                    <button className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 text-left transition-colors hover:border-blue-300 hover:bg-blue-50/50">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    <button 
+                        onClick={() => {
+                            if (!selectedMentee) { 
+                                setIsActionSuccess("Select a mentee first.");
+                                setTimeout(() => setIsActionSuccess(null), 3000);
+                            } else {
+                                setSelectedMenteeSubjects(selectedMentee);
+                            }
+                        }}
+                        className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 text-left transition-colors hover:border-blue-300 hover:bg-blue-50/50"
+                    >
                         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-100"><FileText className="h-4 w-4 text-blue-600" /></div>
                         <div><p className="text-sm font-semibold text-gray-900">View Details</p><p className="text-xs text-gray-500">Detailed attendance & performance</p></div>
                     </button>
@@ -358,8 +335,79 @@ export default function MenteeMonitorPage() {
                         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-purple-100"><Phone className="h-4 w-4 text-purple-600" /></div>
                         <div><p className="text-sm font-semibold text-gray-900">Parent Contact Log</p><p className="text-xs text-gray-500">Log parent communication</p></div>
                     </button>
+                    <button 
+                        onClick={() => handleAction("warning-letter", { stage: "advisory", reason: "Attendance below 65% threshold" }, "Warning letter initiated!")}
+                        className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 text-left transition-colors hover:border-red-300 hover:bg-red-50/50"
+                    >
+                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-100"><AlertTriangle className="h-4 w-4 text-red-600" /></div>
+                        <div><p className="text-sm font-semibold text-gray-900">Warning Letter</p><p className="text-xs text-gray-500">Initiate formal warning</p></div>
+                    </button>
+                    <button 
+                        onClick={async () => {
+                            if (!selectedMentee) { 
+                                setIsActionSuccess("Select a mentee first.");
+                                setTimeout(() => setIsActionSuccess(null), 3000);
+                                return; 
+                            }
+                            try {
+                                const token = localStorage.getItem("edupulse_auth_token");
+                                const res = await fetch("http://localhost:8000/api/v1/reports/export", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                                    body: JSON.stringify({ report_type: "mentor_report" })
+                                });
+                                if (!res.ok) throw new Error("Export failed");
+                                const blob = await res.blob();
+                                const url = window.URL.createObjectURL(blob);
+                                const a = document.createElement("a");
+                                a.href = url;
+                                a.download = `parent_summary_${selectedMentee.rollNo}.csv`;
+                                document.body.appendChild(a);
+                                a.click();
+                                window.URL.revokeObjectURL(url);
+                                setIsActionSuccess("Report Generated Successfully");
+                                setTimeout(() => setIsActionSuccess(null), 3000);
+                            } catch { 
+                                setIsActionSuccess("Failed to generate parent summary.");
+                                setTimeout(() => setIsActionSuccess(null), 3000);
+                            }
+                        }}
+                        className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 text-left transition-colors hover:border-indigo-300 hover:bg-indigo-50/50"
+                    >
+                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-100"><FileText className="h-4 w-4 text-indigo-600" /></div>
+                        <div><p className="text-sm font-semibold text-gray-900">Parent Summary Report</p><p className="text-xs text-gray-500">Generate parent-facing PDF</p></div>
+                    </button>
                 </div>
             </div>
+
+            {/* Detailed Attendance Dialog */}
+            <Dialog open={!!selectedMenteeSubjects} onOpenChange={(open) => !open && setSelectedMenteeSubjects(null)}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Detailed Attendance</DialogTitle>
+                        <DialogDescription>{selectedMenteeSubjects?.name}'s subject-wise attendance breakdown.</DialogDescription>
+                    </DialogHeader>
+                    {selectedMenteeSubjects && (
+                        <div className="space-y-4 text-sm mt-4">
+                            <div className="space-y-2">
+                                {Object.entries(selectedMenteeSubjects.subjects).map(([s, v]) => (
+                                    <div key={s} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
+                                        <span className="text-gray-600 font-medium">{s}</span>
+                                        <span className={cn(
+                                            "font-bold",
+                                            (v as number) >= 75 ? "text-emerald-600" : (v as number) >= 50 ? "text-amber-600" : "text-red-600"
+                                        )}>{v as number}%</span>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="pt-4 flex justify-between items-center bg-gray-50 p-3 rounded-lg mt-4">
+                                <span className="font-semibold text-gray-900">Overall Attendance</span>
+                                <span className="font-bold text-lg text-gray-900">{selectedMenteeSubjects.overall}%</span>
+                            </div>
+                        </div>
+                    )}
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

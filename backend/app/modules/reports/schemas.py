@@ -8,6 +8,10 @@ class ReportTypeEnum(str, Enum):
     LOW_ATTENDANCE = "low_attendance"
     LEAVE_SUMMARY = "leave_summary"
     MENTOR_REPORT = "mentor_report"
+    EXTRA_CLASS = "extra_class"
+    ACTIVITY = "activity"
+    COURSE_COMPLETION = "course_completion"
+    STUDENT_WISE = "student_wise"
 
 class ReportRequest(BaseModel):
     report_type: ReportTypeEnum

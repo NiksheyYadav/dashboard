@@ -12,7 +12,6 @@ import {
     Eye,
     EyeOff,
     FileText,
-    GraduationCap,
     Shield,
     UserCog
 } from "lucide-react";
@@ -102,8 +101,8 @@ export default function LoginPage() {
         <div className="flex min-h-screen bg-[#f4f6fa]">
             {/* ── Left Hero Panel ── */}
             <div className="relative hidden w-[55%] overflow-hidden lg:flex lg:flex-col lg:justify-between">
-                {/* Animated gradient background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#0f4c96] via-[#1a6fdb] to-[#3b82f6]" />
+                {/* Dark Navy background */}
+                <div className="absolute inset-0 bg-[#0a1628]" />
 
                 {/* Floating decorative shapes */}
                 <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-white/5 animate-float" />
@@ -121,25 +120,23 @@ export default function LoginPage() {
                 <div className="relative z-10 flex flex-1 flex-col justify-center px-12 xl:px-20">
                     {/* Logo */}
                     <div className="mb-8 flex items-center gap-3 animate-slide-up">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm animate-pulse-glow">
-                            <GraduationCap className="h-7 w-7 text-white" />
-                        </div>
-                        <div>
-                            <span className="text-2xl font-bold text-white">EduPulse</span>
-                            <p className="text-xs text-blue-200">SGT University</p>
-                        </div>
+                        <img
+                            src="/images/sgt-logo-wide.png"
+                            alt="SGT University"
+                            className="h-16 w-auto object-contain rounded"
+                        />
                     </div>
 
                     {/* Headline */}
                     <h1 className="text-4xl font-bold leading-tight text-white xl:text-5xl animate-slide-up" style={{ animationDelay: "100ms" }}>
-                        E-Block
+                        SOET Attendance
                         <br />
-                        Administration
+                        & Mentorship
                         <br />
-                        <span className="text-blue-200">Dashboard</span>
+                        <span className="text-blue-200">Monitoring App</span>
                     </h1>
                     <p className="mt-4 max-w-md text-base text-blue-100/80 animate-slide-up" style={{ animationDelay: "200ms" }}>
-                        Streamline attendance, analytics, and student management
+                        Streamline attendance tracking, mentor interventions, leave management
                         — designed for Dean, HOD, Coordinators & Faculty.
                     </p>
 
@@ -174,11 +171,12 @@ export default function LoginPage() {
             <div className="flex flex-1 flex-col items-center justify-center px-6 py-10 sm:px-12 lg:px-16">
                 {/* Mobile logo */}
                 <div className="mb-8 flex flex-col items-center lg:hidden animate-slide-up">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-[#1a6fdb]">
-                        <GraduationCap className="h-7 w-7 text-white" />
-                    </div>
-                    <h2 className="mt-3 text-xl font-bold text-gray-900">EduPulse</h2>
-                    <p className="text-xs text-gray-400">E-Block Administration</p>
+                    <img
+                        src="/images/sgt-logo-crest.png"
+                        alt="SGT University"
+                        className="h-20 w-auto object-contain rounded-full"
+                    />
+                    <p className="mt-3 text-xs text-gray-400">SOET Attendance & Mentorship App</p>
                 </div>
 
                 <div className="w-full max-w-[420px] animate-scale-in">
@@ -240,7 +238,7 @@ export default function LoginPage() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder={`${selectedRole}@sgtuniversity.org`}
-                                className="h-11 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm outline-none transition-all focus:border-[#1a6fdb] focus:ring-2 focus:ring-[#1a6fdb]/10"
+                                className="h-11 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm text-gray-900 outline-none transition-all focus:border-[#1a6fdb] focus:ring-2 focus:ring-[#1a6fdb]/10"
                             />
                         </div>
                         <div>
@@ -262,7 +260,7 @@ export default function LoginPage() {
                                     onKeyDown={(e) => setCapsLockOn(e.getModifierState("CapsLock"))}
                                     onKeyUp={(e) => setCapsLockOn(e.getModifierState("CapsLock"))}
                                     placeholder="••••••••"
-                                    className="h-11 w-full rounded-xl border border-gray-200 bg-white px-4 pr-10 text-sm outline-none transition-all focus:border-[#1a6fdb] focus:ring-2 focus:ring-[#1a6fdb]/10"
+                                    className="h-11 w-full rounded-xl border border-gray-200 bg-white px-4 pr-10 text-sm text-gray-900 outline-none transition-all focus:border-[#1a6fdb] focus:ring-2 focus:ring-[#1a6fdb]/10"
                                 />
                                 <button
                                     type="button"

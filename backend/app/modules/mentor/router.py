@@ -14,6 +14,22 @@ from app.modules.mentor.service import MentorService
 
 mentor_router = APIRouter(prefix="/mentor", tags=["mentor"])
 
+
+@mentor_router.get("/mentees")
+def get_my_mentees(
+    auth: AuthContext = Depends(RequireRole(["mentor", "teacher", "hod", "dean"])),
+    db: Session = Depends(get_db)
+):
+    return MentorService.get_mentees(db, str(auth.user.id))
+
+@mentor_router.get("/compliance")
+def get_my_compliance(
+    auth: AuthContext = Depends(RequireRole(["mentor", "teacher", "hod", "dean"])),
+    db: Session = Depends(get_db)
+):
+    return MentorService.get_mentor_compliance(db, str(auth.user.id))
+
+
 @mentor_router.post("/counselling", response_model=CounsellingNoteOut)
 def create_counselling_note(
     request: CounsellingNoteCreate,

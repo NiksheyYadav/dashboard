@@ -13,12 +13,14 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+import { useAuth } from "@/lib/auth/auth-context";
+
 const MOCK_AFFECTED_LECTURES = [
-    { date: "12 May 2025\n(Mon)", slot: "09:00 AM –\n10:00 AM", subject: "Data Structures", section: "CSE-IT 2A", originalTeacher: "Dr. A. Sharma\n(You)", availableTeachers: ["Dr. S. Verma", "Dr. P. Singh", "Dr. M. Jain"], selectedTeacher: "Dr. P. Singh", status: "Pending Acceptance" },
-    { date: "12 May 2025\n(Mon)", slot: "10:15 AM –\n11:15 AM", subject: "AI Basics", section: "CSE-IT 3B", originalTeacher: "Dr. A. Sharma\n(You)", availableTeachers: ["Dr. R. Kumar", "Dr. N. Gupta", "Dr. K. Mehta"], selectedTeacher: "Dr. N. Gupta", status: "Accepted" },
-    { date: "13 May 2025\n(Tue)", slot: "02:00 PM –\n03:00 PM", subject: "Manufacturing\nProcesses", section: "ME 4A", originalTeacher: "Dr. A. Sharma\n(You)", availableTeachers: ["Dr. V. Yadav", "Dr. P. Singh", "Dr. A. Bansal"], selectedTeacher: "Dr. V. Yadav", status: "Pending Approval" },
-    { date: "13 May 2025\n(Tue)", slot: "03:15 PM –\n04:15 PM", subject: "Data Structures", section: "CSE-IT 2A", originalTeacher: "Dr. A. Sharma\n(You)", availableTeachers: ["Dr. S. Verma", "Dr. M. Jain", "Dr. R. Kumar"], selectedTeacher: "Dr. S. Verma", status: "Rejected" },
-    { date: "14 May 2025\n(Wed)", slot: "09:00 AM –\n10:00 AM", subject: "AI Basics", section: "CSE-IT 3B", originalTeacher: "Dr. A. Sharma\n(You)", availableTeachers: ["Dr. N. Gupta", "Dr. K. Mehta", "Dr. A. Bansal"], selectedTeacher: "Dr. K. Mehta", status: "Pending Acceptance" },
+    { id: "mock-1", date: "12 May 2025\n(Mon)", slot: "09:00 AM –\n10:00 AM", subject: "Data Structures", section: "CSE-IT 2A", originalTeacher: "Dr. A. Sharma\n(You)", availableTeachers: ["Dr. S. Verma", "Dr. P. Singh", "Dr. M. Jain"], selectedTeacher: "Dr. P. Singh", status: "Pending Acceptance" },
+    { id: "mock-2", date: "12 May 2025\n(Mon)", slot: "10:15 AM –\n11:15 AM", subject: "AI Basics", section: "CSE-IT 3B", originalTeacher: "Dr. A. Sharma\n(You)", availableTeachers: ["Dr. R. Kumar", "Dr. N. Gupta", "Dr. K. Mehta"], selectedTeacher: "Dr. N. Gupta", status: "Accepted" },
+    { id: "mock-3", date: "13 May 2025\n(Tue)", slot: "02:00 PM –\n03:00 PM", subject: "Manufacturing\nProcesses", section: "ME 4A", originalTeacher: "Dr. A. Sharma\n(You)", availableTeachers: ["Dr. V. Yadav", "Dr. P. Singh", "Dr. A. Bansal"], selectedTeacher: "Dr. V. Yadav", status: "Pending Approval" },
+    { id: "mock-4", date: "13 May 2025\n(Tue)", slot: "03:15 PM –\n04:15 PM", subject: "Data Structures", section: "CSE-IT 2A", originalTeacher: "Dr. A. Sharma\n(You)", availableTeachers: ["Dr. S. Verma", "Dr. M. Jain", "Dr. R. Kumar"], selectedTeacher: "Dr. S. Verma", status: "Rejected" },
+    { id: "mock-5", date: "14 May 2025\n(Wed)", slot: "09:00 AM –\n10:00 AM", subject: "AI Basics", section: "CSE-IT 3B", originalTeacher: "Dr. A. Sharma\n(You)", availableTeachers: ["Dr. N. Gupta", "Dr. K. Mehta", "Dr. A. Bansal"], selectedTeacher: "Dr. K. Mehta", status: "Pending Acceptance" },
 ];
 
 const STATUS_STYLES: Record<string, string> = {
@@ -29,10 +31,29 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 export default function LeaveArrangementPage() {
+    const { user, token } = useAuth();
     const [leaveType, setLeaveType] = useState("Casual Leave");
     const [fromDate, setFromDate] = useState("2025-05-12");
     const [toDate, setToDate] = useState("2025-05-14");
     const [reason, setReason] = useState("Attending a faculty development program.");
+    const [lectures, setLectures] = useState<any[]>(MOCK_AFFECTED_LECTURES);
+    const [actionMessage, setActionMessage] = useState<string | null>(null);
+
+    const approveArrangement = async (id: string, isApproved: boolean) => {
+        if (!token) return;
+        try {
+            const res = await fetch(`http://localhost:8000/api/v1/leaves/arrangements/${id}/respond`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                body: JSON.stringify({ action: isApproved ? 'accept' : 'reject' })
+            });
+            if (res.ok) {
+                setLectures(prev => prev.map(l => l.id === id ? { ...l, status: isApproved ? 'Accepted' : 'Rejected' } : l));
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
     const submitLeave = async () => {
         try {
@@ -51,10 +72,13 @@ export default function LeaveArrangementPage() {
                 })
             });
             if (!res.ok) throw new Error("API failed");
-            alert("Leave request submitted successfully!");
+            setReason("");
+            setActionMessage("Leave request submitted successfully!");
+            setTimeout(() => setActionMessage(null), 3000);
         } catch (error) {
             console.error(error);
-            alert("Failed to submit leave request.");
+            setActionMessage("Failed to submit leave request.");
+            setTimeout(() => setActionMessage(null), 3000);
         }
     };
 
@@ -183,8 +207,8 @@ export default function LeaveArrangementPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {MOCK_AFFECTED_LECTURES.map((lecture, i) => (
-                                <tr key={i} className="border-b border-gray-50 hover:bg-gray-50/50">
+                            {lectures.map((lecture, i) => (
+                                <tr key={lecture.id || i} className="border-b border-gray-50 hover:bg-gray-50/50">
                                     <td className="py-3 px-3 text-xs text-gray-700 whitespace-pre-line">{lecture.date}</td>
                                     <td className="py-3 px-3 text-xs text-gray-700 whitespace-pre-line">{lecture.slot}</td>
                                     <td className="py-3 px-3 text-sm font-medium text-gray-900 whitespace-pre-line">{lecture.subject}</td>
@@ -192,7 +216,7 @@ export default function LeaveArrangementPage() {
                                     <td className="py-3 px-3 text-xs text-gray-700 whitespace-pre-line">{lecture.originalTeacher}</td>
                                     <td className="py-3 px-3">
                                         <div className="flex flex-wrap gap-1">
-                                            {lecture.availableTeachers.map((t) => (
+                                            {lecture.availableTeachers && lecture.availableTeachers.map((t: string) => (
                                                 <span key={t} className="inline-flex items-center gap-1 rounded-md bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 border border-blue-200">
                                                     {t} <X className="h-3 w-3 cursor-pointer hover:text-red-500" />
                                                 </span>
@@ -204,6 +228,12 @@ export default function LeaveArrangementPage() {
                                         <span className={cn("inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold border", STATUS_STYLES[lecture.status] || "")}>
                                             {lecture.status}
                                         </span>
+                                        {lecture.status === "Pending Approval" && (user?.role === "hod" || user?.role === "dean") && (
+                                            <div className="flex gap-2 justify-center mt-2">
+                                                <button onClick={() => approveArrangement(lecture.id, true)} className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs rounded hover:bg-emerald-200">Approve</button>
+                                                <button onClick={() => approveArrangement(lecture.id, false)} className="px-2 py-1 bg-red-100 text-red-700 text-xs rounded hover:bg-red-200">Reject</button>
+                                            </div>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
@@ -212,13 +242,16 @@ export default function LeaveArrangementPage() {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex justify-center gap-4 mt-6 pt-4 border-t border-gray-100">
-                    <button className="flex items-center gap-2 px-6 py-2.5 rounded-lg border border-blue-300 text-sm font-semibold text-blue-700 hover:bg-blue-50 transition-colors">
-                        <Save className="h-4 w-4" /> Save Draft
-                    </button>
-                    <button onClick={submitLeave} className="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#1a56db] text-sm font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm">
-                        <Send className="h-4 w-4" /> Submit Leave Request
-                    </button>
+                <div className="flex justify-between items-center mt-6 pt-4 border-t border-gray-100">
+                    {actionMessage && <span className="text-sm font-medium text-blue-600 animate-pulse">{actionMessage}</span>}
+                    <div className="flex justify-center gap-4 ml-auto">
+                        <button onClick={() => { setReason("Draft..."); /* fake save */ }} className="flex items-center gap-2 px-6 py-2.5 rounded-lg border border-blue-300 text-sm font-semibold text-blue-700 hover:bg-blue-50 transition-colors">
+                            <Save className="h-4 w-4" /> Save Draft
+                        </button>
+                        <button onClick={submitLeave} className="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#1a56db] text-sm font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm">
+                            <Send className="h-4 w-4" /> Submit Leave Request
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

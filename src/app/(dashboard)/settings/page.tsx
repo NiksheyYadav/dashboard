@@ -57,6 +57,7 @@ export default function SettingsPage() {
         { key: "dark", label: "Dark", icon: Moon, desc: "Easy on the eyes" },
         { key: "system", label: "System", icon: Monitor, desc: "Matches your device" },
     ];
+    const [passwordMessage, setPasswordMessage] = useState<string | null>(null);
 
     return (
         <div className="animate-slide-up space-y-6">
@@ -218,9 +219,15 @@ export default function SettingsPage() {
                                     <label className="mb-1.5 block text-sm font-medium text-gray-600 dark:text-gray-400">Confirm New Password</label>
                                     <input type="password" placeholder="••••••••" className="h-11 w-full rounded-lg border border-gray-200 px-4 text-sm outline-none focus:border-[#1a6fdb] focus:ring-2 focus:ring-[#1a6fdb]/10 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200" />
                                 </div>
-                                <button className="h-11 rounded-lg bg-[#1a6fdb] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#1560c2]">
-                                    Update Password
-                                </button>
+                                <div className="flex items-center gap-3">
+                                    <button onClick={() => {
+                                        setPasswordMessage("Password updated successfully!");
+                                        setTimeout(() => setPasswordMessage(null), 3000);
+                                    }} className="h-11 rounded-lg bg-[#1a6fdb] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#1560c2]">
+                                        Update Password
+                                    </button>
+                                    {passwordMessage && <span className="text-sm font-medium text-emerald-600 animate-pulse">{passwordMessage}</span>}
+                                </div>
                             </div>
                         </div>
                     )}

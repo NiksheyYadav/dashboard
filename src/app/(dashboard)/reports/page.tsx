@@ -29,6 +29,7 @@ export default function ReportsPage() {
     const [programme, setProgramme] = useState("All");
     const [semester, setSemester] = useState("All");
     const [section, setSection] = useState("All");
+    const [actionMessage, setActionMessage] = useState<string | null>(null);
 
     return (
         <div className="space-y-6">
@@ -104,18 +105,26 @@ export default function ReportsPage() {
                                 Filters: {programme} / {semester} / {section}
                             </p>
                         </div>
-                        <div className="flex gap-3">
-                            <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                        <div className="flex items-center gap-3">
+                            {actionMessage && <span className="text-sm font-medium text-blue-600 animate-pulse">{actionMessage}</span>}
+                            <button onClick={() => window.print()} className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
                                 <Printer className="h-4 w-4" /> Print
                             </button>
                             <button 
                                 onClick={async () => {
                                     try {
                                         const token = localStorage.getItem("edupulse_auth_token");
-                                        let rtype = "attendance_summary";
-                                        if (selectedReport === "leave-summary") rtype = "leave_summary";
-                                        else if (selectedReport === "detention-risk") rtype = "low_attendance";
-                                        else if (selectedReport === "mentor-wise") rtype = "mentor_report";
+                                        const typeMap: Record<string, string> = {
+                                            "subject-wise": "attendance_summary",
+                                            "student-wise": "attendance_summary",
+                                            "mentor-wise": "mentor_report",
+                                            "leave-summary": "leave_summary",
+                                            "extra-classes": "attendance_summary",
+                                            "detention-risk": "low_attendance",
+                                            "activity-attendance": "attendance_summary",
+                                            "course-completion": "attendance_summary",
+                                        };
+                                        const rtype = typeMap[selectedReport ?? ""] || "attendance_summary";
 
                                         const res = await fetch("http://localhost:8000/api/v1/reports/export", {
                                             method: "POST",
@@ -131,15 +140,24 @@ export default function ReportsPage() {
                                         document.body.appendChild(a);
                                         a.click();
                                         window.URL.revokeObjectURL(url);
+                                        setActionMessage("CSV Exported Successfully");
+                                        setTimeout(() => setActionMessage(null), 3000);
                                     } catch (error) {
-                                        alert("Failed to export report.");
+                                        setActionMessage("Failed to export report.");
+                                        setTimeout(() => setActionMessage(null), 3000);
                                     }
                                 }}
                                 className="flex items-center gap-2 px-4 py-2 rounded-lg border border-emerald-300 text-sm font-medium text-emerald-700 hover:bg-emerald-50 transition-colors"
                             >
                                 <FileSpreadsheet className="h-4 w-4" /> Export CSV
                             </button>
-                            <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1a56db] text-sm font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm">
+                            <button 
+                                onClick={() => {
+                                    setActionMessage("PDF generation will be available once the backend is configured. For now, use Print -> Save as PDF.");
+                                    setTimeout(() => setActionMessage(null), 4000);
+                                }}
+                                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1a56db] text-sm font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm"
+                            >
                                 <Download className="h-4 w-4" /> Download PDF
                             </button>
                         </div>

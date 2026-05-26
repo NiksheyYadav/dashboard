@@ -91,11 +91,37 @@ def list_sections(db: Session = Depends(get_db)):
     return items
 
 @academic_router.get("/subjects", response_model=List[SubjectOut])
-def list_subjects(db: Session = Depends(get_db)):
-    items = db.scalars(select(Subject)).all()
+def list_subjects(
+    teacher_id: str = None,
+    db: Session = Depends(get_db)
+):
+    stmt = select(Subject)
+    if teacher_id:
+        from uuid import UUID
+        stmt = stmt.where(Subject.assigned_teacher_id == UUID(teacher_id))
+    items = db.scalars(stmt).all()
+    return items
+
+@academic_router.get("/my-subjects", response_model=List[SubjectOut])
+def list_my_subjects(
+    auth: AuthContext = Depends(RequireRole(["teacher", "hod", "dean", "admin"])),
+    db: Session = Depends(get_db)
+):
+    """Return only subjects assigned to the currently logged-in teacher."""
+    from uuid import UUID
+    items = db.scalars(
+        select(Subject).where(Subject.assigned_teacher_id == UUID(str(auth.user.id)))
+    ).all()
     return items
 
 @academic_router.get("/timetable", response_model=List[TimetableSlotOut])
-def list_timetable(db: Session = Depends(get_db)):
-    items = db.scalars(select(TimetableSlot)).all()
+def list_timetable(
+    teacher_id: str = None,
+    db: Session = Depends(get_db)
+):
+    stmt = select(TimetableSlot)
+    if teacher_id:
+        from uuid import UUID
+        stmt = stmt.where(TimetableSlot.teacher_id == UUID(teacher_id))
+    items = db.scalars(stmt).all()
     return items

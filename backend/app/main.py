@@ -26,6 +26,7 @@ from app.modules.leaves.router import leaves_router
 from app.modules.dashboard.router import dashboard_router
 from app.modules.reports.router import reports_router
 from app.modules.activity.router import activity_router
+from app.modules.notifications.router import notifications_router
 from app.utils.exceptions import AppException
 
 # Import all models so SQLAlchemy knows about them before create_all()
@@ -68,6 +69,7 @@ app.include_router(leaves_router, prefix=settings.api_v1_prefix)
 app.include_router(dashboard_router, prefix=settings.api_v1_prefix)
 app.include_router(reports_router, prefix=settings.api_v1_prefix)
 app.include_router(activity_router, prefix=settings.api_v1_prefix)
+app.include_router(notifications_router, prefix=settings.api_v1_prefix)
 
 
 @app.exception_handler(AppException)

@@ -13,6 +13,15 @@ from app.core.enums import AttendanceStatusEnum
 class AttendanceService:
     @staticmethod
     def mark_attendance(db: Session, request: MarkAttendanceRequest, marked_by_id: str) -> List[AttendanceTransactionOut]:
+        from datetime import datetime, timedelta
+        attendance_date = request.date
+        if isinstance(attendance_date, str):
+            attendance_date = date.fromisoformat(attendance_date)
+        cutoff = datetime.combine(attendance_date + timedelta(days=1), datetime.max.time())
+        if datetime.utcnow() > cutoff:
+            from app.utils.exceptions import AppException
+            raise AppException(400, "Attendance cannot be marked or modified after 24 hours of the class date.")
+
         transactions = []
         
         for record in request.records:

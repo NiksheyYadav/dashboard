@@ -4,7 +4,8 @@ import { useAuth } from "@/lib/auth/auth-context";
 import { useSidebar } from "@/lib/hooks/useSidebar";
 import { cn } from "@/lib/utils";
 import { getNavItemsForRole, SYSTEM_NAV_ITEMS, type UserRole } from "@/lib/utils/constants";
-import { ChevronLeft, GraduationCap, LogOut, X } from "lucide-react";
+import { ChevronLeft, LogOut, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -31,15 +32,14 @@ export default function Sidebar() {
             {/* Header: SGT University Logo */}
             <div className="flex items-center justify-between px-5 py-5">
                 <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-amber-400/60 bg-[#1a2744]">
-                        <GraduationCap className="h-6 w-6 text-amber-400" />
-                    </div>
-                    <div>
-                        <span className="text-lg font-bold tracking-wide text-white">SGT</span>
-                        <p className="text-[10px] font-medium uppercase tracking-widest text-amber-400/80">
-                            University
-                        </p>
-                    </div>
+                    <Image
+                        src="/images/sgt-logo-wide.png"
+                        alt="SGT University"
+                        width={180}
+                        height={50}
+                        className="h-12 w-auto object-contain rounded"
+                        priority
+                    />
                 </div>
                 {/* Close button (mobile only) */}
                 <button

@@ -61,7 +61,7 @@ class RequireRole:
 
     def __call__(self, auth: AuthContext = Depends(get_auth_context)) -> AuthContext:
         email = auth.user.email.lower()
-        role = "faculty"
+        role = "teacher"  # Default to teacher (which matches "faculty" in demo accounts)
         if "admin" in email:
             role = "admin"
         elif "dean" in email:
@@ -69,7 +69,7 @@ class RequireRole:
         elif "hod" in email:
             role = "hod"
         elif "coord" in email:
-            role = "coordinator"
+            role = "activity_coordinator"
 
         if role not in self.allowed_roles:
             raise HTTPException(
