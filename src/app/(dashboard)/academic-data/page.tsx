@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { apiUrl, API_BASE } from "@/lib/api/config";
 
 export default function AcademicDataPage() {
   return (
@@ -38,7 +39,7 @@ function AcademicDataContent() {
   const downloadTemplate = async () => {
     try {
       const token = localStorage.getItem("edupulse_auth_token");
-      const res = await fetch(`http://localhost:8000/api/v1/academic/template/${selectedType}`, {
+      const res = await fetch(`${API_BASE}/academic/template/${selectedType}`, {
         headers: { "Authorization": `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Download failed");
@@ -78,7 +79,7 @@ function AcademicDataContent() {
     if (!importId) return;
     try {
       const token = localStorage.getItem("edupulse_auth_token");
-      const res = await fetch(`http://localhost:8000/api/v1/academic/import/${importId}/commit`, {
+      const res = await fetch(`${API_BASE}/academic/import/${importId}/commit`, {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` },
       });
@@ -104,7 +105,7 @@ function AcademicDataContent() {
   const rollbackImport = async (id: string) => {
     try {
       const token = localStorage.getItem("edupulse_auth_token");
-      const res = await fetch(`http://localhost:8000/api/v1/academic/import/${id}/rollback`, {
+      const res = await fetch(`${API_BASE}/academic/import/${id}/rollback`, {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` },
       });

@@ -14,6 +14,7 @@ import {
 import { useState } from "react";
 
 import { useAuth } from "@/lib/auth/auth-context";
+import { apiUrl, API_BASE } from "@/lib/api/config";
 
 const MOCK_AFFECTED_LECTURES = [
     { id: "mock-1", date: "12 May 2025\n(Mon)", slot: "09:00 AM –\n10:00 AM", subject: "Data Structures", section: "CSE-IT 2A", originalTeacher: "Dr. A. Sharma\n(You)", availableTeachers: ["Dr. S. Verma", "Dr. P. Singh", "Dr. M. Jain"], selectedTeacher: "Dr. P. Singh", status: "Pending Acceptance" },
@@ -42,7 +43,7 @@ export default function LeaveArrangementPage() {
     const approveArrangement = async (id: string, isApproved: boolean) => {
         if (!token) return;
         try {
-            const res = await fetch(`http://localhost:8000/api/v1/leaves/arrangements/${id}/respond`, {
+            const res = await fetch(`${API_BASE}/leaves/arrangements/${id}/respond`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                 body: JSON.stringify({ action: isApproved ? 'accept' : 'reject' })
@@ -58,7 +59,7 @@ export default function LeaveArrangementPage() {
     const submitLeave = async () => {
         try {
             const token = localStorage.getItem("edupulse_auth_token");
-            const res = await fetch("http://localhost:8000/api/v1/leaves/request", {
+            const res = await fetch(apiUrl("/leaves/request"), {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                 body: JSON.stringify({

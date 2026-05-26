@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { useAuth } from "@/lib/auth/auth-context";
 import { cn } from "@/lib/utils";
 import {
+import { apiUrl, API_BASE } from "@/lib/api/config";
     AlertTriangle,
     CheckCircle2,
     ChevronRight,
@@ -69,7 +70,7 @@ export default function MenteeMonitorPage() {
         const fetchMentees = async () => {
             if (!token) return;
             try {
-                const res = await fetch("http://localhost:8000/api/v1/mentor/mentees", {
+                const res = await fetch(apiUrl("/mentor/mentees"), {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 if (res.ok) {
@@ -100,7 +101,7 @@ export default function MenteeMonitorPage() {
         if (!selectedMentee) return;
         try {
             const token = localStorage.getItem("edupulse_auth_token");
-            const res = await fetch(`http://localhost:8000/api/v1/mentor/${endpoint}`, {
+            const res = await fetch(`${API_BASE}/mentor/${endpoint}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                 body: JSON.stringify({ student_id: selectedMentee.id, ...payload })
@@ -351,7 +352,7 @@ export default function MenteeMonitorPage() {
                             }
                             try {
                                 const token = localStorage.getItem("edupulse_auth_token");
-                                const res = await fetch("http://localhost:8000/api/v1/reports/export", {
+                                const res = await fetch(apiUrl("/reports/export"), {
                                     method: "POST",
                                     headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                                     body: JSON.stringify({ report_type: "mentor_report" })

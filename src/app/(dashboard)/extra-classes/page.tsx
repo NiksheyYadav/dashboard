@@ -18,6 +18,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 
 import { useAuth } from "@/lib/auth/auth-context";
 import { useEffect } from "react";
+import { apiUrl, API_BASE } from "@/lib/api/config";
 
 const MOCK_EXTRA_CLASSES = [
     { id: "mock-1", date: "15 May 2025", day: "Thu", time: "05:00 PM – 06:00 PM", subject: "Data Structures", section: "CSE-IT 2A", type: "Extra", reason: "Pending syllabus on Graph Theory", topicCovered: "BFS, DFS, Shortest Path", room: "LT-201", status: "Conducted", attendance: "42/45" },
@@ -63,7 +64,7 @@ export default function ExtraClassesPage() {
     const approveClass = async (id: string, isApproved: boolean) => {
         if (!token) return;
         try {
-            const res = await fetch(`http://localhost:8000/api/v1/leaves/extra-class/${id}/approve`, {
+            const res = await fetch(`${API_BASE}/leaves/extra-class/${id}/approve`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                 body: JSON.stringify({ action: isApproved ? 'accept' : 'reject' })

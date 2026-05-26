@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/auth/auth-context";
+import { apiUrl, API_BASE } from "@/lib/api/config";
 
 const MOCK_SUBJECTS_LIST = [
     { id: "mock-1", code: "CS301", name: "Data Structures", section: "CSE-IT 2A", scheduled: 45, conducted: 38, remaining: 7, section_id: "sec-1" },
@@ -52,7 +53,7 @@ export default function SubjectAttendancePage() {
         const fetchSubjects = async () => {
             try {
                 if (!token) return;
-                const res = await fetch("http://localhost:8000/api/v1/academic/my-subjects", {
+                const res = await fetch(apiUrl("/academic/my-subjects"), {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 if (res.ok) {
@@ -91,7 +92,7 @@ export default function SubjectAttendancePage() {
                 return;
             }
             try {
-                const res = await fetch(`http://localhost:8000/api/v1/students?section_id=${secId}&limit=100`, {
+                const res = await fetch(`${API_BASE}/students?section_id=${secId}&limit=100`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 if (res.ok) {
@@ -153,7 +154,7 @@ export default function SubjectAttendancePage() {
 
         try {
             const token = localStorage.getItem("edupulse_auth_token");
-            const res = await fetch("http://localhost:8000/api/v1/attendance/mark", {
+            const res = await fetch(apiUrl("/attendance/mark"), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -340,7 +341,7 @@ export default function SubjectAttendancePage() {
                             onClick={async () => {
                                 try {
                                     const token = localStorage.getItem("edupulse_auth_token");
-                                    const res = await fetch("http://localhost:8000/api/v1/attendance/mark", {
+                                    const res = await fetch(apiUrl("/attendance/mark"), {
                                         method: "POST",
                                         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                                         body: JSON.stringify({

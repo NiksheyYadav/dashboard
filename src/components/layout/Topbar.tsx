@@ -5,6 +5,7 @@ import { useSidebar } from "@/lib/hooks/useSidebar";
 import { Bell, ChevronDown, LogOut, Menu, Settings, User } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { apiUrl } from "@/lib/api/config";
 
 const PAGE_TITLES: Record<string, { title: string; subtitle: string }> = {
     "/dashboard": { title: "Dashboard", subtitle: "Overview and quick actions" },
@@ -59,7 +60,7 @@ export default function Topbar() {
         const fetchCount = async () => {
             try {
                 const token = localStorage.getItem("edupulse_auth_token");
-                const res = await fetch("http://localhost:8000/api/v1/notifications/count", {
+                const res = await fetch(apiUrl("/notifications/count"), {
                     headers: { "Authorization": `Bearer ${token}` },
                 });
                 if (res.ok) {
@@ -79,7 +80,7 @@ export default function Topbar() {
     const fetchNotifications = useCallback(async () => {
         try {
             const token = localStorage.getItem("edupulse_auth_token");
-            const res = await fetch("http://localhost:8000/api/v1/notifications", {
+            const res = await fetch(apiUrl("/notifications"), {
                 headers: { "Authorization": `Bearer ${token}` },
             });
             if (res.ok) {
@@ -99,7 +100,7 @@ export default function Topbar() {
     const markAllRead = async () => {
         try {
             const token = localStorage.getItem("edupulse_auth_token");
-            await fetch("http://localhost:8000/api/v1/notifications/read", {
+            await fetch(apiUrl("/notifications/read"), {
                 method: "PUT",
                 headers: { "Authorization": `Bearer ${token}` },
             });

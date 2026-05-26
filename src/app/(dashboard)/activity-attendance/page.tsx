@@ -23,6 +23,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 import { useAuth } from "@/lib/auth/auth-context";
 import { useEffect } from "react";
+import { apiUrl, API_BASE } from "@/lib/api/config";
 
 const MOCK_ACTIVITIES = [
     { id: "1", name: "AI & Machine Learning Workshop", type: "Workshop", date: "10 May 2025", coordinator: "Dr. S. Verma", participants: 45, approved: true, attendanceCredited: true, proofUploaded: true },
@@ -44,7 +45,7 @@ export default function ActivityAttendancePage() {
         const fetchActivities = async () => {
             if (!token) return;
             try {
-                const res = await fetch("http://localhost:8000/api/v1/activities", {
+                const res = await fetch(apiUrl("/activities"), {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 if (res.ok) {
@@ -89,7 +90,7 @@ export default function ActivityAttendancePage() {
     const approveActivity = async (id: string, isApproved: boolean) => {
         if (!token) return;
         try {
-            const res = await fetch(`http://localhost:8000/api/v1/activities/${id}/approve`, {
+            const res = await fetch(`${API_BASE}/activities/${id}/approve`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                 body: JSON.stringify({ action: isApproved ? 'accept' : 'reject' })
@@ -108,7 +109,7 @@ export default function ActivityAttendancePage() {
     const createActivity = async () => {
         try {
             const token = localStorage.getItem("edupulse_auth_token");
-            const res = await fetch("http://localhost:8000/api/v1/activities", {
+            const res = await fetch(apiUrl("/activities"), {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                 body: JSON.stringify({
@@ -141,7 +142,7 @@ export default function ActivityAttendancePage() {
     const creditAttendance = async (activityId: string) => {
         try {
             const token = localStorage.getItem("edupulse_auth_token");
-            const res = await fetch(`http://localhost:8000/api/v1/activities/${activityId}/credit`, {
+            const res = await fetch(`${API_BASE}/activities/${activityId}/credit`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
             });

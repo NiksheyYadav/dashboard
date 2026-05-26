@@ -12,6 +12,7 @@ import {
     TrendingUp,
 } from "lucide-react";
 import { useState } from "react";
+import { apiUrl } from "@/lib/api/config";
 
 const REPORT_TYPES = [
     { id: "subject-wise", icon: BarChart3, title: "Subject-wise Attendance Report", description: "Attendance percentage broken down by subject for each student/section", format: "Excel / PDF" },
@@ -126,7 +127,7 @@ export default function ReportsPage() {
                                         };
                                         const rtype = typeMap[selectedReport ?? ""] || "attendance_summary";
 
-                                        const res = await fetch("http://localhost:8000/api/v1/reports/export", {
+                                        const res = await fetch(apiUrl("/reports/export"), {
                                             method: "POST",
                                             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                                             body: JSON.stringify({ report_type: rtype })
