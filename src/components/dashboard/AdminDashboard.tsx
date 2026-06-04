@@ -23,6 +23,7 @@ import {
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { apiUrl } from "@/lib/api/config";
+import { EduPulseNexusLoader } from "@/components/ui/loaders";
 
 /* ── Master‑data quick‑config cards ─────────────────────────────── */
 const MASTER_DATA = [
@@ -83,8 +84,8 @@ export default function AdminDashboard() {
 
     if (!metrics) {
         return (
-            <div className="flex h-32 items-center justify-center">
-                <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-[#1a6fdb]" />
+            <div className="flex h-64 items-center justify-center">
+                <EduPulseNexusLoader size="lg" />
             </div>
         );
     }

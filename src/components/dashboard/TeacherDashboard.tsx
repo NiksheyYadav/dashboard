@@ -11,8 +11,11 @@ import { useAuth } from "@/lib/auth/auth-context";
 import { PaginatedResponse } from "@/lib/types/api";
 import { DashboardStats, DistributionData, WeeklyTrendData } from "@/lib/types/attendance";
 import { Student } from "@/lib/types/student";
-import { AlertTriangle, CalendarCheck, CloudUpload, Users } from "lucide-react";
+import { Users, BookOpen, AlertTriangle, UserMinus, ShieldAlert, GraduationCap, CheckCircle2, CalendarCheck, CloudUpload } from "lucide-react";
 import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
+import { apiUrl } from "@/lib/api/config";
+import { EduPulseNexusLoader } from "@/components/ui/loaders";
 
 export default function TeacherDashboard() {
     const { role, user } = useAuth();
@@ -56,8 +59,8 @@ export default function TeacherDashboard() {
 
     if (loading || !stats || !students) {
         return (
-            <div className="flex h-[50vh] items-center justify-center">
-                <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-[#1a6fdb]" />
+            <div className="flex h-64 items-center justify-center">
+                <EduPulseNexusLoader size="lg" />
             </div>
         );
     }
