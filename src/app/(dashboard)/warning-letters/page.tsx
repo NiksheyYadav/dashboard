@@ -9,7 +9,7 @@ type LetterStatus = "unapproved" | "approved" | "dispatched";
 
 interface WarningLetter {
     id: string;
-    letter_no: string;
+    letter_number: string;
     student_name: string;
     stage: string;
     issue_date: string;
@@ -146,14 +146,16 @@ export default function WarningLettersPage() {
                         ) : (
                             filteredLetters.map((letter) => (
                                 <tr key={letter.id}>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{letter.letter_no}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{letter.letter_number}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{letter.student_name}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
                                             {letter.stage}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(letter.issue_date).toLocaleDateString()}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {letter.issue_date ? new Date(letter.issue_date).toLocaleDateString() : 'N/A'}
+                                    </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
                                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                                             letter.status === 'approved' ? 'bg-green-100 text-green-800' :

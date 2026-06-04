@@ -12,7 +12,7 @@ from app.modules.warning_letters import service, schemas
 warning_letter_router = APIRouter()
 
 
-@warning_letter_router.get("/", response_model=List[schemas.WarningLetterOut])
+@warning_letter_router.get("", response_model=List[schemas.WarningLetterOut])
 def get_warning_letters(
     status_filter: Optional[str] = Query(None, description="Filter by status (e.g., pending_approval, approved, dispatched)"),
     db: Session = Depends(get_db),

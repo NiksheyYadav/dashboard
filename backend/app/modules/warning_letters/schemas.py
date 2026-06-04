@@ -29,6 +29,7 @@ class WarningLetterOut(WarningLetterBase):
     student_name: str
     student_roll_no: str
     mentor_name: str
+    status: str
 
     model_config = ConfigDict(from_attributes=True)
 

@@ -44,6 +44,14 @@ def get_warning_letters(
         data["student_name"] = s_name
         data["student_roll_no"] = s_roll
         data["mentor_name"] = m_name or "Unknown Mentor"
+        
+        if data.get("parent_copy_sent"):
+            data["status"] = "dispatched"
+        elif data.get("hod_approved_by"):
+            data["status"] = "approved"
+        else:
+            data["status"] = "unapproved"
+            
         out_list.append(WarningLetterOut(**data))
 
     return out_list
@@ -71,6 +79,14 @@ def get_warning_letter(db: Session, letter_id: uuid.UUID) -> WarningLetterOut:
     data["student_name"] = s_name
     data["student_roll_no"] = s_roll
     data["mentor_name"] = m_name or "Unknown Mentor"
+    
+    if data.get("parent_copy_sent"):
+        data["status"] = "dispatched"
+    elif data.get("hod_approved_by"):
+        data["status"] = "approved"
+    else:
+        data["status"] = "unapproved"
+        
     return WarningLetterOut(**data)
 
 
