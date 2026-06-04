@@ -78,6 +78,12 @@ export default function LoginPage() {
         setError(null);
         setIsSubmitting(true);
 
+        if (!email.trim() || !password) {
+            setError("Email and password are required.");
+            setIsSubmitting(false);
+            return;
+        }
+
         const result = await login(email.trim(), password, selectedRole);
         if (!result.ok) {
             setError(result.error ?? "Invalid email or password");

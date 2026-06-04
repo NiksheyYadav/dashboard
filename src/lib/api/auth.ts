@@ -74,9 +74,13 @@ async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
     if (!response.ok) {
         let detail = "Request failed";
         try {
-            const body = (await response.json()) as { detail?: string };
+            const body = (await response.json()) as { detail?: string | any[] };
             if (body?.detail) {
-                detail = body.detail;
+                if (Array.isArray(body.detail)) {
+                    detail = body.detail.map((err: any) => `${err.loc?.join(".")}: ${err.msg}`).join(", ");
+                } else {
+                    detail = body.detail;
+                }
             }
         } catch {
             // ignore
