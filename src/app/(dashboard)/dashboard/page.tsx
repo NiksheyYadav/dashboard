@@ -1,5 +1,6 @@
 "use client";
 
+import AdminDashboard from "@/components/dashboard/AdminDashboard";
 import TeacherDashboard from "@/components/dashboard/TeacherDashboard";
 import HodDashboard from "@/components/dashboard/HodDashboard";
 import DeanDashboard from "@/components/dashboard/DeanDashboard";
@@ -18,6 +19,7 @@ export default function DashboardPage() {
 
     if (!user) return null;
 
+    if (user.roles?.includes("admin")) return <AdminDashboard />;
     if (user.roles?.includes("dean")) return <DeanDashboard />;
     if (user.roles?.includes("hod")) return <HodDashboard />;
     return <TeacherDashboard />;
