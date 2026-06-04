@@ -6,7 +6,8 @@ import {
     FileBarChart,
     LayoutDashboard,
     Settings,
-    Users
+    Users,
+    AlertTriangle
 } from "lucide-react";
 
 export type UserRole = "admin" | "dean" | "hod" | "teacher" | "activity_coordinator";
@@ -22,6 +23,7 @@ const ALL_NAV_ITEMS: (NavItem & { roles: UserRole[] })[] = [
     { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard", roles: ["admin", "dean", "hod", "teacher", "activity_coordinator"] },
     { label: "Subject Attendance", icon: BookOpen, href: "/subject-attendance", roles: ["teacher", "hod", "dean", "admin"] },
     { label: "Mentee Monitor", icon: Users, href: "/mentee-monitor", roles: ["teacher", "hod", "dean"] },
+    { label: "Warning Letters", icon: AlertTriangle, href: "/warning-letters", roles: ["teacher", "hod", "dean"] },
     { label: "Leave & Arrangement", icon: CalendarOff, href: "/leave-arrangement", roles: ["teacher", "hod", "dean", "admin"] },
     { label: "Extra Classes", icon: CalendarPlus, href: "/extra-classes", roles: ["teacher", "hod", "dean", "admin"] },
     { label: "Activity Attendance", icon: ClipboardCheck, href: "/activity-attendance", roles: ["activity_coordinator", "hod", "dean", "admin"] },

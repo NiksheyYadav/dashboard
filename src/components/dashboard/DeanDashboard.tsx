@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Users, AlertTriangle, ShieldAlert, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
 
 export default function DeanDashboard() {
     const [metrics, setMetrics] = useState<any>(null);
@@ -65,7 +66,7 @@ export default function DeanDashboard() {
                             <p className="font-semibold text-sm">Review Warning Letters</p>
                             <p className="text-xs text-gray-500">12 students pending final warning letter generation.</p>
                         </div>
-                        <button className="px-3 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-lg">Review</button>
+                        <Link href="/warning-letters" className="px-3 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-lg inline-block">Review</Link>
                     </div>
                 </div>
             </div>
