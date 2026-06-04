@@ -3,9 +3,12 @@ import {
     CalendarOff,
     CalendarPlus,
     ClipboardCheck,
+    Database,
     FileBarChart,
     LayoutDashboard,
     Settings,
+    ShieldCheck,
+    UserCog,
     Users,
     AlertTriangle
 } from "lucide-react";
@@ -18,19 +21,29 @@ interface NavItem {
     href: string;
 }
 
-// SOET navigation items with role-based visibility
+// Navigation items for non-admin roles
 const ALL_NAV_ITEMS: (NavItem & { roles: UserRole[] })[] = [
-    { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard", roles: ["admin", "dean", "hod", "teacher", "activity_coordinator"] },
-    { label: "Subject Attendance", icon: BookOpen, href: "/subject-attendance", roles: ["teacher", "hod", "dean", "admin"] },
+    { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard", roles: ["dean", "hod", "teacher", "activity_coordinator"] },
+    { label: "Subject Attendance", icon: BookOpen, href: "/subject-attendance", roles: ["teacher", "hod", "dean"] },
     { label: "Mentee Monitor", icon: Users, href: "/mentee-monitor", roles: ["teacher", "hod", "dean"] },
     { label: "Warning Letters", icon: AlertTriangle, href: "/warning-letters", roles: ["teacher", "hod", "dean"] },
-    { label: "Leave & Arrangement", icon: CalendarOff, href: "/leave-arrangement", roles: ["teacher", "hod", "dean", "admin"] },
-    { label: "Extra Classes", icon: CalendarPlus, href: "/extra-classes", roles: ["teacher", "hod", "dean", "admin"] },
-    { label: "Activity Attendance", icon: ClipboardCheck, href: "/activity-attendance", roles: ["activity_coordinator", "hod", "dean", "admin"] },
-    { label: "Reports", icon: FileBarChart, href: "/reports", roles: ["admin", "dean", "hod", "teacher", "activity_coordinator"] },
+    { label: "Leave & Arrangement", icon: CalendarOff, href: "/leave-arrangement", roles: ["teacher", "hod", "dean"] },
+    { label: "Extra Classes", icon: CalendarPlus, href: "/extra-classes", roles: ["teacher", "hod", "dean"] },
+    { label: "Activity Attendance", icon: ClipboardCheck, href: "/activity-attendance", roles: ["activity_coordinator", "hod", "dean"] },
+    { label: "Reports", icon: FileBarChart, href: "/reports", roles: ["dean", "hod", "teacher", "activity_coordinator"] },
+];
+
+// Admin-specific navigation — focused on system configuration
+const ADMIN_NAV_ITEMS: NavItem[] = [
+    { label: "Dashboard",       icon: LayoutDashboard, href: "/dashboard" },
+    { label: "Master Data",     icon: Database,        href: "/academic-data" },
+    { label: "Staff Management",icon: UserCog,         href: "/staff" },
+    { label: "Audit & Reports", icon: FileBarChart,    href: "/reports" },
+    { label: "Rules & Policies",icon: ShieldCheck,     href: "/settings" },
 ];
 
 export function getNavItemsForRole(role: UserRole): NavItem[] {
+    if (role === "admin") return ADMIN_NAV_ITEMS;
     return ALL_NAV_ITEMS.filter((item) => item.roles.includes(role));
 }
 
