@@ -1,5 +1,50 @@
 # SOET Attendance, Mentorship & Detention Monitoring App — Implementation Plan
 
+## Mobile App Phase 5: Detention, Warning & Reports
+
+> [!NOTE]  
+> This section covers the mobile app implementation of Phase 5, bridging the gap between the mobile frontend and the backend detention system.
+
+### Goal Description
+Implement the remaining Phase 5 features on the mobile application, specifically focusing on the Warning Letters workflow, Extra Classes scheduling, and Mobile Reports for Mentors and Deans.
+
+### User Review Required
+> [!IMPORTANT]
+> **Priority of Features**: The dashboard currently shows 7 unreleased features. For Phase 5, I propose focusing on the most critical mobile workflows for teachers and mentors:
+> 1. **Warning Letters**: Allowing mentors to view detention risk lists and initiate warnings.
+> 2. **Extra Classes**: Allowing teachers to schedule make-up classes.
+> 3. **Reports (Mobile)**: A simplified, read-only view of Parent Summaries and Detention Lists for Deans/HoDs on the go.
+> 
+> *Administrative features like Master Data, Staff Mgmt, and Policies are best suited for the Web Desktop App only and will remain as "Use Web Desktop" placeholders on mobile.* Do you agree with this prioritization?
+
+### Proposed Changes
+
+#### [NEW] `c:\eblock\mobile\app\(app)\warning-letters.tsx`
+- **Purpose**: Mentor and HoD view for tracking students falling below attendance thresholds.
+- **UI Components**:
+  - Filterable list of students (Safe, Warning, Critical bands).
+  - "Initiate Warning" action button for Mentors.
+  - "Approve Warning" action for HoDs.
+
+#### [NEW] `c:\eblock\mobile\app\(app)\extra-classes.tsx`
+- **Purpose**: Teacher view for scheduling backlog compensation classes.
+- **UI Components**:
+  - Form to select Subject, Date, and Available Slot.
+  - List of previously scheduled extra classes.
+
+#### [NEW] `c:\eblock\mobile\app\(app)\reports.tsx`
+- **Purpose**: Mobile-optimized analytics for HoD/Deans.
+- **UI Components**:
+  - Detention Risk Summary.
+  - Mentor Compliance Score overview.
+  - "Generate Parent Summary" action for Mentors.
+
+### Verification Plan
+- Verify routing from the new Dashboard grid.
+- Ensure role-based access control restricts Warning Letters to Mentors/HoDs and Extra Classes to Teachers.
+- Validate the mock data rendering for all three new screens.
+
+---
 ## 1. Repo Audit Summary
 
 ### Current Stack

@@ -1,12 +1,12 @@
-# Graph Report - C:\eblock  (2026-06-04)
+# Graph Report - C:\eblock  (2026-06-05)
 
 ## Corpus Check
-- 238 files · ~197,492 words
+- 261 files · ~228,473 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 879 nodes · 1475 edges · 130 communities detected
-- Extraction: 58% EXTRACTED · 42% INFERRED · 0% AMBIGUOUS · INFERRED: 613 edges (avg confidence: 0.65)
+- 950 nodes · 1544 edges · 142 communities detected
+- Extraction: 59% EXTRACTED · 41% INFERRED · 0% AMBIGUOUS · INFERRED: 626 edges (avg confidence: 0.65)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -140,6 +140,18 @@
 - [[_COMMUNITY_Community 127|Community 127]]
 - [[_COMMUNITY_Community 128|Community 128]]
 - [[_COMMUNITY_Community 129|Community 129]]
+- [[_COMMUNITY_Community 130|Community 130]]
+- [[_COMMUNITY_Community 131|Community 131]]
+- [[_COMMUNITY_Community 132|Community 132]]
+- [[_COMMUNITY_Community 133|Community 133]]
+- [[_COMMUNITY_Community 134|Community 134]]
+- [[_COMMUNITY_Community 135|Community 135]]
+- [[_COMMUNITY_Community 136|Community 136]]
+- [[_COMMUNITY_Community 137|Community 137]]
+- [[_COMMUNITY_Community 138|Community 138]]
+- [[_COMMUNITY_Community 139|Community 139]]
+- [[_COMMUNITY_Community 140|Community 140]]
+- [[_COMMUNITY_Community 141|Community 141]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `Select()` - 53 edges
@@ -154,194 +166,194 @@
 10. `Return only subjects assigned to the currently logged-in teacher.` - 16 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `decode_access_token()` --calls--> `get_auth_context()`  [INFERRED]
+  C:\eblock\backend\app\core\security.py → C:\eblock\backend\app\modules\auth\dependencies.py
 - `approve_activity()` --calls--> `refresh()`  [INFERRED]
   C:\eblock\backend\app\modules\activity\service.py → C:\eblock\backend\app\modules\auth\router.py
 - `get_notifications()` --calls--> `Select()`  [INFERRED]
   C:\eblock\backend\app\modules\dashboard\service.py → C:\eblock\src\components\ui\select.tsx
 - `get_my_leaves()` --calls--> `Select()`  [INFERRED]
   C:\eblock\backend\app\modules\leaves\service.py → C:\eblock\src\components\ui\select.tsx
-- `get_student_counselling_notes()` --calls--> `Select()`  [INFERRED]
-  C:\eblock\backend\app\modules\mentor\service.py → C:\eblock\src\components\ui\select.tsx
-- `get_student_parent_communications()` --calls--> `Select()`  [INFERRED]
-  C:\eblock\backend\app\modules\mentor\service.py → C:\eblock\src\components\ui\select.tsx
+- `hod_approve_arrangement()` --calls--> `AppException`  [INFERRED]
+  C:\eblock\backend\app\modules\leaves\service.py → C:\eblock\backend\app\utils\exceptions.py
 
 ## Communities
 
 ### Community 0 - "Community 0"
 Cohesion: 0.04
-Nodes (66): AcademicYear, AnonymousMessage, ArrangementAssignment, AuditLog, Immutable audit log — no updated_at column by design., Base, Base, BaseHTTPMiddleware (+58 more)
+Nodes (69): Activity, ActivityParticipant, ArrangementAssignment, Base, BaseModel, CounsellingNote, LeaveRequest, MentorMapping (+61 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.05
-Nodes (54): Activity, ActivityParticipant, BaseModel, analytics_summary(), _attendance_from_sessions(), attendance_summary(), attendance_top(), attendance_weekly() (+46 more)
+Nodes (53): Enum, AppEnvironment, ApprovalStatusEnum, ArrangementStatusEnum, AttendanceStatusEnum, ClassTypeEnum, ImportStatusEnum, LeaveStatusEnum (+45 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.07
-Nodes (46): AttendanceTransaction, AuthContext, get_auth_context(), RequireRole, AttendanceEngine, Calculate attendance summary for a specific student and subject., Calculate overall attendance summary across all subjects for a student., PlacementRecord (+38 more)
+Cohesion: 0.05
+Nodes (53): AnonymousMessage, Index(), analytics_summary(), _attendance_from_sessions(), attendance_summary(), attendance_top(), attendance_weekly(), create_anonymous_message() (+45 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.06
-Nodes (46): Enum, AppEnvironment, ApprovalStatusEnum, ArrangementStatusEnum, AttendanceStatusEnum, ClassTypeEnum, ImportStatusEnum, LeaveStatusEnum (+38 more)
-
-### Community 4 - "Community 4"
 Cohesion: 0.07
 Nodes (49): Announcement, Event, FormDefinition, Project, add_student_to_project(), AnnouncementCreate, AnnouncementOut, approve_project() (+41 more)
+
+### Community 4 - "Community 4"
+Cohesion: 0.08
+Nodes (37): AttendanceTransaction, AuthContext, get_auth_context(), RequireRole, AttendanceEngine, calculate_student_overall_summary(), calculate_student_subject_summary(), get_detention_list() (+29 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.06
 Nodes (30): getDashboardStats(), getDistribution(), getWeeklyTrend(), apiGet(), buildUrl(), getAccessToken(), handleAddStudent(), handleApproveProject() (+22 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.08
-Nodes (32): main(), main(), Send a password reset email to the user., Send a welcome email with initial login credentials., send_password_reset_email(), send_welcome_email(), main(), checkBackend() (+24 more)
+Cohesion: 0.07
+Nodes (34): main(), main(), Send a password reset email to the user., Send a welcome email with initial login credentials., send_password_reset_email(), send_welcome_email(), main(), handleLogin() (+26 more)
 
 ### Community 7 - "Community 7"
-Cohesion: 0.08
-Nodes (35): calculate_student_overall_summary(), calculate_student_subject_summary(), get_detention_list(), get_risk_level(), create_anonymous_message(), create_student(), delete_student(), get_student() (+27 more)
+Cohesion: 0.09
+Nodes (30): AcademicYear, AuditLog, Immutable audit log — no updated_at column by design., Base, BaseHTTPMiddleware, DeclarativeBase, Exception, AppException (+22 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.08
-Nodes (13): apiUrl(), async(), createActivity(), fetchActivities(), fetchLetters(), fetchMentees(), fetchSubjects(), handleApprove() (+5 more)
+Cohesion: 0.06
+Nodes (15): apiUrl(), doSubmit(), handleSubmit(), async(), createActivity(), fetchActivities(), fetchLetters(), fetchMentees() (+7 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.16
-Nodes (21): ImportLog, Return only subjects assigned to the currently logged-in teacher., AcademicYearBase, AcademicYearOut, ImportErrorDetail, ImportHistoryOut, ImportPreviewOut, ProgrammeBase (+13 more)
+Cohesion: 0.07
+Nodes (17): getClassStudents(), getTodaysTimetable(), buildAuthUser(), initialsFromEmail(), isMentorFromData(), roleToDesignation(), useAuth(), if() (+9 more)
 
 ### Community 10 - "Community 10"
-Cohesion: 0.11
-Nodes (11): buildAuthUser(), initialsFromEmail(), isMentorFromData(), roleToDesignation(), useAuth(), DashboardLayout(), DashboardPage(), ExtraClassesPage() (+3 more)
+Cohesion: 0.12
+Nodes (24): ImportLog, Programme, Return only subjects assigned to the currently logged-in teacher., AcademicYearBase, AcademicYearOut, ImportErrorDetail, ImportHistoryOut, ImportPreviewOut (+16 more)
 
 ### Community 11 - "Community 11"
+Cohesion: 0.1
+Nodes (14): applyForLeave(), getAvailableTeachers(), getMyLeaves(), getPendingApprovals(), addCounsellingNote(), getMyMentees(), loadData(), onRefresh() (+6 more)
+
+### Community 12 - "Community 12"
 Cohesion: 0.16
 Nodes (5): getToken(), handleCreate(), handleDelete(), handlePublish(), handleToggle()
 
-### Community 12 - "Community 12"
-Cohesion: 0.17
-Nodes (10): get_dashboard_metrics(), ActionItemOut, DashboardMetricsOut, NotificationOut, DashboardService, get_action_items(), get_hod_metrics(), get_notifications() (+2 more)
-
 ### Community 13 - "Community 13"
+Cohesion: 0.31
+Nodes (12): PlacementRecord, download_template(), list_placement_records(), _parse_csv_content(), Download the placement data template as CSV., List all uploaded placement records., Parse CSV content and return list of row dicts., Upload placement data from a CSV or Excel file. (+4 more)
+
+### Community 14 - "Community 14"
 Cohesion: 0.44
 Nodes (10): _base_result(), parse_excel_generic(), parse_faculty_mapping(), parse_mentor_mapping(), parse_student_master(), parse_subject_allocation(), parse_timetable(), Parse timetable PDF or Excel. (+2 more)
 
-### Community 14 - "Community 14"
+### Community 15 - "Community 15"
 Cohesion: 0.29
 Nodes (9): ApiError, apiRequest(), backendHealthUrl(), buildUrl(), getBackendHealth(), getCurrentUser(), loginWithPassword(), logoutSession() (+1 more)
 
-### Community 15 - "Community 15"
+### Community 16 - "Community 16"
 Cohesion: 0.22
 Nodes (4): handleFileChange(), handleSubmit(), validatePPTFile(), validateProjectForm()
 
-### Community 16 - "Community 16"
+### Community 17 - "Community 17"
 Cohesion: 0.22
 Nodes (0): 
 
-### Community 17 - "Community 17"
+### Community 18 - "Community 18"
 Cohesion: 0.29
 Nodes (4): configure_logging(), RequestIdJsonFormatter, get_request_id(), set_request_id()
 
-### Community 18 - "Community 18"
+### Community 19 - "Community 19"
 Cohesion: 0.32
 Nodes (5): closeDialog(), handleUpload(), resetUpload(), getAccessToken(), uploadPlacementData()
 
-### Community 19 - "Community 19"
-Cohesion: 0.33
-Nodes (2): getAvatarColor(), getSemesterLabel()
-
 ### Community 20 - "Community 20"
-Cohesion: 0.47
-Nodes (5): BaseSettings, cors_origins(), get_settings(), Settings, _split_origins()
+Cohesion: 0.29
+Nodes (0): 
 
 ### Community 21 - "Community 21"
 Cohesion: 0.33
-Nodes (0): 
+Nodes (2): getAvatarColor(), getSemesterLabel()
 
 ### Community 22 - "Community 22"
-Cohesion: 0.33
-Nodes (0): 
+Cohesion: 0.47
+Nodes (5): BaseSettings, cors_origins(), get_settings(), Settings, _split_origins()
 
 ### Community 23 - "Community 23"
 Cohesion: 0.33
 Nodes (0): 
 
 ### Community 24 - "Community 24"
-Cohesion: 0.4
+Cohesion: 0.33
 Nodes (0): 
 
 ### Community 25 - "Community 25"
-Cohesion: 0.4
+Cohesion: 0.33
 Nodes (0): 
 
 ### Community 26 - "Community 26"
-Cohesion: 0.5
-Nodes (1): stage2 authentication core foundation  Revision ID: 20260225_0001 Revises: C
+Cohesion: 0.4
+Nodes (0): 
 
 ### Community 27 - "Community 27"
-Cohesion: 0.5
-Nodes (1): stage2 auth schema reconcile for existing databases  Revision ID: 20260225_000
+Cohesion: 0.4
+Nodes (0): 
 
 ### Community 28 - "Community 28"
 Cohesion: 0.5
-Nodes (1): relax legacy constraints for stage2 auth compatibility  Revision ID: 20260225_
+Nodes (1): stage2 authentication core foundation  Revision ID: 20260225_0001 Revises: C
 
 ### Community 29 - "Community 29"
 Cohesion: 0.5
-Nodes (1): create students table  Revision ID: 20260227_0004 Revises: 20260225_0003 Create
+Nodes (1): stage2 auth schema reconcile for existing databases  Revision ID: 20260225_000
 
 ### Community 30 - "Community 30"
 Cohesion: 0.5
-Nodes (1): create anonymous messages table  Revision ID: 20260228_0006 Revises: 20260227_00
+Nodes (1): relax legacy constraints for stage2 auth compatibility  Revision ID: 20260225_
 
 ### Community 31 - "Community 31"
 Cohesion: 0.5
-Nodes (1): add_department_to_users  Revision ID: 20260228_0007 Revises: 20260228_0006 Creat
+Nodes (1): create students table  Revision ID: 20260227_0004 Revises: 20260225_0003 Create
 
 ### Community 32 - "Community 32"
 Cohesion: 0.5
-Nodes (1): create projects table  Revision ID: 20260301_0008 Revises: 20260228_0007 Create
+Nodes (1): create anonymous messages table  Revision ID: 20260228_0006 Revises: 20260227_00
 
 ### Community 33 - "Community 33"
 Cohesion: 0.5
-Nodes (1): update projects table with flow and facultyCoordinator fields  Revision ID: 2026
+Nodes (1): add_department_to_users  Revision ID: 20260228_0007 Revises: 20260228_0006 Creat
 
 ### Community 34 - "Community 34"
 Cohesion: 0.5
-Nodes (1): add academic and attendance models  Revision ID: ce1638a6281f Revises: 202603
+Nodes (1): create projects table  Revision ID: 20260301_0008 Revises: 20260228_0007 Create
 
 ### Community 35 - "Community 35"
-Cohesion: 0.67
-Nodes (3): log(), main(), Comprehensive RBAC Test Script for EduPulse ====================================
+Cohesion: 0.5
+Nodes (1): update projects table with flow and facultyCoordinator fields  Revision ID: 2026
 
 ### Community 36 - "Community 36"
 Cohesion: 0.5
-Nodes (1): Page()
+Nodes (1): add academic and attendance models  Revision ID: ce1638a6281f Revises: 202603
 
 ### Community 37 - "Community 37"
-Cohesion: 0.5
-Nodes (0): 
+Cohesion: 0.67
+Nodes (3): log(), main(), Comprehensive RBAC Test Script for EduPulse ====================================
 
 ### Community 38 - "Community 38"
-Cohesion: 0.67
-Nodes (2): setAnswer(), toggleCheckbox()
+Cohesion: 0.5
+Nodes (1): Page()
 
 ### Community 39 - "Community 39"
 Cohesion: 0.5
 Nodes (0): 
 
 ### Community 40 - "Community 40"
+Cohesion: 0.67
+Nodes (2): setAnswer(), toggleCheckbox()
+
+### Community 41 - "Community 41"
 Cohesion: 0.5
 Nodes (0): 
 
-### Community 41 - "Community 41"
-Cohesion: 0.67
-Nodes (1): Vercel serverless entry point — exposes the FastAPI app as a handler.
-
 ### Community 42 - "Community 42"
-Cohesion: 0.67
+Cohesion: 0.5
 Nodes (0): 
 
 ### Community 43 - "Community 43"
 Cohesion: 0.67
-Nodes (0): 
+Nodes (1): Vercel serverless entry point — exposes the FastAPI app as a handler.
 
 ### Community 44 - "Community 44"
 Cohesion: 0.67
@@ -349,7 +361,7 @@ Nodes (0):
 
 ### Community 45 - "Community 45"
 Cohesion: 0.67
-Nodes (0): 
+Nodes (1): RootLayout()
 
 ### Community 46 - "Community 46"
 Cohesion: 0.67
@@ -360,28 +372,28 @@ Cohesion: 0.67
 Nodes (0): 
 
 ### Community 48 - "Community 48"
-Cohesion: 1.0
+Cohesion: 0.67
 Nodes (0): 
 
 ### Community 49 - "Community 49"
-Cohesion: 1.0
-Nodes (1): Warning letters module.
+Cohesion: 0.67
+Nodes (0): 
 
 ### Community 50 - "Community 50"
-Cohesion: 1.0
+Cohesion: 0.67
 Nodes (0): 
 
 ### Community 51 - "Community 51"
-Cohesion: 1.0
+Cohesion: 0.67
 Nodes (0): 
 
 ### Community 52 - "Community 52"
 Cohesion: 1.0
-Nodes (1): Quick script to create anonymous_messages table if it doesn't exist.
+Nodes (0): 
 
 ### Community 53 - "Community 53"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Warning letters module.
 
 ### Community 54 - "Community 54"
 Cohesion: 1.0
@@ -393,7 +405,7 @@ Nodes (0):
 
 ### Community 56 - "Community 56"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Quick script to create anonymous_messages table if it doesn't exist.
 
 ### Community 57 - "Community 57"
 Cohesion: 1.0
@@ -687,106 +699,146 @@ Nodes (0):
 Cohesion: 1.0
 Nodes (0): 
 
+### Community 130 - "Community 130"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 131 - "Community 131"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 132 - "Community 132"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 133 - "Community 133"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 134 - "Community 134"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 135 - "Community 135"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 136 - "Community 136"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 137 - "Community 137"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 138 - "Community 138"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 139 - "Community 139"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 140 - "Community 140"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 141 - "Community 141"
+Cohesion: 1.0
+Nodes (0): 
+
 ## Knowledge Gaps
 - **17 isolated node(s):** `stage2 authentication core foundation  Revision ID: 20260225_0001 Revises: C`, `stage2 auth schema reconcile for existing databases  Revision ID: 20260225_000`, `relax legacy constraints for stage2 auth compatibility  Revision ID: 20260225_`, `create students table  Revision ID: 20260227_0004 Revises: 20260225_0003 Create`, `create anonymous messages table  Revision ID: 20260228_0006 Revises: 20260227_00` (+12 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **Thin community `Community 48`** (2 nodes): `session.py`, `get_db()`
+- **Thin community `Community 52`** (2 nodes): `session.py`, `get_db()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 49`** (2 nodes): `__init__.py`, `Warning letters module.`
+- **Thin community `Community 53`** (2 nodes): `__init__.py`, `Warning letters module.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 50`** (2 nodes): `check_admin.py`, `main()`
+- **Thin community `Community 54`** (2 nodes): `check_admin.py`, `main()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 51`** (2 nodes): `check_db.py`, `main()`
+- **Thin community `Community 55`** (2 nodes): `check_db.py`, `main()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 52`** (2 nodes): `create_messages_table.py`, `Quick script to create anonymous_messages table if it doesn't exist.`
+- **Thin community `Community 56`** (2 nodes): `create_messages_table.py`, `Quick script to create anonymous_messages table if it doesn't exist.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 53`** (2 nodes): `force_db_update.py`, `main()`
+- **Thin community `Community 57`** (2 nodes): `force_db_update.py`, `main()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 54`** (2 nodes): `force_db_update2.py`, `main()`
+- **Thin community `Community 58`** (2 nodes): `force_db_update2.py`, `main()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 55`** (2 nodes): `run_alembic.py`, `main()`
+- **Thin community `Community 59`** (2 nodes): `run_alembic.py`, `main()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 56`** (2 nodes): `layout.tsx`, `RootLayout()`
+- **Thin community `Community 60`** (2 nodes): `_layout.tsx`, `AppLayout()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 57`** (2 nodes): `page.tsx`, `Home()`
+- **Thin community `Community 61`** (2 nodes): `Loader.tsx`, `StunningLoader()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 58`** (2 nodes): `page.tsx`, `AnalyticsPage()`
+- **Thin community `Community 62`** (2 nodes): `page.tsx`, `Home()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 59`** (2 nodes): `page.tsx`, `ChangelogPage()`
+- **Thin community `Community 63`** (2 nodes): `page.tsx`, `AnalyticsPage()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 60`** (2 nodes): `page.tsx`, `FeesPage()`
+- **Thin community `Community 64`** (2 nodes): `page.tsx`, `ChangelogPage()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 61`** (2 nodes): `formatDate()`, `AnnouncementCard.tsx`
+- **Thin community `Community 65`** (2 nodes): `page.tsx`, `FeesPage()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 62`** (2 nodes): `FileDropZone.tsx`, `FileDropZone()`
+- **Thin community `Community 66`** (2 nodes): `formatDate()`, `AnnouncementCard.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 63`** (2 nodes): `ValidationInfoCard.tsx`, `ValidationInfoCard()`
+- **Thin community `Community 67`** (2 nodes): `FileDropZone.tsx`, `FileDropZone()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 64`** (2 nodes): `DeanDashboard.tsx`, `DeanDashboard()`
+- **Thin community `Community 68`** (2 nodes): `ValidationInfoCard.tsx`, `ValidationInfoCard()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 65`** (2 nodes): `HodDashboard.tsx`, `HodDashboard()`
+- **Thin community `Community 69`** (2 nodes): `AdminDashboard()`, `AdminDashboard.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 66`** (2 nodes): `FormPreview.tsx`, `getFieldIcon()`
+- **Thin community `Community 70`** (2 nodes): `DeanDashboard.tsx`, `DeanDashboard()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 67`** (2 nodes): `SendAnonymousMessageButton.tsx`, `handleSubmit()`
+- **Thin community `Community 71`** (2 nodes): `HodDashboard.tsx`, `HodDashboard()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 68`** (2 nodes): `ProjectTypeBadge.tsx`, `ProjectTypeBadge()`
+- **Thin community `Community 72`** (2 nodes): `FormPreview.tsx`, `getFieldIcon()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 69`** (2 nodes): `StudentAssignmentDialog.tsx`, `handleAddStudent()`
+- **Thin community `Community 73`** (2 nodes): `SendAnonymousMessageButton.tsx`, `handleSubmit()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 70`** (2 nodes): `Providers.tsx`, `Providers()`
+- **Thin community `Community 74`** (2 nodes): `ProjectTypeBadge.tsx`, `ProjectTypeBadge()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 71`** (2 nodes): `CVStatusBadge.tsx`, `CVStatusBadge()`
+- **Thin community `Community 75`** (2 nodes): `StudentAssignmentDialog.tsx`, `handleAddStudent()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 72`** (2 nodes): `StatusBadge.tsx`, `StatusBadge()`
+- **Thin community `Community 76`** (2 nodes): `Providers.tsx`, `Providers()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 73`** (2 nodes): `StudentDirectoryFilters.tsx`, `StudentDirectoryFilters()`
+- **Thin community `Community 77`** (2 nodes): `CVStatusBadge.tsx`, `CVStatusBadge()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 74`** (2 nodes): `Badge()`, `badge.tsx`
+- **Thin community `Community 78`** (2 nodes): `StatusBadge.tsx`, `StatusBadge()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 75`** (2 nodes): `cn()`, `button.tsx`
+- **Thin community `Community 79`** (2 nodes): `StudentDirectoryFilters.tsx`, `StudentDirectoryFilters()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 76`** (2 nodes): `modal.tsx`, `SimpleDialog()`
+- **Thin community `Community 80`** (2 nodes): `Badge()`, `badge.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 77`** (2 nodes): `utils.ts`, `cn()`
+- **Thin community `Community 81`** (2 nodes): `cn()`, `button.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 78`** (2 nodes): `constants.ts`, `getNavItemsForRole()`
+- **Thin community `Community 82`** (2 nodes): `loaders.tsx`, `EduPulseNexusLoader()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 79`** (1 nodes): `add_git_path.py`
+- **Thin community `Community 83`** (2 nodes): `modal.tsx`, `SimpleDialog()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 80`** (1 nodes): `dump_path.py`
+- **Thin community `Community 84`** (2 nodes): `utils.ts`, `cn()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 81`** (1 nodes): `eslint.config.mjs`
+- **Thin community `Community 85`** (2 nodes): `constants.ts`, `getNavItemsForRole()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 82`** (1 nodes): `extract_pdfs.py`
+- **Thin community `Community 86`** (1 nodes): `add_git_path.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 83`** (1 nodes): `fix_urls.py`
+- **Thin community `Community 87`** (1 nodes): `dump_path.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 84`** (1 nodes): `next-env.d.ts`
+- **Thin community `Community 88`** (1 nodes): `eslint.config.mjs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 85`** (1 nodes): `next.config.ts`
+- **Thin community `Community 89`** (1 nodes): `extract_pdfs.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 86`** (1 nodes): `postcss.config.mjs`
+- **Thin community `Community 90`** (1 nodes): `fix_urls.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 87`** (1 nodes): `run.py`
+- **Thin community `Community 91`** (1 nodes): `next-env.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 88`** (1 nodes): `__init__.py`
+- **Thin community `Community 92`** (1 nodes): `next.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 89`** (1 nodes): `constants.py`
+- **Thin community `Community 93`** (1 nodes): `postcss.config.mjs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 90`** (1 nodes): `__init__.py`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 91`** (1 nodes): `__init__.py`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 92`** (1 nodes): `__init__.py`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 93`** (1 nodes): `__init__.py`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 94`** (1 nodes): `__init__.py`
+- **Thin community `Community 94`** (1 nodes): `run.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 95`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 96`** (1 nodes): `__init__.py`
+- **Thin community `Community 96`** (1 nodes): `constants.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 97`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
@@ -820,50 +872,74 @@ Nodes (0):
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 112`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 113`** (1 nodes): `page.tsx`
+- **Thin community `Community 113`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 114`** (1 nodes): `DistributionDonut.tsx`
+- **Thin community `Community 114`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 115`** (1 nodes): `StatCard.tsx`
+- **Thin community `Community 115`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 116`** (1 nodes): `WeeklyTrendChart.tsx`
+- **Thin community `Community 116`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 117`** (1 nodes): `Sidebar.tsx`
+- **Thin community `Community 117`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 118`** (1 nodes): `ProjectDetailModal.tsx`
+- **Thin community `Community 118`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 119`** (1 nodes): `ProjectFilters.tsx`
+- **Thin community `Community 119`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 120`** (1 nodes): `ProjectStatusBadge.tsx`
+- **Thin community `Community 120`** (1 nodes): `babel.config.js`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 121`** (1 nodes): `projectStore.ts`
+- **Thin community `Community 121`** (1 nodes): `metro.config.js`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 122`** (1 nodes): `announcement.ts`
+- **Thin community `Community 122`** (1 nodes): `nativewind-env.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 123`** (1 nodes): `api.ts`
+- **Thin community `Community 123`** (1 nodes): `tailwind.config.js`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 124`** (1 nodes): `attendance-upload.ts`
+- **Thin community `Community 124`** (1 nodes): `api.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 125`** (1 nodes): `attendance.ts`
+- **Thin community `Community 125`** (1 nodes): `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 126`** (1 nodes): `form.ts`
+- **Thin community `Community 126`** (1 nodes): `DistributionDonut.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 127`** (1 nodes): `placement-upload.ts`
+- **Thin community `Community 127`** (1 nodes): `StatCard.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 128`** (1 nodes): `project.ts`
+- **Thin community `Community 128`** (1 nodes): `WeeklyTrendChart.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 129`** (1 nodes): `student.ts`
+- **Thin community `Community 129`** (1 nodes): `Sidebar.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 130`** (1 nodes): `ProjectDetailModal.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 131`** (1 nodes): `ProjectFilters.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 132`** (1 nodes): `ProjectStatusBadge.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 133`** (1 nodes): `projectStore.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 134`** (1 nodes): `announcement.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 135`** (1 nodes): `api.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 136`** (1 nodes): `attendance-upload.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 137`** (1 nodes): `attendance.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 138`** (1 nodes): `form.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 139`** (1 nodes): `placement-upload.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 140`** (1 nodes): `project.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 141`** (1 nodes): `student.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Select()` connect `Community 7` to `Community 0`, `Community 1`, `Community 2`, `Community 3`, `Community 6`, `Community 12`, `Community 16`?**
-  _High betweenness centrality (0.056) - this node is a cross-community bridge._
-- **Why does `Base` connect `Community 0` to `Community 1`, `Community 2`, `Community 3`, `Community 4`, `Community 9`, `Community 12`?**
-  _High betweenness centrality (0.037) - this node is a cross-community bridge._
-- **Why does `refresh()` connect `Community 4` to `Community 0`, `Community 1`, `Community 2`, `Community 3`, `Community 6`, `Community 7`, `Community 13`?**
-  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+- **Why does `Select()` connect `Community 2` to `Community 0`, `Community 1`, `Community 4`, `Community 6`, `Community 13`, `Community 17`?**
+  _High betweenness centrality (0.049) - this node is a cross-community bridge._
+- **Why does `Base` connect `Community 7` to `Community 0`, `Community 1`, `Community 2`, `Community 3`, `Community 4`, `Community 10`, `Community 13`?**
+  _High betweenness centrality (0.032) - this node is a cross-community bridge._
+- **Why does `refresh()` connect `Community 3` to `Community 0`, `Community 1`, `Community 2`, `Community 4`, `Community 6`, `Community 7`, `Community 14`?**
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
 - **Are the 65 inferred relationships involving `str` (e.g. with `.dispatch()` and `parse_timetable()`) actually correct?**
   _`str` has 65 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 52 inferred relationships involving `Select()` (e.g. with `list_programmes()` and `list_semesters()`) actually correct?**
